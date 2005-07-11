@@ -14,5 +14,5 @@ find ./ -name CVS -exec rm -rf {} \;
 tar cvfpz eSystem-${ver}.tgz eSystem-${ver} package.xml
 popd
 
-mv ${tmp}/eSyste-${ver}.tgz ./
+mv ${tmp}/eSystem-${ver}.tgz ./
 rm -rf ${tmp}
