@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE package SYSTEM "http://pear.php.net/dtd/package-1.0">
+<package version="1.0">
+  <name>eSystem</name>
+  <summary>Extended system command for PHP</summary>
+  <description>PEAR's eSystem:: package support various system mapping command.</description>
+  <maintainers>
+    <maintainer>
+      <user>oops</user>
+      <name>JoungKyun.Kim</name>
+      <email>admin@oops.org</email>
+      <role>lead</role>
+    </maintainer>
+  </maintainers>
+  <release>
+    <version>0.1</version>
+    <date>2005-04-20</date>
+    <license>PHP/BSD</license>
+    <state>stable</state>
+    <notes>- first release
+</notes>
+    <filelist>
+      <file role="php" md5sum="1fe0079873046e0e56ae006c428a44ea" name="eSystem.php"/>
+      <file role="php" md5sum="abd3366d58b3c56521f81f8c78073e28" name="eSystem/filesystem.php"/>
+      <file role="php" md5sum="71e26f7db28a91445d9603f66f71f114" name="eSystem/getopt.php"/>
+      <file role="php" md5sum="70f3d2364220dfe15c7c42a733233478" name="eSystem/man.php"/>
+      <file role="php" md5sum="16b19fc143e949dccb86a6e27dadac4b" name="eSystem/print.php"/>
+      <file role="php" md5sum="6f454b1a234d49191e22162abb899f40" name="eSystem/system.php"/>
+    </filelist>
+  </release>
+  <changelog>
+    <release>
+      <version>0.1</version>
+      <date>2005-04-20</date>
+      <state>stable</state>
+      <notes>- first release
+</notes>
+    </release>
+  </changelog>
+</package>
