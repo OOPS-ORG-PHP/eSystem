@@ -16,7 +16,7 @@
 // | Author: JoungKyun Kim <http://www.oops.org>                          |
 // +----------------------------------------------------------------------+
 //
-// $Id: eSystem.php,v 1.1.1.1 2005-07-11 05:24:11 oops Exp $
+// $Id: eSystem.php,v 1.2 2005-07-11 05:58:11 oops Exp $
 
 require_once 'PEAR.php';
 
@@ -27,7 +27,7 @@ $_SERVER['CLI'] = $_SERVER['DOCUMENT_ROOT'] ? '' : 'yes';
  * and any utility mapping function
  *
  * @access public
- * @version $Revision: 1.1.1.1 $
+ * @version $Revision: 1.2 $
  * @package eSystem
  */
 class eSystem extends PEAR
@@ -162,6 +162,11 @@ class eSystem extends PEAR
 	}
 
 	# print man page
+	function manPath ($_name, $_path = '/usr/share/man', $_sec = 0) {
+		require_once 'eSystem/man.php';
+		return _eMan::manPath ($_name, $_path, $_sec);
+	}
+
 	function man ($_name, $_no, $_int = NULL, $__base = null, $_s = 0) {
 		if ( !extension_loaded ("zlib")) :
 			echo "Error: man function requires zlib extension!";
@@ -170,8 +175,6 @@ class eSystem extends PEAR
 
 		require_once 'eSystem/man.php';
 		return _eMan::man($_name, $_no, $_int, $__base, $_s);
-
-		return $_r;
 	}
 
 	# don't use :-)

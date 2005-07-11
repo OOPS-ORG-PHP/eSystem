@@ -16,32 +16,69 @@
 // | Author: JoungKyun Kim <http://www.oops.org>                          |
 // +----------------------------------------------------------------------+
 //
-// $Id: man.php,v 1.1.1.1 2005-07-11 05:24:11 oops Exp $
+// $Id: man.php,v 1.2 2005-07-11 05:57:51 oops Exp $
 
 require_once 'eSystem/system.php';
+require_once 'eSystem/filesystem.php';
 
 class _eMan {
 	var $tmpdir = "/var/lib/php/tmp";
 
-	function so_man ($_file, $_base, $_int) {
+	function so_man ($_file, $_base, $_int = '') {
 		$_dotso = array ();
-		$_dotso = gzfile ($_file);
+
+		if ( preg_match ('/\.gz$/', $_file) ) :
+			$_func = 'gzfile';
+			$_ext  = '.gz';
+		else :
+			$_func = 'file';
+			$_ext  = '';
+		endif;
+
+		if ( ! file_exists ($_file) ) :
+			return $_file;
+		endif;
+
+		$_dotso = $_func($_file);
 
 		foreach ($_dotso as $_v) :
 			$dotso .= $_v;
 		endforeach;
 
 		if ( preg_match ("/\.so (.+)/m", $dotso, $_match) ) :
-			$_file = "{$_base}/{$_int}{$_match[1]}.gz";
+			$_file = "{$_base}/{$_int}{$_match[1]}{$_ext}";
 		endif;
 
 		return $_file;
 	}
 
-
 	/*
 	 * User level function
 	 */
+
+	function manPath ($_name, $_path = '/usr/share/man', $_sec = 0) {
+		$_path = ! $_path ? '/usr/share/man/' : $_path;
+
+		if ( $_sec ) :
+			$_f   = "{$_path}/man{$_sec}/{$_name}.{$_sec}";
+			$_fgz = "{$_path}/man{$_sec}/{$_name}.{$_sec}.gz";
+
+			if ( file_exists ($_f) ) :
+				return $_f;
+			elseif ( file_exists ($_fgz) ) :
+				return $_fgz;
+			endif;
+		else :
+			$_fa = array();
+			$_name = preg_quote ($_name);
+			$_fa = _sysCommand::find ($_path, "!^{$_name}\.[0-9](\.gz)*$!");
+			$_fac = count ($_fa);
+
+			if ( $_fac ) :
+				return ($_fac > 1 ) ? $_fa : $_fa[0];
+			endif;
+		endif;
+	}
 
 	function man ($_name, $_no, $_int = NULL, $__base = null, $_s = 0) {
 		if ( !extension_loaded ("zlib")) :
@@ -71,7 +108,7 @@ class _eMan {
 			foreach ($_gz as $_v)
 				$_gztmp .= $_v;
 
-			$tmpfile = tempnam (this->tmpdir, "man-");
+			$tmpfile = tempnam ($this->tmpdir, "man-");
 			if ( @putfile_lib ($tmpfile, $_gztmp) == -1 ) :
 				unlink ($tmpfile);
 				echo "Error: Can't write $tmpfile\n";
