@@ -16,7 +16,7 @@
 // | Author: JoungKyun Kim <http://www.oops.org>                          |
 // +----------------------------------------------------------------------+
 //
-// $Id: filesystem.php,v 1.3 2005-07-26 17:58:50 oops Exp $
+// $Id: filesystem.php,v 1.4 2005-09-05 15:15:29 oops Exp $
 
 require_once "eSystem/print.php";
 
@@ -176,6 +176,7 @@ class _sysCommand
 			return array();
 		endif;
 
+		$file = array ();
 		foreach ( $_r as $v ) :
 			switch ( $regex ) :
 				case 'f' :
