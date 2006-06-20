@@ -20,12 +20,12 @@
     <notes>- fixed null array init problem
 </notes>
     <filelist>
-      <file role="php" md5sum="12a5b45fd9d6d0583e7e9ad2defa6619" name="eSystem.php"/>
-      <file role="php" md5sum="8ed94c03f234ab4668a69461bc90f302" name="eSystem/filesystem.php"/>
-      <file role="php" md5sum="e8770b18ec269c66703c3e5fdeb10523" name="eSystem/getopt.php"/>
-      <file role="php" md5sum="d4e9c8a570d151893234ce74d297519d" name="eSystem/man.php"/>
-      <file role="php" md5sum="3fe137565f3e3abc0ff15bf6cb65a05d" name="eSystem/print.php"/>
-      <file role="php" md5sum="8b1877091aa2e45df9a3fb273710a9a1" name="eSystem/system.php"/>
+      <file role="php" md5sum="@eSystem.php@" name="eSystem.php"/>
+      <file role="php" md5sum="@System/filesystem.php@" name="eSystem/filesystem.php"/>
+      <file role="php" md5sum="@eSystem/getopt.php@" name="eSystem/getopt.php"/>
+      <file role="php" md5sum="@eSystem/man.php@" name="eSystem/man.php"/>
+      <file role="php" md5sum="@eSystem/print.php@" name="eSystem/print.php"/>
+      <file role="php" md5sum="@eSystem/system.php@" name="eSystem/system.php"/>
     </filelist>
   </release>
   <changelog>
