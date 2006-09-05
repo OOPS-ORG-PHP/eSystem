@@ -16,7 +16,7 @@
 // | Author: JoungKyun Kim <http://www.oops.org>                          |
 // +----------------------------------------------------------------------+
 //
-// $Id: eSystem.php,v 1.2 2005-07-11 05:58:11 oops Exp $
+// $Id: eSystem.php,v 1.3 2006-09-05 12:01:20 oops Exp $
 
 require_once 'PEAR.php';
 
@@ -27,7 +27,7 @@ $_SERVER['CLI'] = $_SERVER['DOCUMENT_ROOT'] ? '' : 'yes';
  * and any utility mapping function
  *
  * @access public
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  * @package eSystem
  */
 class eSystem extends PEAR
@@ -152,8 +152,12 @@ class eSystem extends PEAR
 	}
 
 	# extended getopt function
+	#
+	# declear two variabes $gno $optcno set -1 before use getopt
+	#
 	function getopt ($no, $arry, $optstrs ) {
 		global $optarg, $optcmd, $longopt;
+		global $gno, $optcno;
 
 		eSystem::__nocli();
 

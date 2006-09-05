@@ -46,12 +46,23 @@
 - fixed miss operation when array is null in find
 </notes>
     </release>
+    <release>
     <version>0.3</version>
     <date>2005-09-09</date>
     <license>PHP/BSD</license>
     <state>stable</state>
     <notes>- fixed null array init problem
 </notes>
+    </release>
+    <release>
+    <version>0.4</version>
+    <date>2006-09-04</date>
+    <license>PHP/BSD</license>
+    <state>devel</state>
+    <notes>- added getopt usage comment
+- fixed xml syntax error
+</notes>
+    </release>
     <release>
     </release>
   </changelog>
