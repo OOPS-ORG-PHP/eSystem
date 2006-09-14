@@ -16,7 +16,7 @@
 // | Author: JoungKyun Kim <http://www.oops.org>                          |
 // +----------------------------------------------------------------------+
 //
-// $Id: eSystem.php,v 1.3 2006-09-05 12:01:20 oops Exp $
+// $Id: eSystem.php,v 1.4 2006-09-14 19:14:06 oops Exp $
 
 require_once 'PEAR.php';
 
@@ -27,7 +27,7 @@ $_SERVER['CLI'] = $_SERVER['DOCUMENT_ROOT'] ? '' : 'yes';
  * and any utility mapping function
  *
  * @access public
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  * @package eSystem
  */
 class eSystem extends PEAR
@@ -36,14 +36,17 @@ class eSystem extends PEAR
 	# $_var is return code and must use by reference (&)
 	function _system ($_cmd, $_returncode = NULL) {
 		require_once 'eSystem/system.php';
-		return _command::__system ($_cmd, $_returncode);
+		$p = eSystem_command::__system ($_cmd, $_returncode);
+		$p = rtrim ($p);
+		$_output = explode ("\n", $p);
+		return $_output[count ($_output) - 1];
 	}
 
 	# mapping php exec function arguments.
 	# $_ouput and $_returncode must use by reference (&)
 	function _exec ($_cmd, $_output = NULL, $_returncode = NULL) {
 		require_once 'eSystem/system.php';
-		$p = _command::__system ($_cmd, $_returncode, 1);
+		$p = eSystem_command::__system ($_cmd, $_returncode, 1);
 		$p = rtrim ($p);
 		$_output = explode ("\n", $p);
 
@@ -60,7 +63,7 @@ class eSystem extends PEAR
 	#        0 => success
 	function mkdir_p ($path, $mode = 0755) {
 		require_once 'eSystem/filesystem.php';
-		return _sysCommand::mkdir_p ($path, $mode);
+		return eSystem_sysCommand::mkdir_p ($path, $mode);
 	}
 
 	# safely unlink function
@@ -71,7 +74,7 @@ class eSystem extends PEAR
     #        3 => file is directory
 	function _unlink ($path) {
 		require_once 'eSystem/filesystem.php';
-		return _sysCommand::safe_unlink ($path);
+		return eSystem_sysCommand::safe_unlink ($path);
 	}
 
 	# mapping system command rm -rf
@@ -81,7 +84,7 @@ class eSystem extends PEAR
 		$list = glob ($path);
 		$n = count ($list);
 		foreach ( $list as $_v ) :
-			if ( _sysCommand::unlink_r ($_v) ) :
+			if ( eSystem_sysCommand::unlink_r ($_v) ) :
 				if ( $n > 1 ) :
 					eSystem::print_e ("%s remove failed\n", $_v);
 				endif;
@@ -98,7 +101,7 @@ class eSystem extends PEAR
 	#
 	function tree ($dir = '.') {
 		require_once 'eSystem/filesystem.php';
-		return _sysCommand::tree ($dir);
+		return eSystem_sysCommand::tree ($dir);
 	}
 
 	# mapping system command find
@@ -116,7 +119,7 @@ class eSystem extends PEAR
 	#
 	function find ($path = './', $type = '', $norecursive = 0) {
 		require_once 'eSystem/filesystem.php';
-		return _sysCommand::find ($path, $type, $norecursive);
+		return eSystem_sysCommand::find ($path, $type, $norecursive);
 	}
 
 	# print given string with ansi color 
@@ -127,7 +130,7 @@ class eSystem extends PEAR
 		eSystem::__nocli();
 
 		require_once 'eSystem/print.php';
-		return _sysColor::putColor ($str, $color);
+		return eSystem_sysColor::putColor ($str, $color);
 	}
 
 	# print given string with white ansi color
@@ -135,20 +138,20 @@ class eSystem extends PEAR
 		eSystem::__nocli();
 
 		require_once 'eSystem/print.php';
-		return _sysColor::putColor ($str, 'white');
+		return eSystem_sysColor::putColor ($str, 'white');
 	}
 
 	function backSpace ($no) {
 		eSystem::__nocli();
 
 		require_once 'eSystem/print.php';
-		_output::backSpace ($no);
+		eSystem_output::backSpace ($no);
 	}
 
 	# print string to stderr
 	function printe ($format, $msg = '') {
 		require_once 'eSystem/print.php';
-		_output::printe ($format, $msg);
+		eSystem_output::printe ($format, $msg);
 	}
 
 	# extended getopt function
@@ -162,13 +165,13 @@ class eSystem extends PEAR
 		eSystem::__nocli();
 
 		require_once 'eSystem/getopt.php';
-		return _getopt::__getopt ($no, $arry, $optstrs);
+		return eSystem_getopt::getopt ($no, $arry, $optstrs);
 	}
 
 	# print man page
 	function manPath ($_name, $_path = '/usr/share/man', $_sec = 0) {
 		require_once 'eSystem/man.php';
-		return _eMan::manPath ($_name, $_path, $_sec);
+		return eSystem_Man::manPath ($_name, $_path, $_sec);
 	}
 
 	function man ($_name, $_no, $_int = NULL, $__base = null, $_s = 0) {
@@ -178,7 +181,7 @@ class eSystem extends PEAR
 		endif;
 
 		require_once 'eSystem/man.php';
-		return _eMan::man($_name, $_no, $_int, $__base, $_s);
+		return eSystem_Man::man($_name, $_no, $_int, $__base, $_s);
 	}
 
 	# don't use :-)

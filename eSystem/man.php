@@ -16,12 +16,12 @@
 // | Author: JoungKyun Kim <http://www.oops.org>                          |
 // +----------------------------------------------------------------------+
 //
-// $Id: man.php,v 1.2 2005-07-11 05:57:51 oops Exp $
+// $Id: man.php,v 1.3 2006-09-14 19:14:06 oops Exp $
 
 require_once 'eSystem/system.php';
 require_once 'eSystem/filesystem.php';
 
-class _eMan {
+class eSystem_Man {
 	var $tmpdir = "/var/lib/php/tmp";
 
 	function so_man ($_file, $_base, $_int = '') {
@@ -71,7 +71,7 @@ class _eMan {
 		else :
 			$_fa = array();
 			$_name = preg_quote ($_name);
-			$_fa = _sysCommand::find ($_path, "!^{$_name}\.[0-9](\.gz)*$!");
+			$_fa = eSystem_sysCommand::find ($_path, "!^{$_name}\.[0-9](\.gz)*$!");
 			$_fac = count ($_fa);
 
 			if ( $_fac ) :
@@ -96,7 +96,7 @@ class _eMan {
 		$_gzfile = "{$_base}/{$_man}.gz";
 
 		if ( file_exists ($_gzfile) ) :
-			$_gzfile = _eMan::so_man ($_gzfile, $__base, $_int);
+			$_gzfile = eSystem_Man::so_man ($_gzfile, $__base, $_int);
 			$_gz = array ();
 
 			if ( ! file_exists ($_gzfile) ) :
@@ -115,11 +115,11 @@ class _eMan {
 				exit (1);
 			endif;
 
-			$_r = _command::__system ("groff -S -Wall -mtty-char -Tascii8 -man $tmpfile", $r, 1);
+			$_r = eSystem_command::__system ("groff -S -Wall -mtty-char -Tascii8 -man $tmpfile", $r, 1);
 			unlink ($tmpfile);
 		elseif ( file_exists ($_file) ) :
-			$_file = _eMan::so_man ($_file, $__base, $_int);
-			$_r = _command::__system ("groff -S -Wall -mtty-char -Tascii8 -man $_file", $r, 1);
+			$_file = eSystem_Man::so_man ($_file, $__base, $_int);
+			$_r = eSystem_command::__system ("groff -S -Wall -mtty-char -Tascii8 -man $_file", $r, 1);
 		else :
 			return "";
 		endif;

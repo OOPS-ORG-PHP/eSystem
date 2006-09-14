@@ -16,9 +16,9 @@
 // | Author: JoungKyun Kim <http://www.oops.org>                          |
 // +----------------------------------------------------------------------+
 //
-// $Id: system.php,v 1.1.1.1 2005-07-11 05:24:11 oops Exp $
+// $Id: system.php,v 1.2 2006-09-14 19:14:06 oops Exp $
 
-class _command
+class eSystem_command
 {
 	/*
 	 * define origin proto function
@@ -38,18 +38,15 @@ class _command
 				$_r = preg_replace ("/RET_VAL:[^0-9]*[0-9]+$/", '', $_r);
 			endif;
 
-			if ( $_out ) :
-				$_rr .= $_r;
-			else :
-				$_last = $_r;
+			$_rr .= $_r;
+			if ( ! $_out ) :
 				echo $_r;
 				flush ();
 			endif;
 		endwhile;
 		pclose ($p);
 
-		if ( $_out ) return $_rr;
-		return $_last;
+		return $_rr;
 	}
 }
 

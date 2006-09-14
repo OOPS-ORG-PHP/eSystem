@@ -16,11 +16,11 @@
 // | Author: JoungKyun Kim <http://www.oops.org>                          |
 // +----------------------------------------------------------------------+
 //
-// $Id: filesystem.php,v 1.4 2005-09-05 15:15:29 oops Exp $
+// $Id: filesystem.php,v 1.5 2006-09-14 19:14:06 oops Exp $
 
 require_once "eSystem/print.php";
 
-class _sysCommand
+class eSystem_sysCommand
 {
 	# return 1 => path is none
 	#        2 => path is not directory
@@ -75,7 +75,7 @@ class _sysCommand
 		if ( ! trim($dir) ) { return 0; }
 		if ( ! file_exists ($dir) ) { return 0; }
 		if ( file_exists ($dir) && ! is_dir ($dir) ) :
-			$_r = _sysCommand::safe_unlink ($dir);
+			$_r = eSystem_sysCommand::safe_unlink ($dir);
 			return $_r;
 		endif;
 
@@ -86,9 +86,9 @@ class _sysCommand
 				if( $file != "." && $file != ".." ) :
 					$fullpath = $dir . "/" . $file;
 					if ( !is_dir ($fullpath) ) :
-						$_r = _sysCommand::safe_unlink ($fullpath);
+						$_r = eSystem_sysCommand::safe_unlink ($fullpath);
 					else :
-						$_r = _sysCommand::unlink_r ($fullpath);
+						$_r = eSystem_sysCommand::unlink_r ($fullpath);
 					endif;
 				endif;
 			endwhile;
@@ -112,13 +112,13 @@ class _sysCommand
 
 		if ( ! $recursive ) :
 			if ( $_SERVER['CLI'] ) :
-				echo _sysColor::putColor ("{$dir}/", 'blue') . "\n";
+				echo eSystem_sysColor::putColor ("{$dir}/", 'blue') . "\n";
 			else :
 				echo "$dir/\n";
 			endif;
 		endif;
 
-		$list = _sysCommand::dirlist ($dir);
+		$list = eSystem_sysCommand::dirlist ($dir);
 
 		if ( is_array ($list) )
 			sort ($list);
@@ -132,7 +132,7 @@ class _sysCommand
 			$_prefix = $last ? '`-- ' : '|-- ';
 
 			if ( $_SERVER['CLI'] && is_dir ($fullpath) ) :
-				$fname = _sysColor::putColor ("{$list[$i]}/", 'blue');
+				$fname = eSystem_sysColor::putColor ("{$list[$i]}/", 'blue');
 			else :
 				$fname = $list[$i];
 				if ( is_dir ($fullpath) ) :
@@ -145,7 +145,7 @@ class _sysCommand
 
 			if ( is_dir ($fullpath) ) : 
 				$n['dir']++;
-				$_n = _sysCommand::tree ($fullpath, $_prefix, 1);
+				$_n = eSystem_sysCommand::tree ($fullpath, $_prefix, 1);
 				$n['dir'] += $_n['dir'];
 				$n['file'] += $_n['file'];
 			else :
@@ -170,7 +170,7 @@ class _sysCommand
 	#
 	function find ($path = './', $regex = '', $norecursive = 0) {
 		$path = preg_replace ('!/$!', '', $path);
-		$_r = _sysCommand::dirlist ($path, 1);
+		$_r = eSystem_sysCommand::dirlist ($path, 1);
 
 		if ( ! count ($_r) ) :
 			return array();
@@ -215,7 +215,7 @@ class _sysCommand
 			endswitch;
 
 			if ( is_dir ($v) && ! $norecursive ) :
-				$_rr = _sysCommand::find ($v, $regex);
+				$_rr = eSystem_sysCommand::find ($v, $regex);
 	
 				if ( is_array ($_rr) ) :
 					if ( ! $file ) array ();
