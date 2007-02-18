@@ -16,7 +16,7 @@
 // | Author: JoungKyun Kim <http://www.oops.org>                          |
 // +----------------------------------------------------------------------+
 //
-// $Id: eSystem.php,v 1.6 2007-02-18 18:11:42 oops Exp $
+// $Id: eSystem.php,v 1.7 2007-02-18 18:12:21 oops Exp $
 
 require_once 'PEAR.php';
 
@@ -27,7 +27,7 @@ $_SERVER['CLI'] = $_SERVER['DOCUMENT_ROOT'] ? '' : 'yes';
  * and any utility mapping function
  *
  * @access public
- * @version $Revision: 1.6 $
+ * @version $Revision: 1.7 $
  * @package eSystem
  */
 class eSystem extends PEAR
@@ -184,6 +184,11 @@ class eSystem extends PEAR
 	function printe ($format, $msg = '') {
 		$this->autoload (&$this->prints, 'print', 'prints');
 		$this->prints->printe ($format, $msg);
+	}
+
+	function wordwrap ($msg, $width = 75, $break = "\n", $cut = 0) {
+		$this->autoload (&$this->prints, 'print', 'prints');
+		return $this->prints->_wordwrap ($msg, $width, $break, $cut);
 	}
 
 	# extended getopt function
