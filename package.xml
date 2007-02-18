@@ -13,21 +13,20 @@
     </maintainer>
   </maintainers>
   <release>
-    <version>0.4</version>
-    <date>2006-09-15</date>
+    <version>0.5</version>
+    <date>2007-02-19</date>
     <license>PHP/BSD</license>
     <state>devel</state>
-    <notes>- added getopt usage comment
-- fixed xml syntax error
-- fixed paer format
+    <notes>- rewrite with new declear
+- add extended wordwrap function
 </notes>
     <filelist>
-      <file role="php" md5sum="bb4bacb94b8dba2407227b38af95fed1" name="eSystem.php"/>
-      <file role="php" md5sum="6d4ec62f559e35c1f410cf18696ebc2d" name="eSystem/filesystem.php"/>
-      <file role="php" md5sum="97df2a27f502265ee6941a6e0315ecac" name="eSystem/getopt.php"/>
-      <file role="php" md5sum="3f0c0f1cb82239b23c7570a84c32723e" name="eSystem/man.php"/>
-      <file role="php" md5sum="e1399a8aca595c65666b256caab59f7e" name="eSystem/print.php"/>
-      <file role="php" md5sum="d3821d261078ceaeb63124b829b6ac23" name="eSystem/system.php"/>
+      <file role="php" md5sum="7b2b2bd2c66398d96df33f3c72533e37" name="eSystem.php"/>
+      <file role="php" md5sum="bbb5dd514a91f1b600f23a88b221be42" name="eSystem/filesystem.php"/>
+      <file role="php" md5sum="e4fca81435a34982eb515fde309ace3e" name="eSystem/getopt.php"/>
+      <file role="php" md5sum="5dbc116ea6a786ab62de85279a99133d" name="eSystem/man.php"/>
+      <file role="php" md5sum="d7b9a22aa1b08d0676d15f9f2b0fa9ba" name="eSystem/print.php"/>
+      <file role="php" md5sum="14832d14f43d7c2a2bd4db6b07b6bc1e" name="eSystem/system.php"/>
     </filelist>
   </release>
   <changelog>
@@ -64,6 +63,15 @@
     <notes>- added getopt usage comment
 - fixed xml syntax error
 - fixed paer format
+</notes>
+    </release>
+    <release>
+    <version>0.5</version>
+    <date>2007-02-19</date>
+    <license>PHP/BSD</license>
+    <state>devel</state>
+    <notes>- rewrite with new declear
+- add extended wordwrap function
 </notes>
     </release>
     <release>

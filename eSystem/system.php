@@ -16,9 +16,9 @@
 // | Author: JoungKyun.Kim <http://oops.org>                              |
 // +----------------------------------------------------------------------+
 //
-// $Id: system.php,v 1.3 2007-02-18 18:05:25 oops Exp $
+// $Id: system.php,v 1.4 2007-02-18 18:31:35 oops Exp $
 
-class systems
+class eSystem_system
 {
 	var $tmpdir = '/tmp';
 	var $tmpname = 'eSystem_system_';

@@ -16,11 +16,11 @@
 // | Author: JoungKyun Kim <http://www.oops.org>                          |
 // +----------------------------------------------------------------------+
 //
-// $Id: getopt.php,v 1.3 2007-02-18 18:05:25 oops Exp $
+// $Id: getopt.php,v 1.4 2007-02-18 18:31:35 oops Exp $
 
 require_once "eSystem/print.php";
 
-class getopts extends prints
+class eSystem_getopt extends eSystem_print
 {
 	function getopt ( $no, $arry, $optstrs ) {
 		global $optarg, $optcmd, $longopt, $optend;

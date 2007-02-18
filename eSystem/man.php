@@ -16,19 +16,19 @@
 // | Author: JoungKyun Kim <http://www.oops.org>                          |
 // +----------------------------------------------------------------------+
 //
-// $Id: man.php,v 1.4 2007-02-18 18:05:25 oops Exp $
+// $Id: man.php,v 1.5 2007-02-18 18:31:35 oops Exp $
 
 require_once 'eSystem/system.php';
 require_once 'eSystem/filesystem.php';
 
-class mans extends systems
+class eSystem_man extends eSystem_system
 {
 	var $tmpdir = "/tmp";
 	var $ofs;
 
-	function mans () {
+	function eSystem_man () {
 		if ( ! is_object ($ofs) ) :
-			$this->ofs = new filesystem;
+			$this->ofs = new eSystem_filesystem;
 		endif;
 	}
 

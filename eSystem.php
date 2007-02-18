@@ -16,7 +16,7 @@
 // | Author: JoungKyun Kim <http://www.oops.org>                          |
 // +----------------------------------------------------------------------+
 //
-// $Id: eSystem.php,v 1.7 2007-02-18 18:12:21 oops Exp $
+// $Id: eSystem.php,v 1.8 2007-02-18 18:31:35 oops Exp $
 
 require_once 'PEAR.php';
 
@@ -27,7 +27,7 @@ $_SERVER['CLI'] = $_SERVER['DOCUMENT_ROOT'] ? '' : 'yes';
  * and any utility mapping function
  *
  * @access public
- * @version $Revision: 1.7 $
+ * @version $Revision: 1.8 $
  * @package eSystem
  */
 class eSystem extends PEAR
@@ -46,14 +46,15 @@ class eSystem extends PEAR
 
 		require_once ('eSystem/' . $f . '.php');
 		if ( ! is_object ($obj) ) :
-			$obj = new $cname;
+			$objname = "eSystem_" . $cname;
+			$obj = new $objname;
 		endif;
 	}
 
 	# mapping php system function arguments
 	# $_var is return code and must use by reference (&)
 	function system ($_cmd, $_returncode = NULL) {
-		$this->autoload (&$this->system, 'system', 'systems');
+		$this->autoload (&$this->system, 'system');
 
 		$this->system->tmpdir = $this->tmpdir;
 		$this->system->_system ($_cmd, 1);
@@ -67,7 +68,7 @@ class eSystem extends PEAR
 	# mapping php exec function arguments.
 	# $_ouput and $_returncode must use by reference (&)
 	function exec ($_cmd, $_output = NULL, $_returncode = NULL) {
-		$this->autoload (&$this->system, 'system', 'systems');
+		$this->autoload (&$this->system, 'system');
 
 		$this->system->tmpdir = $this->tmpdir;
 		$this->system->_system ($_cmd);
@@ -162,7 +163,7 @@ class eSystem extends PEAR
 	function putColor ($str, $color = '') {
 		$this->__nocli ();
 
-		$this->autoload (&$this->prints, 'print', 'prints');
+		$this->autoload (&$this->prints, 'print');
 		return $this->prints->putColor ($str, $color);
 	}
 
@@ -176,18 +177,18 @@ class eSystem extends PEAR
 	function backSpace ($no) {
 		$this->__nocli();
 
-		$this->autoload (&$this->prints, 'print', 'prints');
+		$this->autoload (&$this->prints, 'print');
 		$this->prints->backSpace ($no);
 	}
 
 	# print string to stderr
 	function printe ($format, $msg = '') {
-		$this->autoload (&$this->prints, 'print', 'prints');
+		$this->autoload (&$this->prints, 'print');
 		$this->prints->printe ($format, $msg);
 	}
 
 	function wordwrap ($msg, $width = 75, $break = "\n", $cut = 0) {
-		$this->autoload (&$this->prints, 'print', 'prints');
+		$this->autoload (&$this->prints, 'print');
 		return $this->prints->_wordwrap ($msg, $width, $break, $cut);
 	}
 
@@ -201,13 +202,13 @@ class eSystem extends PEAR
 
 		$this->__nocli();
 
-		$this->autoload (&$this->getopt, 'getopt', 'getopts');
+		$this->autoload (&$this->getopt, 'getopt');
 		return $this->getopt->getopt ($no, $arry, $optstrs);
 	}
 
 	# print man page
 	function manPath ($_name, $_path = '/usr/share/man', $_sec = 0) {
-		$this->autoload (&$this->man, 'man', 'mans');
+		$this->autoload (&$this->man, 'man');
 		$this->man->tmpdir = $this->tmpdir;
 		return $this->man->manPath ($_name, $_path, $_sec);
 	}
@@ -218,7 +219,7 @@ class eSystem extends PEAR
 			exit (1);
 		endif;
 
-		$this->autoload (&$this->man, 'man', 'mans');
+		$this->autoload (&$this->man, 'man');
 		$this->man->tmpdir = $this->tmpdir;
 		return $this->man->man ($_name, $_no, $_int, $__base, $_s);
 	}

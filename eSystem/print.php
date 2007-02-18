@@ -16,9 +16,9 @@
 // | Author: JoungKyun Kim <http://www.oops.org>						  |
 // +----------------------------------------------------------------------+
 //
-// $Id: print.php,v 1.4 2007-02-18 18:12:21 oops Exp $
+// $Id: print.php,v 1.5 2007-02-18 18:31:35 oops Exp $
 
-class prints extends output
+class eSystem_print extends eSystem_output
 {
 	function setColor ($color) {
 		$color = $color ? strtolower ($color) : '';
@@ -46,7 +46,7 @@ class prints extends output
 	}
 }
 
-class output
+class eSystem_output
 {
 	function makeWhiteSpace ($no) {
 		if ( ! is_numeric ($no) )

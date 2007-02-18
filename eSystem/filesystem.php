@@ -16,11 +16,11 @@
 // | Author: JoungKyun Kim <http://www.oops.org>                          |
 // +----------------------------------------------------------------------+
 //
-// $Id: filesystem.php,v 1.6 2007-02-18 18:05:25 oops Exp $
+// $Id: filesystem.php,v 1.7 2007-02-18 18:31:35 oops Exp $
 
 require_once "eSystem/print.php";
 
-class filesystem extends prints
+class eSystem_filesystem extends eSystem_print
 {
 	# return 1 => path is none
 	#        2 => path is not directory
