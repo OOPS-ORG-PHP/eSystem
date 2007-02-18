@@ -16,11 +16,11 @@
 // | Author: JoungKyun Kim <http://www.oops.org>                          |
 // +----------------------------------------------------------------------+
 //
-// $Id: getopt.php,v 1.2 2006-09-14 19:14:06 oops Exp $
+// $Id: getopt.php,v 1.3 2007-02-18 18:05:25 oops Exp $
 
 require_once "eSystem/print.php";
 
-class eSystem_getopt
+class getopts extends prints
 {
 	function getopt ( $no, $arry, $optstrs ) {
 		global $optarg, $optcmd, $longopt, $optend;
@@ -30,7 +30,7 @@ class eSystem_getopt
 		if ( $optcno < 0 ) $optcno = 0;
 		if ( $optend < 0 ) $optend = 0;
 
-		$this->err = eSystem_sysColor::putColor (_("ERROR"), 'white');
+		$this->err = $this->putColor (_("ERROR"), 'white');
 
 		while ( 1 ) :
 			if ( $gno == $no ) return -1;
@@ -45,14 +45,14 @@ class eSystem_getopt
 				$errArg = array ($this->err, $longname);
 
 				if ( ! $opt ) :
-					eSystem_output::printe (_("%s: option --%s don't support"), $errArg);
+					$this->printe (_("%s: option --%s don't support"), $errArg);
 					return -2;
 				endif;
 
 				if ( preg_match ("/{$opt}:/", $optstrs) ) :
 					$optarg = $optarg ? $optarg : $arry[$gno + 1];
 					if ( ! trim ($optarg) ) :
-						eSystem_output::printe (_("%s: option --%s must need values"), $errArg);
+						$this->printe (_("%s: option --%s must need values"), $errArg);
 						return -2;
 					endif;
 
@@ -72,7 +72,7 @@ class eSystem_getopt
 						$nextvalue = $arry[$gno + 1];
 
 						if ( preg_match ('/^-[a-z-]/', $nextvalue) ) {
-							eSystem_output::printe ("%s: option -%s must need values", $errArg);
+							$this->printe ("%s: option -%s must need values", $errArg);
 							return -2;
 						}
 
@@ -81,12 +81,12 @@ class eSystem_getopt
 					endif;
 
 					if ( ! trim ($optarg) ) :
-						eSystem_output::printe (_("%s: option -%s must need values"), $errArg);
+						$this->printe (_("%s: option -%s must need values"), $errArg);
 						return -2;
 					endif;
 				else :
 					if ( $optvalue_c ) :
-						eSystem_output::printe (_("%s: option must have not any value"), $this->err);
+						$this->printe (_("%s: option must have not any value"), $this->err);
 						return -2;
 					endif;
 
@@ -102,7 +102,7 @@ class eSystem_getopt
 					endfor;
 
 					if ( ! $_optok ) :
-						eSystem_output::printe (_("%s: option -%s don't support"), $errArg);
+						$this->printe (_("%s: option -%s don't support"), $errArg);
 						return -2;
 					endif;
 				endif;
@@ -112,7 +112,7 @@ class eSystem_getopt
 				if ( $arry[$gno] == '--' ) :
 					$optend = 1;
 					continue;
-					#eSystem_output::printe (_("%s: - is unknown option"), $this->err);
+					#$this->printe (_("%s: - is unknown option"), $this->err);
 					#return -2;
 				endif;
 

@@ -16,13 +16,21 @@
 // | Author: JoungKyun Kim <http://www.oops.org>                          |
 // +----------------------------------------------------------------------+
 //
-// $Id: man.php,v 1.3 2006-09-14 19:14:06 oops Exp $
+// $Id: man.php,v 1.4 2007-02-18 18:05:25 oops Exp $
 
 require_once 'eSystem/system.php';
 require_once 'eSystem/filesystem.php';
 
-class eSystem_Man {
-	var $tmpdir = "/var/lib/php/tmp";
+class mans extends systems
+{
+	var $tmpdir = "/tmp";
+	var $ofs;
+
+	function mans () {
+		if ( ! is_object ($ofs) ) :
+			$this->ofs = new filesystem;
+		endif;
+	}
 
 	function so_man ($_file, $_base, $_int = '') {
 		$_dotso = array ();
@@ -71,7 +79,7 @@ class eSystem_Man {
 		else :
 			$_fa = array();
 			$_name = preg_quote ($_name);
-			$_fa = eSystem_sysCommand::find ($_path, "!^{$_name}\.[0-9](\.gz)*$!");
+			$_fa = $this->ofs->find ($_path, "!^{$_name}\.[0-9](\.gz)*$!");
 			$_fac = count ($_fa);
 
 			if ( $_fac ) :
@@ -81,7 +89,7 @@ class eSystem_Man {
 	}
 
 	function man ($_name, $_no, $_int = NULL, $__base = null, $_s = 0) {
-		if ( !extension_loaded ("zlib")) :
+		if ( ! extension_loaded ("zlib")) :
 			echo "Error: man function requires zlib extension!";
 			exit (1);
 		endif;
@@ -96,7 +104,7 @@ class eSystem_Man {
 		$_gzfile = "{$_base}/{$_man}.gz";
 
 		if ( file_exists ($_gzfile) ) :
-			$_gzfile = eSystem_Man::so_man ($_gzfile, $__base, $_int);
+			$_gzfile = $this->so_man ($_gzfile, $__base, $_int);
 			$_gz = array ();
 
 			if ( ! file_exists ($_gzfile) ) :
@@ -109,23 +117,30 @@ class eSystem_Man {
 				$_gztmp .= $_v;
 
 			$tmpfile = tempnam ($this->tmpdir, "man-");
-			if ( @putfile_lib ($tmpfile, $_gztmp) == -1 ) :
+			if ( @$this->ofs->filewrite ($tmpfile, $_gztmp) == -1 ) :
 				unlink ($tmpfile);
 				echo "Error: Can't write $tmpfile\n";
 				exit (1);
 			endif;
 
-			$_r = eSystem_command::__system ("groff -S -Wall -mtty-char -Tascii8 -man $tmpfile", $r, 1);
+			$this->_system ("/usr/bin/groff -S -Wall -mtty-char -Tascii8 -man $tmpfile");
+			$_r = $this->stdout;
 			unlink ($tmpfile);
 		elseif ( file_exists ($_file) ) :
-			$_file = eSystem_Man::so_man ($_file, $__base, $_int);
-			$_r = eSystem_command::__system ("groff -S -Wall -mtty-char -Tascii8 -man $_file", $r, 1);
+			$_file = $this->so_man ($_file, $__base, $_int);
+			$this->_system ("/usr/bin/groff -S -Wall -mtty-char -Tascii8 -man $_file");
+			$_r = $this->stdout;
 		else :
 			return "";
 		endif;
 
-		if ( $_s ) :
-			return explode ("\n", $_r);
+		if ( ! $_s ) :
+			if ( is_array ($_r) ) :
+				foreach ($_r as $_v ) :
+					$v .= $_v ."\n";
+				endforeach;
+			endif;
+			return $v;
 		endif;
 
 		return $_r;

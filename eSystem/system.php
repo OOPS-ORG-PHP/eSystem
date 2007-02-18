@@ -13,40 +13,50 @@
 // | obtain it through the world-wide-web, please send a note to          |
 // | license@php.net so we can mail you a copy immediately.               |
 // +----------------------------------------------------------------------+
-// | Author: JoungKyun Kim <http://www.oops.org>                          |
+// | Author: JoungKyun.Kim <http://oops.org>                              |
 // +----------------------------------------------------------------------+
 //
-// $Id: system.php,v 1.2 2006-09-14 19:14:06 oops Exp $
+// $Id: system.php,v 1.3 2007-02-18 18:05:25 oops Exp $
 
-class eSystem_command
+class systems
 {
+	var $tmpdir = '/tmp';
+	var $tmpname = 'eSystem_system_';
+	var $stdout;
+	var $stderr;
+	var $retint = -1;
+
 	/*
 	 * define origin proto function
-	 * start function name __
+	 * start function name _
 	 */
-	function __system ($_cmd, &$__var, $_out = 0) {
-		$__var = -1;
-		$__cmd = $_cmd . ' 2> /dev/null; echo "RET_VAL:$?"';
+	function _system ($_cmd, $_out = 0) {
+		$_err = tempnam ($this->tmpdir, $this->tmpname);
+		$_cmd = $_cmd . ' 2> ' . $_err . '; echo "RET_VAL:$?"';
 
-		$p = popen ($__cmd, "r");
+		$pd = popen ($_cmd, "r");
 
-		while ( ! feof ($p) ) :
-			$_r = fread ($p, 1024);
+		while ( ! feof ($pd) ) :
+			$_r = rtrim (fgets ($pd, 1024));
 
-			if ( preg_match ("/RET_VAL:[^0-9]*([0-9]+)$/", $_r, $_match) ) :
-				$__var = $_match[1];
-				$_r = preg_replace ("/RET_VAL:[^0-9]*[0-9]+$/", '', $_r);
-			endif;
+			if ( preg_match ("/RET_VAL:([0-9]+)$/", $_r, $_match) ) :
+				$this->retint = $_match[1];
+				break;
+			else :
+				$this->stdout[] = $_r;
 
-			$_rr .= $_r;
-			if ( ! $_out ) :
-				echo $_r;
-				flush ();
+				if ( $_out ) :
+					echo $_r . "\n";
+					flush ();
+				endif;
 			endif;
 		endwhile;
-		pclose ($p);
+		pclose ($pd);
 
-		return $_rr;
+		if ( filesize ($_err) > 0 ) :
+			$this->stderr = rtrim (file_get_contents ($errs));
+		endif;
+		unlink ($_err);
 	}
 }
 

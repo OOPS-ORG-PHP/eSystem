@@ -16,7 +16,7 @@
 // | Author: JoungKyun Kim <http://www.oops.org>                          |
 // +----------------------------------------------------------------------+
 //
-// $Id: eSystem.php,v 1.4 2006-09-14 19:14:06 oops Exp $
+// $Id: eSystem.php,v 1.5 2007-02-18 18:05:25 oops Exp $
 
 require_once 'PEAR.php';
 
@@ -27,32 +27,56 @@ $_SERVER['CLI'] = $_SERVER['DOCUMENT_ROOT'] ? '' : 'yes';
  * and any utility mapping function
  *
  * @access public
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.5 $
  * @package eSystem
  */
 class eSystem extends PEAR
 {
+	var $system;
+	var $fs;
+	var $prints;
+	var $getopt;
+	var $man;
+	var $tmpdir = '/tmp';
+
+	function autoload (&$obj, $f, $cname = '') {
+		if ( ! $cname ) :
+			$cname = $f;
+		endif;
+
+		require_once ('eSystem/' . $f . '.php');
+		if ( ! is_object ($obj) ) :
+			$obj = new $cname;
+		endif;
+	}
+
 	# mapping php system function arguments
 	# $_var is return code and must use by reference (&)
-	function _system ($_cmd, $_returncode = NULL) {
-		require_once 'eSystem/system.php';
-		$p = eSystem_command::__system ($_cmd, $_returncode);
-		$p = rtrim ($p);
-		$_output = explode ("\n", $p);
-		return $_output[count ($_output) - 1];
+	function system ($_cmd, $_returncode = NULL) {
+		$this->autoload (&$this->system, 'system', 'systems');
+
+		$this->system->tmpdir = $this->tmpdir;
+		$this->system->_system ($_cmd, 1);
+
+		$_returncode = $this->system->retint;
+
+		$_no = count ($this->system->stdout);
+		return $this->system->stdout[--$_no];
 	}
 
 	# mapping php exec function arguments.
 	# $_ouput and $_returncode must use by reference (&)
-	function _exec ($_cmd, $_output = NULL, $_returncode = NULL) {
-		require_once 'eSystem/system.php';
-		$p = eSystem_command::__system ($_cmd, $_returncode, 1);
-		$p = rtrim ($p);
-		$_output = explode ("\n", $p);
+	function exec ($_cmd, $_output = NULL, $_returncode = NULL) {
+		$this->autoload (&$this->system, 'system', 'systems');
 
-		$_size = count ($_output);
+		$this->system->tmpdir = $this->tmpdir;
+		$this->system->_system ($_cmd);
 
-		return $_output[$_size - 1];
+		$_output = $this->system->stdout;
+		$_returncode = $this->system->retint;
+		$_no = count ($this->system->stdout);
+
+		return $this->system->stdout[--$_no];
 	}
 
 	# mapping system command mkdir -p
@@ -62,8 +86,8 @@ class eSystem extends PEAR
 	#        3 => create failed
 	#        0 => success
 	function mkdir_p ($path, $mode = 0755) {
-		require_once 'eSystem/filesystem.php';
-		return eSystem_sysCommand::mkdir_p ($path, $mode);
+		$this->autoload (&$this->fs, 'filesystem');
+		return $this->fs->mkdir_p ($path, $mode);
 	}
 
 	# safely unlink function
@@ -72,21 +96,29 @@ class eSystem extends PEAR
 	#        1 => removed failed
     #        2 => file not found
     #        3 => file is directory
-	function _unlink ($path) {
-		require_once 'eSystem/filesystem.php';
-		return eSystem_sysCommand::safe_unlink ($path);
+	function unlink ($path) {
+		$this->autoload (&$this->fs, 'filesystem');
+		return $this->fs->safe_unlink ($path);
 	}
 
 	# mapping system command rm -rf
 	function unlink_r ($path) {
-		require_once 'eSystem/filesystem.php';
+		$this->autoload (&$this->fs, 'filesystem');
+
+		if ( ! file_exists ($path) ) :
+			return 1;
+		endif;
 
 		$list = glob ($path);
+		if ( $list === FALSE ) :
+			return 1;
+		endif;
+
 		$n = count ($list);
 		foreach ( $list as $_v ) :
-			if ( eSystem_sysCommand::unlink_r ($_v) ) :
-				if ( $n > 1 ) :
-					eSystem::print_e ("%s remove failed\n", $_v);
+			if ( $this->fs->unlink_r ($_v) ) :
+				if ( $n > 0 ) :
+					$this->fs->printe ("unlink_r error: %s remove failed", $_v);
 				endif;
 				return 1;
 			endif;
@@ -100,8 +132,9 @@ class eSystem extends PEAR
 	# return Array direcotory number and file number
 	#
 	function tree ($dir = '.') {
-		require_once 'eSystem/filesystem.php';
-		return eSystem_sysCommand::tree ($dir);
+		$this->autoload (&$this->fs, 'filesystem');
+			
+		return $this->fs->tree ($dir);
 	}
 
 	# mapping system command find
@@ -118,8 +151,8 @@ class eSystem extends PEAR
 	# norecursive -> don't recursively
 	#
 	function find ($path = './', $type = '', $norecursive = 0) {
-		require_once 'eSystem/filesystem.php';
-		return eSystem_sysCommand::find ($path, $type, $norecursive);
+		$this->autoload (&$this->fs, 'filesystem');
+		return $this->fs->find ($path, $type, $norecursive);
 	}
 
 	# print given string with ansi color 
@@ -127,31 +160,30 @@ class eSystem extends PEAR
 	#  => gray, red, green, yellow, blue, megenta, cyan, white
 	# color white is same boldStr function.
 	function putColor ($str, $color = '') {
-		eSystem::__nocli();
+		$this->__nocli ();
 
-		require_once 'eSystem/print.php';
-		return eSystem_sysColor::putColor ($str, $color);
+		$this->autoload (&$this->prints, 'print', 'prints');
+		return $this->prints->putColor ($str, $color);
 	}
 
 	# print given string with white ansi color
 	function boldStr ($str) {
-		eSystem::__nocli();
+		$this->__nocli();
 
-		require_once 'eSystem/print.php';
-		return eSystem_sysColor::putColor ($str, 'white');
+		return $this->putColor ($str, 'white');
 	}
 
 	function backSpace ($no) {
-		eSystem::__nocli();
+		$this->__nocli();
 
-		require_once 'eSystem/print.php';
-		eSystem_output::backSpace ($no);
+		$this->autoload (&$this->prints, 'print', 'prints');
+		$this->prints->backSpace ($no);
 	}
 
 	# print string to stderr
 	function printe ($format, $msg = '') {
-		require_once 'eSystem/print.php';
-		eSystem_output::printe ($format, $msg);
+		$this->autoload (&$this->prints, 'print', 'prints');
+		$this->prints->printe ($format, $msg);
 	}
 
 	# extended getopt function
@@ -162,26 +194,28 @@ class eSystem extends PEAR
 		global $optarg, $optcmd, $longopt;
 		global $gno, $optcno;
 
-		eSystem::__nocli();
+		$this->__nocli();
 
-		require_once 'eSystem/getopt.php';
-		return eSystem_getopt::getopt ($no, $arry, $optstrs);
+		$this->autoload (&$this->getopt, 'getopt', 'getopts');
+		return $this->getopt->getopt ($no, $arry, $optstrs);
 	}
 
 	# print man page
 	function manPath ($_name, $_path = '/usr/share/man', $_sec = 0) {
-		require_once 'eSystem/man.php';
-		return eSystem_Man::manPath ($_name, $_path, $_sec);
+		$this->autoload (&$this->man, 'man', 'mans');
+		$this->man->tmpdir = $this->tmpdir;
+		return $this->man->manPath ($_name, $_path, $_sec);
 	}
 
 	function man ($_name, $_no, $_int = NULL, $__base = null, $_s = 0) {
-		if ( !extension_loaded ("zlib")) :
+		if ( ! extension_loaded ("zlib")) :
 			echo "Error: man function requires zlib extension!";
 			exit (1);
 		endif;
 
-		require_once 'eSystem/man.php';
-		return eSystem_Man::man($_name, $_no, $_int, $__base, $_s);
+		$this->autoload (&$this->man, 'man', 'mans');
+		$this->man->tmpdir = $this->tmpdir;
+		return $this->man->man ($_name, $_no, $_int, $__base, $_s);
 	}
 
 	# don't use :-)
