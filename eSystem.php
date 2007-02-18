@@ -16,7 +16,7 @@
 // | Author: JoungKyun Kim <http://www.oops.org>                          |
 // +----------------------------------------------------------------------+
 //
-// $Id: eSystem.php,v 1.5 2007-02-18 18:05:25 oops Exp $
+// $Id: eSystem.php,v 1.6 2007-02-18 18:11:42 oops Exp $
 
 require_once 'PEAR.php';
 
@@ -27,7 +27,7 @@ $_SERVER['CLI'] = $_SERVER['DOCUMENT_ROOT'] ? '' : 'yes';
  * and any utility mapping function
  *
  * @access public
- * @version $Revision: 1.5 $
+ * @version $Revision: 1.6 $
  * @package eSystem
  */
 class eSystem extends PEAR
@@ -92,10 +92,10 @@ class eSystem extends PEAR
 
 	# safely unlink function
 	#
-    # return 0 => success
+	# return 0 => success
 	#        1 => removed failed
-    #        2 => file not found
-    #        3 => file is directory
+	#        2 => file not found
+	#        3 => file is directory
 	function unlink ($path) {
 		$this->autoload (&$this->fs, 'filesystem');
 		return $this->fs->safe_unlink ($path);
@@ -222,9 +222,9 @@ class eSystem extends PEAR
 	function __nocli () {
 		if ( ! $_SERVER['CLI'] ) {
 			echo "<script type=\"text/javascript\">\n" .
-                 "  alert('_getopt method only used on CLI mode');\n" .
-                 "  history.back();\n" .
-                 "</script>\n";
+				"  alert('_getopt method only used on CLI mode');\n" .
+				"  history.back();\n" .
+				"</script>\n";
 			exit;
 		}
 	}
