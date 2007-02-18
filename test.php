@@ -50,7 +50,7 @@ echo "-- _system test ------------------------------------------\n\n";
  * _system test
  */
 
-$v = $e->_system ("ls -al", &$r);
+$v = $e->system ("ls -al", &$r);
 echo "Last Line: $v\n";
 unset ($v);
 
@@ -60,7 +60,7 @@ unset ($v);
 
 echo "\n";
 echo "-- _exec test --------------------------------------------\n\n";
-$v = $e->_exec ("ls -al", &$o, &$err);
+$v = $e->exec ("ls -al", &$o, &$err);
 
 print_r ($o);
 echo "Last Line : $v\n";
@@ -83,18 +83,18 @@ endif;
 echo " ==> Return Code: $v\n";
 
 /*
- * _unlink test
+ * unlink test
  */
 
 echo "\n";
-echo "-- _unlink test ------------------------------------------\n\n";
+echo "-- unlink test ------------------------------------------\n\n";
 
 touch ("unlinktest");
-$v = $e->_unlink ("unlinktests");
+$v = $e->unlink ("unlinktests");
 echo "Unlink unlinktests: $v\n";
-$v = $e->_unlink ("unlinktest");
+$v = $e->unlink ("unlinktest");
 echo "Unlink unlinktest: $v\n";
-$v = $e->_unlink ("ppp/yyy");
+$v = $e->unlink ("ppp/yyy");
 echo "Unlink ppp/yyy: $v\n";
 
 /*
