@@ -16,7 +16,7 @@
 // | Author: JoungKyun Kim <http://www.oops.org>						  |
 // +----------------------------------------------------------------------+
 //
-// $Id: print.php,v 1.9 2007-02-20 09:18:35 oops Exp $
+// $Id: print.php,v 1.10 2007-02-20 09:29:59 oops Exp $
 
 class eSystem_print extends eSystem_output
 {
@@ -91,7 +91,7 @@ class eSystem_output
 		return $r;
 	}
 
-	function print_s ($msg, $width = 80, $indent = 0, $ul = '' ) {
+	function print_s ($msg, $width = 80, $indent = 0, $ul = '', $to_stderr = 0) {
 		if ( $width === 0 ) :
 			$width = 10000; /* means unlimits */
 		endif;
@@ -136,7 +136,11 @@ class eSystem_output
 				$_ul = strlen ($ul);
 				$ul = str_repeat (' ', $_ul);
 			endif;
-			printf ("%s%s%s\n", str_repeat (' ', $indent), $ul, $_msg[$i]);
+			if ( $to_stderr ) :
+				$this->printe ("%s%s%s", array (str_repeat (' ', $indent), $ul, $_msg[$i]));
+			else :
+				printf ("%s%s%s\n", str_repeat (' ', $indent), $ul, $_msg[$i]);
+			endif;
 		endfor;
 
 		return TRUE;
