@@ -16,7 +16,7 @@
 // | Author: JoungKyun.Kim <http://oops.org>                              |
 // +----------------------------------------------------------------------+
 //
-// $Id: system.php,v 1.4 2007-02-18 18:31:35 oops Exp $
+// $Id: system.php,v 1.5 2007-02-20 05:06:14 oops Exp $
 
 class eSystem_system
 {
@@ -41,6 +41,17 @@ class eSystem_system
 
 			if ( preg_match ("/RET_VAL:([0-9]+)$/", $_r, $_match) ) :
 				$this->retint = $_match[1];
+
+				if ( ! preg_match ("/^RET_VAL/", $_r) ) :
+					$_r = preg_replace ('/RET_VAL:.*/', '', $_r);
+					$this->stdout[] = $_r;
+
+					if ( $_out ) :
+						echo $_r . "\n";
+						flush ();
+					endif;
+				endif;
+
 				break;
 			else :
 				$this->stdout[] = $_r;
