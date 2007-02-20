@@ -16,7 +16,7 @@
 // | Author: JoungKyun Kim <http://www.oops.org>						  |
 // +----------------------------------------------------------------------+
 //
-// $Id: print.php,v 1.5 2007-02-18 18:31:35 oops Exp $
+// $Id: print.php,v 1.6 2007-02-20 08:26:09 oops Exp $
 
 class eSystem_print extends eSystem_output
 {
@@ -126,6 +126,30 @@ class eSystem_output
 		endfor;
 
 		return $v;
+	}
+
+	function _file_nr ($f, $in = 0, $res = '') {
+		$fp = is_resource ($res) ? $res : fopen ($f, 'rb');
+
+		if ( ! is_resource ($fp) ) :
+			return FALSE;
+		endif;
+
+		$i = 0;
+		while ( ! feof ($fp) ) :
+			$buf = preg_replace ("/\r?\n$/", '', fgets ($fp, 1024));
+			$_buf[$i++] = $buf;
+		endwhile;
+
+		if ( ! is_resource ($res) ) :
+			fclose ($fp);
+		endif;
+
+		if ( ! $_buf[--$i] ) :
+			unset ($_buf[$i]);
+		endif;
+
+		return $_buf;
 	}
 }
 
