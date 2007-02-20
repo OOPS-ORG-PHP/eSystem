@@ -16,7 +16,7 @@
 // | Author: JoungKyun Kim <http://www.oops.org>                          |
 // +----------------------------------------------------------------------+
 //
-// $Id: eSystem.php,v 1.12 2007-02-20 08:52:51 oops Exp $
+// $Id: eSystem.php,v 1.13 2007-02-20 09:21:56 oops Exp $
 
 require_once 'PEAR.php';
 
@@ -27,7 +27,7 @@ $_SERVER['CLI'] = $_SERVER['DOCUMENT_ROOT'] ? '' : 'yes';
  * and any utility mapping function
  *
  * @access public
- * @version $Revision: 1.12 $
+ * @version $Revision: 1.13 $
  * @package eSystem
  */
 class eSystem extends PEAR
@@ -38,6 +38,10 @@ class eSystem extends PEAR
 	var $getopt;
 	var $man;
 	var $tmpdir = '/tmp';
+
+	var $stdout;
+	var $stderr;
+	var $retint;
 
 	function autoload (&$obj, $f, $cname = '') {
 		if ( ! $cname ) :
@@ -57,16 +61,17 @@ class eSystem extends PEAR
 		$this->autoload (&$this->system, 'system');
 
 		$this->system->tmpdir = $this->tmpdir;
-		$this->system->stdout = array ();
-		$this->system->stderr = '';
-		$this->system->retint = 0;
+		$this->system->_stdout = array ();
+		$this->system->_stderr = '';
+		$this->system->_retint = 0;
 
 		$this->system->_system ($_cmd, 1);
 
-		$_returncode = $this->system->retint;
+		$_returncode = $this->system->_retint;
+		$this->stderr = $this->system->_stderr;
 
-		$_no = count ($this->system->stdout);
-		return $this->system->stdout[--$_no];
+		$_no = count ($this->system->_stdout);
+		return $this->system->_stdout[--$_no];
 	}
 
 	# mapping php exec function arguments.
@@ -75,17 +80,18 @@ class eSystem extends PEAR
 		$this->autoload (&$this->system, 'system');
 
 		$this->system->tmpdir = $this->tmpdir;
-		$this->system->stdout = array ();
-		$this->system->stderr = '';
-		$this->system->retint = 0;
+		$this->system->_stdout = array ();
+		$this->system->_stderr = '';
+		$this->system->_retint = 0;
 
 		$this->system->_system ($_cmd);
 
-		$_output = $this->system->stdout;
+		$_output = $this->system->_stdout;
 		$_returncode = $this->system->retint;
-		$_no = count ($this->system->stdout);
+		$this->stderr = $this->system->_stderr;
+		$_no = count ($this->system->_stdout);
 
-		return $this->system->stdout[--$_no];
+		return $this->system->_stdout[--$_no];
 	}
 
 	# mapping system command mkdir -p

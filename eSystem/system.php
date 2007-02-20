@@ -16,15 +16,15 @@
 // | Author: JoungKyun.Kim <http://oops.org>                              |
 // +----------------------------------------------------------------------+
 //
-// $Id: system.php,v 1.6 2007-02-20 05:17:40 oops Exp $
+// $Id: system.php,v 1.7 2007-02-20 09:21:56 oops Exp $
 
 class eSystem_system
 {
 	var $tmpdir = '/tmp';
 	var $tmpname = 'eSystem_system_';
-	var $stdout;
-	var $stderr;
-	var $retint = 0;
+	var $_stdout;
+	var $_stderr;
+	var $_retint = 0;
 
 	/*
 	 * define origin proto function
@@ -40,11 +40,11 @@ class eSystem_system
 			$_r = rtrim (fgets ($pd, 1024));
 
 			if ( preg_match ("/RET_VAL:([0-9]+)$/", $_r, $_match) ) :
-				$this->retint = $_match[1];
+				$this->_retint = $_match[1];
 
 				if ( ! preg_match ("/^RET_VAL/", $_r) ) :
 					$_r = preg_replace ('/RET_VAL:.*/', '', $_r);
-					$this->stdout[] = $_r;
+					$this->_stdout[] = $_r;
 
 					if ( $_out ) :
 						echo $_r . "\n";
@@ -54,7 +54,7 @@ class eSystem_system
 
 				break;
 			else :
-				$this->stdout[] = $_r;
+				$this->_stdout[] = $_r;
 
 				if ( $_out ) :
 					echo $_r . "\n";
@@ -65,7 +65,7 @@ class eSystem_system
 		pclose ($pd);
 
 		if ( filesize ($_err) > 0 ) :
-			$this->stderr = rtrim (file_get_contents ($errs));
+			$this->_stderr = rtrim (file_get_contents ($_err));
 		endif;
 		unlink ($_err);
 	}
