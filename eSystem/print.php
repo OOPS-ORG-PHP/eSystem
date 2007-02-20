@@ -16,7 +16,7 @@
 // | Author: JoungKyun Kim <http://www.oops.org>						  |
 // +----------------------------------------------------------------------+
 //
-// $Id: print.php,v 1.8 2007-02-20 08:52:51 oops Exp $
+// $Id: print.php,v 1.9 2007-02-20 09:18:35 oops Exp $
 
 class eSystem_print extends eSystem_output
 {
@@ -152,6 +152,11 @@ class eSystem_output
 			$current = rtrim ($_msg[$i]);
 			$l = strlen ($current);
 			$chk = $width - $l;
+
+			if ( $i == 0 ) :
+				$v = $current . "\n";
+				continue;
+			endif;
 
 			if ( $chk <= ($width * 0.2) || $chk == $width ) :
 				$v .= $current . "\n";
