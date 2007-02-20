@@ -16,7 +16,7 @@
 // | Author: JoungKyun Kim <http://www.oops.org>						  |
 // +----------------------------------------------------------------------+
 //
-// $Id: print.php,v 1.6 2007-02-20 08:26:09 oops Exp $
+// $Id: print.php,v 1.7 2007-02-20 08:45:18 oops Exp $
 
 class eSystem_print extends eSystem_output
 {
@@ -70,7 +70,7 @@ class eSystem_output
 		endfor;
 	}
 
-	function printe ($format, $msg = "") {
+	function printe ($format, $msg = '', $type = 0, $des = '', $extra_headers = '') {
 		/*
 		if ( function_exists ('fprintf') ) :
 			fprintf ('stderr', $format, $msg);
@@ -81,8 +81,14 @@ class eSystem_output
 				$format = $functionName ($format, $msg);
 			endif;
 
-			error_log ($format);
+			$r = error_log ($format, $type, $des, $extra_headers);
 		//endif;
+		return $r;
+	}
+
+	function printe_f ($format, $f, $msg = '') {
+		$r = $this->printe ($format, $msg, 3, $f);
+		return $r;
 	}
 
 	function _wordwrap ($msg, $width = 75, $break = "\n", $cut = 0) {
