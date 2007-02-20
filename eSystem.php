@@ -16,7 +16,7 @@
 // | Author: JoungKyun Kim <http://www.oops.org>                          |
 // +----------------------------------------------------------------------+
 //
-// $Id: eSystem.php,v 1.8 2007-02-18 18:31:35 oops Exp $
+// $Id: eSystem.php,v 1.9 2007-02-20 05:17:40 oops Exp $
 
 require_once 'PEAR.php';
 
@@ -27,7 +27,7 @@ $_SERVER['CLI'] = $_SERVER['DOCUMENT_ROOT'] ? '' : 'yes';
  * and any utility mapping function
  *
  * @access public
- * @version $Revision: 1.8 $
+ * @version $Revision: 1.9 $
  * @package eSystem
  */
 class eSystem extends PEAR
@@ -57,6 +57,10 @@ class eSystem extends PEAR
 		$this->autoload (&$this->system, 'system');
 
 		$this->system->tmpdir = $this->tmpdir;
+		$this->system->stdout = array ();
+		$this->system->stderr = '';
+		$this->system->retint = 0;
+
 		$this->system->_system ($_cmd, 1);
 
 		$_returncode = $this->system->retint;
@@ -71,6 +75,10 @@ class eSystem extends PEAR
 		$this->autoload (&$this->system, 'system');
 
 		$this->system->tmpdir = $this->tmpdir;
+		$this->system->stdout = array ();
+		$this->system->stderr = '';
+		$this->system->retint = 0;
+
 		$this->system->_system ($_cmd);
 
 		$_output = $this->system->stdout;

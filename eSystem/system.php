@@ -16,7 +16,7 @@
 // | Author: JoungKyun.Kim <http://oops.org>                              |
 // +----------------------------------------------------------------------+
 //
-// $Id: system.php,v 1.5 2007-02-20 05:06:14 oops Exp $
+// $Id: system.php,v 1.6 2007-02-20 05:17:40 oops Exp $
 
 class eSystem_system
 {
@@ -24,7 +24,7 @@ class eSystem_system
 	var $tmpname = 'eSystem_system_';
 	var $stdout;
 	var $stderr;
-	var $retint = -1;
+	var $retint = 0;
 
 	/*
 	 * define origin proto function
