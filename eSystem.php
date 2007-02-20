@@ -16,7 +16,7 @@
 // | Author: JoungKyun Kim <http://www.oops.org>                          |
 // +----------------------------------------------------------------------+
 //
-// $Id: eSystem.php,v 1.11 2007-02-20 08:45:18 oops Exp $
+// $Id: eSystem.php,v 1.12 2007-02-20 08:52:51 oops Exp $
 
 require_once 'PEAR.php';
 
@@ -27,7 +27,7 @@ $_SERVER['CLI'] = $_SERVER['DOCUMENT_ROOT'] ? '' : 'yes';
  * and any utility mapping function
  *
  * @access public
- * @version $Revision: 1.11 $
+ * @version $Revision: 1.12 $
  * @package eSystem
  */
 class eSystem extends PEAR
@@ -192,12 +192,20 @@ class eSystem extends PEAR
 	# print string to stderr
 	function printe ($format, $msg = '', $type = 0, $des = '', $extra_headers = '') {
 		$this->autoload (&$this->prints, 'print');
-		$this->prints->printe ($format, $msg, $type, $des, $extra_headers);
+		$r = $this->prints->printe ($format, $msg, $type, $des, $extra_headers);
+		return $r;
 	}
 
 	function printe_f ($format, $f, $msg = '') {
 		$this->autoload (&$this->prints, 'print');
-		$this->prints->printe_f ($format, $f, $msg);
+		$r = $this->prints->printe_f ($format, $f, $msg);
+		return $r;
+	}
+
+	function print_s ($msg, $width = 75, $indent = 0, $ul = '') {
+		$this->autoload (&$this->prints, 'print');
+		$r = $this->prints->print_s ($msg, $width, $indent, $ul);
+		return $r;
 	}
 
 	function wordwrap ($msg, $width = 75, $break = "\n", $cut = 0) {

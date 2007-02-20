@@ -16,7 +16,7 @@
 // | Author: JoungKyun Kim <http://www.oops.org>						  |
 // +----------------------------------------------------------------------+
 //
-// $Id: print.php,v 1.7 2007-02-20 08:45:18 oops Exp $
+// $Id: print.php,v 1.8 2007-02-20 08:52:51 oops Exp $
 
 class eSystem_print extends eSystem_output
 {
@@ -89,6 +89,57 @@ class eSystem_output
 	function printe_f ($format, $f, $msg = '') {
 		$r = $this->printe ($format, $msg, 3, $f);
 		return $r;
+	}
+
+	function print_s ($msg, $width = 80, $indent = 0, $ul = '' ) {
+		if ( $width === 0 ) :
+			$width = 10000; /* means unlimits */
+		endif;
+
+		if ( $indent > 0 ) :
+			$width -= $indent;
+			if ( $width <= 0 ) :
+				$this->printe ('Plez make string length more than current length');
+				return FALSE;
+			endif;
+		endif;
+
+		$l = strlen ($ul);
+		if ( $l > 0 ) :
+			$width -= $l + 1;
+			$ul .= ' ';
+		endif;
+
+		if ( is_array ($msg) ) :
+			if ( !count ($msg) ) :
+				return;
+			endif;
+
+			foreach ($msg as $v) :
+				$_msg .= rtrim ($v);
+			endforeach;
+		else :
+			if ( ! trim ($msg) ) :
+				return;
+			endif;
+			$_msg = preg_replace ('/[\r]/', '', $msg);
+		endif;
+
+		unset ($msg);
+		$msg = rtrim ($this->_wordwrap ($_msg, $width));
+		unset ($_msg);
+		$_msg = split ("[\n]", $msg);
+		$_line = count ($_msg);
+
+		for ( $i=0; $i<$_line; $i++ ) :
+			if ( $i == 1 ) :
+				$_ul = strlen ($ul);
+				$ul = str_repeat (' ', $_ul);
+			endif;
+			printf ("%s%s%s\n", str_repeat (' ', $indent), $ul, $_msg[$i]);
+		endfor;
+
+		return TRUE;
 	}
 
 	function _wordwrap ($msg, $width = 75, $break = "\n", $cut = 0) {
