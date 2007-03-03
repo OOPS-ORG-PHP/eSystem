@@ -16,7 +16,7 @@
 // | Author: JoungKyun.Kim <http://oops.org>                              |
 // +----------------------------------------------------------------------+
 //
-// $Id: system.php,v 1.7 2007-02-20 09:21:56 oops Exp $
+// $Id: system.php,v 1.8 2007-03-03 16:25:23 oops Exp $
 
 class eSystem_system
 {
@@ -51,7 +51,6 @@ class eSystem_system
 						flush ();
 					endif;
 				endif;
-
 				break;
 			else :
 				$this->_stdout[] = $_r;

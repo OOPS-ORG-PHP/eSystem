@@ -16,7 +16,7 @@
 // | Author: JoungKyun Kim <http://www.oops.org>						  |
 // +----------------------------------------------------------------------+
 //
-// $Id: print.php,v 1.10 2007-02-20 09:29:59 oops Exp $
+// $Id: print.php,v 1.11 2007-03-03 16:25:23 oops Exp $
 
 class eSystem_print extends eSystem_output
 {
@@ -86,7 +86,7 @@ class eSystem_output
 		return $r;
 	}
 
-	function printe_f ($format, $f, $msg = '') {
+	function printe_f ($f, $format, $msg = '') {
 		$r = $this->printe ($format, $msg, 3, $f);
 		return $r;
 	}
@@ -127,6 +127,13 @@ class eSystem_output
 
 		unset ($msg);
 		$msg = rtrim ($this->_wordwrap ($_msg, $width));
+		if ( preg_match ('/-newline$/', $msg) ) :
+			$msg = preg_replace ('/-newline$/', '', $msg);
+			$new_line = 0;
+		else :
+			$new_line = 1;
+		endif;
+
 		unset ($_msg);
 		$_msg = split ("[\n]", $msg);
 		$_line = count ($_msg);
@@ -139,7 +146,11 @@ class eSystem_output
 			if ( $to_stderr ) :
 				$this->printe ("%s%s%s", array (str_repeat (' ', $indent), $ul, $_msg[$i]));
 			else :
-				printf ("%s%s%s\n", str_repeat (' ', $indent), $ul, $_msg[$i]);
+				printf ("%s%s%s%s",
+						str_repeat (' ', $indent),
+						$ul,
+						str_replace ('&nbsp;', ' ', $_msg[$i]),
+						$new_line ? "\n" : '');
 			endif;
 		endfor;
 
@@ -148,10 +159,10 @@ class eSystem_output
 
 	function _wordwrap ($msg, $width = 75, $break = "\n", $cut = 0) {
 		$msg = wordwrap ($msg, $width, $break, $cut);
-		
+
 		$_msg = split ("[{$break}]", $msg);
 		$_msgl = count ($_msg);
-		
+
 		for ( $i=0; $i<$_msgl; $i++ ) :
 			$current = rtrim ($_msg[$i]);
 			$l = strlen ($current);

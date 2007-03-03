@@ -16,7 +16,7 @@
 // | Author: JoungKyun Kim <http://www.oops.org>                          |
 // +----------------------------------------------------------------------+
 //
-// $Id: filesystem.php,v 1.7 2007-02-18 18:31:35 oops Exp $
+// $Id: filesystem.php,v 1.8 2007-03-03 16:25:23 oops Exp $
 
 require_once "eSystem/print.php";
 
@@ -208,8 +208,7 @@ class eSystem_filesystem extends eSystem_print
 					break;
 				default :
 					if ( $regex ) :
-						$_v = basename ($v);
-						if ( preg_match ($regex, $_v) ) :
+						if ( preg_match ($regex, $v) ) :
 							$file[] = $v;
 						endif;
 					else :

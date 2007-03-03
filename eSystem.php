@@ -16,7 +16,7 @@
 // | Author: JoungKyun Kim <http://www.oops.org>                          |
 // +----------------------------------------------------------------------+
 //
-// $Id: eSystem.php,v 1.14 2007-02-20 09:29:59 oops Exp $
+// $Id: eSystem.php,v 1.15 2007-03-03 16:25:23 oops Exp $
 
 require_once 'PEAR.php';
 
@@ -27,7 +27,7 @@ $_SERVER['CLI'] = $_SERVER['DOCUMENT_ROOT'] ? '' : 'yes';
  * and any utility mapping function
  *
  * @access public
- * @version $Revision: 1.14 $
+ * @version $Revision: 1.15 $
  * @package eSystem
  */
 class eSystem extends PEAR
@@ -39,8 +39,8 @@ class eSystem extends PEAR
 	var $man;
 	var $tmpdir = '/tmp';
 
-	var $stdout;
 	var $stderr;
+	var $stdout;
 	var $retint;
 
 	function autoload (&$obj, $f, $cname = '') {
@@ -87,11 +87,30 @@ class eSystem extends PEAR
 		$this->system->_system ($_cmd);
 
 		$_output = $this->system->_stdout;
-		$_returncode = $this->system->retint;
+		$_returncode = $this->system->_retint;
 		$this->stderr = $this->system->_stderr;
 		$_no = count ($this->system->_stdout);
 
 		return $this->system->_stdout[--$_no];
+	}
+
+	# same $this->exec, but $_output is not array
+	#
+	function execl ($_cmd, $_output = NULL, $_returncode = NULL) {
+		$this->autoload (&$this->system, 'system');
+
+		$r = $this->exec ($_cmd, &$_outputs, &$_returncode);
+
+		if ( is_array ($_outputs) && ($c = count ($_outputs)) ) :
+			$_output = '';
+			for ( $i=0; $i<$c; $i++ ) :
+				$_output .= $_outputs[$i] . "\n";
+			endfor;
+		endif;
+
+		$_output = preg_replace ("/\n$/", '', $_output);
+
+		return $r;
 	}
 
 	# mapping system command mkdir -p
@@ -188,23 +207,31 @@ class eSystem extends PEAR
 		return $this->putColor ($str, 'white');
 	}
 
+	function makeWhiteSpace ($no) {
+		$this->autoload (&$this->prints, 'print');
+
+		$r = $this->prints->makeWhiteSpace ($no);
+		return $r;
+	}
+
 	function backSpace ($no) {
 		$this->__nocli();
 
 		$this->autoload (&$this->prints, 'print');
-		$this->prints->backSpace ($no);
-	}
-
-	# print string to stderr
-	function printe ($format, $msg = '', $type = 0, $des = '', $extra_headers = '') {
-		$this->autoload (&$this->prints, 'print');
-		$r = $this->prints->printe ($format, $msg, $type, $des, $extra_headers);
+		$r = $this->prints->backSpace ($no);
 		return $r;
 	}
 
-	function printe_f ($format, $f, $msg = '') {
+	# print string to stderr
+	function printe ($format, $msg = '') {
 		$this->autoload (&$this->prints, 'print');
-		$r = $this->prints->printe_f ($format, $f, $msg);
+		$r = $this->prints->printe ($format, $msg);
+		return $r;
+	}
+
+	function print_f ($file, $format, $msg = '') {
+		$this->autoload (&$this->prints, 'print');
+		$r = $this->prints->printe_f ($file, $format, $msg);
 		return $r;
 	}
 
