@@ -16,7 +16,7 @@
 // | Author: JoungKyun Kim <http://www.oops.org>                          |
 // +----------------------------------------------------------------------+
 //
-// $Id: eSystem.php,v 1.15 2007-03-03 16:25:23 oops Exp $
+// $Id: eSystem.php,v 1.16 2007-03-05 13:02:27 oops Exp $
 
 require_once 'PEAR.php';
 
@@ -27,7 +27,7 @@ $_SERVER['CLI'] = $_SERVER['DOCUMENT_ROOT'] ? '' : 'yes';
  * and any utility mapping function
  *
  * @access public
- * @version $Revision: 1.15 $
+ * @version $Revision: 1.16 $
  * @package eSystem
  */
 class eSystem extends PEAR
@@ -194,7 +194,7 @@ class eSystem extends PEAR
 	#  => gray, red, green, yellow, blue, megenta, cyan, white
 	# color white is same boldStr function.
 	function putColor ($str, $color = '') {
-		$this->__nocli ();
+		$this->__nocli ('putColor');
 
 		$this->autoload (&$this->prints, 'print');
 		return $this->prints->putColor ($str, $color);
@@ -202,7 +202,7 @@ class eSystem extends PEAR
 
 	# print given string with white ansi color
 	function boldStr ($str) {
-		$this->__nocli();
+		$this->__nocli('boldStr');
 
 		return $this->putColor ($str, 'white');
 	}
@@ -215,7 +215,7 @@ class eSystem extends PEAR
 	}
 
 	function backSpace ($no) {
-		$this->__nocli();
+		$this->__nocli('backSpace');
 
 		$this->autoload (&$this->prints, 'print');
 		$r = $this->prints->backSpace ($no);
@@ -259,7 +259,7 @@ class eSystem extends PEAR
 		global $optarg, $optcmd, $longopt;
 		global $gno, $optcno;
 
-		$this->__nocli();
+		$this->__nocli('getopt');
 
 		$this->autoload (&$this->getopt, 'getopt');
 		return $this->getopt->getopt ($no, $arry, $optstrs);
@@ -284,14 +284,16 @@ class eSystem extends PEAR
 	}
 
 	# don't use :-)
-	function __nocli () {
-		if ( ! $_SERVER['CLI'] ) {
+	function __nocli ($n = '') {
+		$method = $n ? $n : 'this';
+		#if ( ! $_SERVER['CLI'] ) :
+		if ( php_sapi_name () != 'cli' ) :
 			echo "<script type=\"text/javascript\">\n" .
-				"  alert('_getopt method only used on CLI mode');\n" .
+				"  alert('{$method} method only used on CLI mode');\n" .
 				"  history.back();\n" .
 				"</script>\n";
 			exit;
-		}
+		endif;
 	}
 }
 

@@ -16,7 +16,7 @@
 // | Author: JoungKyun Kim <http://www.oops.org>                          |
 // +----------------------------------------------------------------------+
 //
-// $Id: filesystem.php,v 1.8 2007-03-03 16:25:23 oops Exp $
+// $Id: filesystem.php,v 1.9 2007-03-05 13:02:27 oops Exp $
 
 require_once "eSystem/print.php";
 
@@ -113,7 +113,8 @@ class eSystem_filesystem extends eSystem_print
 		$dir = preg_replace ('!/$!', '', $dir);
 
 		if ( ! $recursive ) :
-			if ( $_SERVER['CLI'] ) :
+			#if ( $_SERVER['CLI'] ) :
+			if ( php_sapi_name () == 'cli' ) :
 				echo $this->putColor ("{$dir}/", 'blue') . "\n";
 			else :
 				echo "$dir/\n";
@@ -133,7 +134,8 @@ class eSystem_filesystem extends eSystem_print
 
 			$_prefix = $last ? '`-- ' : '|-- ';
 
-			if ( $_SERVER['CLI'] && is_dir ($fullpath) ) :
+			#if ( $_SERVER['CLI'] && is_dir ($fullpath) ) :
+			if ( php_sapi_name () == 'cli' && is_dir ($full_path) ) :
 				$fname = $this->putColor ("{$list[$i]}/", 'blue');
 			else :
 				$fname = $list[$i];
