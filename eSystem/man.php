@@ -16,7 +16,7 @@
 // | Author: JoungKyun Kim <http://www.oops.org>                          |
 // +----------------------------------------------------------------------+
 //
-// $Id: man.php,v 1.5 2007-02-18 18:31:35 oops Exp $
+// $Id: man.php,v 1.6 2007-04-25 06:02:51 oops Exp $
 
 require_once 'eSystem/system.php';
 require_once 'eSystem/filesystem.php';
@@ -79,7 +79,7 @@ class eSystem_man extends eSystem_system
 		else :
 			$_fa = array();
 			$_name = preg_quote ($_name);
-			$_fa = $this->ofs->find ($_path, "!^{$_name}\.[0-9](\.gz)*$!");
+			$_fa = $this->ofs->find ($_path, "!/{$_name}\.[0-9](\.gz)*$!");
 			$_fac = count ($_fa);
 
 			if ( $_fac ) :
