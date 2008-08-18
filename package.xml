@@ -13,17 +13,17 @@
     </maintainer>
   </maintainers>
   <release>
-    <version>0.7</version>
-    <date>2007-03-05</date>
+    <version>0.8</version>
+    <date>2008-08-18</date>
     <license>PHP/BSD</license>
     <state>stable</state>
-    <notes>- use php_sapi_name function instead of $_SERVER['CLI']
+    <notes>- fixed man path bug
 </notes>
     <filelist>
       <file role="php" md5sum="b4c2cbdb2f6436081449678e95220c33" name="eSystem.php"/>
       <file role="php" md5sum="715f7ac3ad8056f9a8447b371aa2cfc2" name="eSystem/filesystem.php"/>
       <file role="php" md5sum="5a7d5389d787c25cf138448f1547bb67" name="eSystem/getopt.php"/>
-      <file role="php" md5sum="3de7c8d0beb08c09701aaba66b50bc4b" name="eSystem/man.php"/>
+      <file role="php" md5sum="32b29b14c66c90077c5c1346adb884f5" name="eSystem/man.php"/>
       <file role="php" md5sum="0a449d59182389e954b98137c33efab5" name="eSystem/print.php"/>
       <file role="php" md5sum="6ceb98df29abceae33af7d3ddbbbde61" name="eSystem/system.php"/>
     </filelist>
@@ -95,6 +95,14 @@
     <license>PHP/BSD</license>
     <state>stable</state>
     <notes>- use php_sapi_name function instead of $_SERVER['CLI']
+</notes>
+    </release>
+    <release>
+    <version>0.8</version>
+    <date>2007-04-25</date>
+    <license>PHP/BSD</license>
+    <state>stable</state>
+    <notes>- fixed man path bug
 </notes>
     </release>
     <release>
