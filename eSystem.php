@@ -16,7 +16,7 @@
 // | Author: JoungKyun Kim <http://www.oops.org>                          |
 // +----------------------------------------------------------------------+
 //
-// $Id: eSystem.php,v 1.18 2009-08-06 19:23:10 oops Exp $
+// $Id: eSystem.php,v 1.19 2009-08-06 20:01:33 oops Exp $
 
 require_once 'PEAR.php';
 require_once 'eFilesystem.php';
@@ -28,7 +28,7 @@ $_SERVER['CLI'] = $_SERVER['DOCUMENT_ROOT'] ? '' : 'yes';
  * and any utility mapping function
  *
  * @access public
- * @version $Revision: 1.18 $
+ * @version $Revision: 1.19 $
  * @package eSystem
  */
 class eSystem extends PEAR
@@ -230,53 +230,102 @@ class eSystem extends PEAR
 	// }}}
 
 	// {{{ function makeWhiteSpace ($no)
+	/**
+	 * Print white space about given number
+	 * @access  public
+	 * @return  strings
+	 * @param   integer number of space charactor
+	 */
 	function makeWhiteSpace ($no) {
-		$this->autoload (&$this->prints, 'print');
-
-		$r = $this->prints->makeWhiteSpace ($no);
-		return $r;
+		return ePrint::whiteSpace ($no, true);
 	}
 	// }}}
 
 	// {{{ function backSpace ($no)
+	/**
+	 * print backspace
+	 * @access  public
+	 * @return  void
+	 * @param   integer number of space charactor
+	 */
 	function backSpace ($no) {
-		$this->__nocli('backSpace');
-
-		$this->autoload (&$this->prints, 'print');
-		$r = $this->prints->backSpace ($no);
-		return $r;
+		ePrint::backSpace ($no);
 	}
 	// }}}
 
 	// {{{ function printe ($format, $msg = '')
-	# print string to stderr
+	/**
+	 * Output a formatted string to stderr
+	 * This API is Deprecated. Use ePrint::ePrintf method instead of this method
+	 *
+	 * @access  public
+	 * @return  int     length of output messages.
+	 * @param   string  same format of printf
+	 * @param   mixed   (optional) format value.<br>
+	 *                  If only one format argument, $msg is strings or array.<br>
+	 *                  For multiple format arguments, $msg is array.
+	 * @param   integer (optional) this is 3th argument of error_log
+	 * @param   string  (optional) this is 4th argument of error_log
+	 * @param   string  (optional) this is 5th argument of error_log
+	 */
 	function printe ($format, $msg = '') {
-		$this->autoload (&$this->prints, 'print');
-		$r = $this->prints->printe ($format, $msg);
-		return $r;
+		return ePrint::ePrintf ($format, $msg);
 	}
 	// }}}
 
 	// {{{ function print_f ($file, $format, $msg = '')
+	/**
+	 * Save a formatted string to file
+	 *
+	 * A newline is not automatically added to the end of the message string. 
+	 * This API is Deprecated. Use ePrint::ePrintf or ePrint::lPrintf method instead of this method
+	 * @access  public
+	 * @return  int     length of print string
+	 * @param   string  $path   target file
+	 * @param   string  $format same format of printf
+	 * @param   mixed   (optional) format value.<br>
+	 *                  If only one format argument, $msg is strings or array.<br>
+	 *                  For multiple format arguments, $msg is array.
+	 */
 	function print_f ($file, $format, $msg = '') {
-		$this->autoload (&$this->prints, 'print');
-		$r = $this->prints->printe_f ($file, $format, $msg);
-		return $r;
+		return ePrint::ePrintf ($format, $msg, 3, $file);
 	}
 	// }}}
 
 	// {{{ function print_s ($msg, $width = 75, $indent = 0, $ul = '', $to_stderr = 0)
+	/**
+	 * print with indent.
+	 * This API is Deprecated. Use ePrint::printi method instead of this method
+	 * @access  public
+	 * @return  int|false   Length of print string. If on error, return false
+	 * @param   string|array    output string
+	 * @param   integer (optional) location of line brek. default 80
+	 * @param   integer (optional) indent of each line
+	 * @param   string  (optional) list itme
+	 * @param   boolean (optional) set true, print stderr
+	 */
 	function print_s ($msg, $width = 75, $indent = 0, $ul = '', $to_stderr = 0) {
-		$this->autoload (&$this->prints, 'print');
-		$r = $this->prints->print_s ($msg, $width, $indent, $ul, $to_stderr);
-		return $r;
+		return ePrint::printi ($msg, $width, $indent, $ul, ($to_stderr === 0) ? false : true);
 	}
 	// }}}
 
 	// {{{ function wordwrap ($msg, $width = 75, $break = "\n", $cut = 0)
+	/**
+	 * Wraps a string to a given number of characters. Difference with wordwarp of
+	 * PHP, wrapped line joins next line and rewraps.
+	 * @access  public
+	 * @return  strings
+	 * @param   string  input string
+	 * @param   integer (optional) The column widht. Defaults to 75
+	 * @param   string  (optional) The line is broken using the optional break parameter.
+	 *                  Defaults to '\n'.
+	 * @param   integer (optional) If the cut is set to TRUE, the string is always wrapped
+	 *                  at or before the specified width. So if you have a word
+	 *                  that is larger than the given width, it is broken apart.
+	 *                  Seealso wordwrap of php
+	 */
 	function wordwrap ($msg, $width = 75, $break = "\n", $cut = 0) {
-		$this->autoload (&$this->prints, 'print');
-		return $this->prints->_wordwrap ($msg, $width, $break, $cut);
+		return ePrint::wordwrap ($msg, $width, $break, $cut);
 	}
 	// }}}
 
