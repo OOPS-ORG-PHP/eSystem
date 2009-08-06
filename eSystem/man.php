@@ -16,24 +16,14 @@
 // | Author: JoungKyun Kim <http://www.oops.org>                          |
 // +----------------------------------------------------------------------+
 //
-// $Id: man.php,v 1.7 2009-08-06 18:50:46 oops Exp $
+// $Id: man.php,v 1.8 2009-08-06 19:37:51 oops Exp $
 
 require_once 'eSystem/system.php';
-require_once 'eSystem/filesystem.php';
 
 class eSystem_man extends eSystem_system
 {
 	// {{{ properties
 	var $tmpdir = "/tmp";
-	var $ofs;
-	// }}}
-
-	// {{{ function eSystem_man ()
-	function eSystem_man () {
-		if ( ! is_object ($ofs) ) :
-			$this->ofs = new eSystem_filesystem;
-		endif;
-	}
 	// }}}
 
 	// {{{ function so_man ($_file, $_base, $_int = '') {
@@ -86,7 +76,7 @@ class eSystem_man extends eSystem_system
 		else :
 			$_fa = array();
 			$_name = preg_quote ($_name);
-			$_fa = $this->ofs->find ($_path, "!/{$_name}\.[0-9](\.gz)*$!");
+			$_fa = eFilesystem::find ($_path, "!/{$_name}\.[0-9](\.gz)*$!");
 			$_fac = count ($_fa);
 
 			if ( $_fac ) :
@@ -126,7 +116,7 @@ class eSystem_man extends eSystem_system
 				$_gztmp .= $_v;
 
 			$tmpfile = tempnam ($this->tmpdir, "man-");
-			if ( @$this->ofs->filewrite ($tmpfile, $_gztmp) == -1 ) :
+			if ( @file_put_contents ($tmpfile, $_gztmp) === false ) :
 				unlink ($tmpfile);
 				echo "Error: Can't write $tmpfile\n";
 				exit (1);
