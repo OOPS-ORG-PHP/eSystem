@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <package packagerversion="1.7.2" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0 http://pear.php.net/dtd/tasks-1.0.xsd http://pear.php.net/dtd/package-2.0 http://pear.php.net/dtd/package-2.0.xsd">
-	<!-- $Id: package.xml.tmpl,v 1.19 2009-07-07 12:46:53 oops Exp $ -->
+	<!-- $Id: package.xml.tmpl,v 1.20 2009-08-06 19:23:10 oops Exp $ -->
 	<name>eSystem</name>
 	<channel>pear.oops.org</channel>
 	<summary>Extended system command for PHP</summary>
@@ -15,7 +15,7 @@
 	<date>@curdate@</date>
 	<time>@curtime@</time>
 	<version>
-		<release>0.8</release>
+		<release>1.0.0</release>
 		<api>0.1</api>
 	</version>
 	<stability>
@@ -23,7 +23,7 @@
 		<api>stable</api>
 	</stability>
 	<license>PHP/BSD</license>
-	<notes>- fixed man path bug
+	<notes>- use oops/pear_eFilesystem pear package
 	</notes>
 	<contents>
 		<dir name="/">
@@ -45,6 +45,11 @@
 			<pearinstaller>
 				<min>1.4.0b1</min>
 			</pearinstaller>
+			<package>
+				<name>eFilesystem</name>
+				<channel>pear.oops.org</channel>
+				<min>1.0.0</min>
+			</package>
 		</required>
 	</dependencies>
 	<phprelease />
@@ -181,6 +186,20 @@
 			<license uri="http://www.example.com">PHP/BSD</license>
 			<notes>- fixed man path bug
 
+			</notes>
+		</release>
+		<release>
+			<version>
+				<release>1.0.0</release>
+				<api>0.1</api>
+			</version>
+			<stability>
+				<release>stable</release>
+				<api>stable</api>
+			</stability>
+			<date>2009-08-07</date>
+			<license uri="http://www.example.com">PHP/BSD</license>
+			<notes>- use oops/pear_eFilesystem pear package
 			</notes>
 		</release>
 	</changelog>

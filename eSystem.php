@@ -16,9 +16,10 @@
 // | Author: JoungKyun Kim <http://www.oops.org>                          |
 // +----------------------------------------------------------------------+
 //
-// $Id: eSystem.php,v 1.17 2009-08-06 18:50:46 oops Exp $
+// $Id: eSystem.php,v 1.18 2009-08-06 19:23:10 oops Exp $
 
 require_once 'PEAR.php';
+require_once 'eFilesystem.php';
 
 $_SERVER['CLI'] = $_SERVER['DOCUMENT_ROOT'] ? '' : 'yes';
 
@@ -27,7 +28,7 @@ $_SERVER['CLI'] = $_SERVER['DOCUMENT_ROOT'] ? '' : 'yes';
  * and any utility mapping function
  *
  * @access public
- * @version $Revision: 1.17 $
+ * @version $Revision: 1.18 $
  * @package eSystem
  */
 class eSystem extends PEAR
@@ -124,88 +125,85 @@ class eSystem extends PEAR
 	// }}}
 
 	// {{{ function mkdir_p ($path, $mode = 0755)
-	# mapping system command mkdir -p
-	#
-	# return 1 => path is none
-	#        2 => path is not directory
-	#        3 => create failed
-	#        0 => success
+	/**
+	 * Attempts to create the directory specified by pathname.
+	 * If does not parent directory, this API create success.
+	 * This means that same operate with mkdir (path, mode, true) of php
+	 * @access  public
+	 * @return  boolean|int return 1, already exists given path.<br>
+	 *                      return 2, given path is existed file.<br>
+	 *                      return false, create error by other error.<br>
+	 *                      return true, create success.
+	 * @param   string  given path
+	 * @param   int     (optional) The mode is 0777 by default, which means the widest
+	 *                  possible access. For more information on modes, read
+	 *                  the details on the chmod() page.
+	 */ 
 	function mkdir_p ($path, $mode = 0755) {
-		$this->autoload (&$this->fs, 'filesystem');
-		return $this->fs->mkdir_p ($path, $mode);
+		return eFilesystem::mkdir_p ($path, $mode);
 	}
 	// }}}
 
 	// {{{ function unlink ($path)
-	# safely unlink function
-	#
-	# return 0 => success
-	#        1 => removed failed
-	#        2 => file not found
-	#        3 => file is directory
+	/**
+	 * Deletes a file. If given file is directory, no error and return false.
+	 * @access  public
+	 * @return  bolean|int  return true, success<br>
+	 *              return false, remove false<br>
+	 *              return 2, file not found<br>
+	 *              return 3, file is directory
+	 * @param   string  given file path
+	 */
 	function unlink ($path) {
-		$this->autoload (&$this->fs, 'filesystem');
-		return $this->fs->safe_unlink ($path);
+		return eFilesystem::safe_unlink ($path);
 	}
 	// }}}
 
 	// {{{ function unlink_r ($path)
-	# mapping system command rm -rf
+	/**
+	 * Deletes a file or directory that include some files
+	 * @access  public
+	 * @return  boolean
+	 * @param   string  Given path.
+	 *                  You can use Asterisk(*) or brace expand({a,b}) on path.
+	 */
 	function unlink_r ($path) {
-		$this->autoload (&$this->fs, 'filesystem');
-
-		if ( ! file_exists ($path) ) :
-			return 1;
-		endif;
-
-		$list = glob ($path);
-		if ( $list === FALSE ) :
-			return 1;
-		endif;
-
-		$n = count ($list);
-		foreach ( $list as $_v ) :
-			if ( $this->fs->unlink_r ($_v) ) :
-				if ( $n > 0 ) :
-					$this->fs->printe ("unlink_r error: %s remove failed", $_v);
-				endif;
-				return 1;
-			endif;
-		endforeach;
-
-		return 0;
+		return eFilesystem::unlink_r ($path);
 	}
 	// }}}
 
 	// {{{ function tree ($dir = '.')
-	# print directory tree
-	# mapping system command tree
-	# return Array direcotory number and file number
-	#
+	/**
+	 * get directory tree for given path
+	 * @access  public
+	 * @return  object  obj->file is number of files.<br>
+	 *                  obj->dir is number of directories.
+	 * @param   string  (optional) Given path. Defaults to current directory (./).
+	 */
 	function tree ($dir = '.') {
-		$this->autoload (&$this->fs, 'filesystem');
-			
-		return $this->fs->tree ($dir);
+		return eFilesystem::tree ($dir);
 	}
 	// }}}
 
 	// {{{ function find ($path = './', $type = '', $norecursive = 0)
-	# mapping system command find
-	# path  -> directory path
-	# type  -> 
-	#          f  : list only files
-	#          d  : list only directories
-	#          l  : list only link
-	#          fd : list only files and directories
-	#          fl : list only files and link
-	#          dl : list only directories and link
-	#          not set list files and links and directories
-	#          if '/regex/' use, you cat use pecl regular expression
-	# norecursive -> don't recursively
-	#
+	/**
+	 * get file list that under given path
+	 * @access  public
+	 * @return  array|false return array of file list. If given path is null or don't exist, return false.
+	 * @param   string  (optional) Given path. Defaults to current directory (./)
+	 * @param   string  (optional) list type. Defaults to all.<br>
+	 *                  f (get only files),<br>
+	 *                  d (get only directories),<br>
+	 *                  l (get only links),<br>
+	 *                  fd (get only files and directories),<br>
+	 *                  fl (get only files and links),<br>
+	 *                  dl (get only directories and links)<br>
+	 *                  /regex/ (use regular expression)
+	 * @param   boolean (optional) Defaults to false.
+	 *                  set true, don't recursive search.
+	 */
 	function find ($path = './', $type = '', $norecursive = 0) {
-		$this->autoload (&$this->fs, 'filesystem');
-		return $this->fs->find ($path, $type, $norecursive);
+		return eFilesystem::find ($path, $type, $norecursive);
 	}
 	// }}}
 
@@ -282,10 +280,21 @@ class eSystem extends PEAR
 	}
 	// }}}
 
-	// {{{ function file_nr ($f, $use_include_path = 0, $resource = '')
-	function file_nr ($f, $use_include_path = 0, $resource = '') {
-		$this->autoload (&$this->prints, 'print');
-		return $this->prints->_file_nr ($f, $use_include_path, $resource);
+	// {{{ function file_nr ($f, $use_include_path = false, $resource = null)
+	/**
+	 * Reads entire file into an array
+	 * file_nr api runs same file function of php. But file_nr has
+	 * no \r\n or \n character on array members.
+	 * @access  public
+	 * @return  array|false     Array or false if not found file path nor file resource.
+	 * @param   string      file path
+	 * @param   boolean     (optional) Search file path on include_path of php.
+	 *                      Defaults is false.
+	 * @param   resource    (optional) already opend file description resource
+	 *                      Defaults is null.
+	 */
+	function file_nr ($f, $use_include_path = false, $resource = null) {
+		return eFilesystem::file_nr ($f, $use_include_path, $resource);
 	}
 	// }}}
 

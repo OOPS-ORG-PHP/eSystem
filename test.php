@@ -75,11 +75,13 @@ echo "-- mkdir_p test ------------------------------------------\n\n";
 
 $v = $e->mkdir_p ("./ppp/yyy");
 echo "mkdir_p test: ";
-if ( is_dir ("./ppp/yyy") ) :
-	echo "OK";
-else:
-	echo "Fail";
-endif;
+if ( $v === true ) {
+	if ( is_dir ("./ppp/yyy") ) echo "OK";
+	else echo "Fail";
+	$v = 'true';
+} else {
+	$v = ( $v === false ) ? 'false' : $v;
+}
 echo " ==> Return Code: $v\n";
 
 /*
@@ -91,10 +93,13 @@ echo "-- unlink test ------------------------------------------\n\n";
 
 touch ("unlinktest");
 $v = $e->unlink ("unlinktests");
+$v = ( $v === true ) ? 'true' : ($v === false) ? 'false' : $v;
 echo "Unlink unlinktests: $v\n";
 $v = $e->unlink ("unlinktest");
+$v = ( $v === true ) ? 'true' : ($v === false) ? 'false' : $v;
 echo "Unlink unlinktest: $v\n";
 $v = $e->unlink ("ppp/yyy");
+$v = ( $v === true ) ? 'true' : ($v === false) ? 'false' : $v;
 echo "Unlink ppp/yyy: $v\n";
 
 /*
@@ -105,6 +110,7 @@ echo "\n";
 echo "-- unlink_R test ------------------------------------------\n\n";
 
 $v = $e->unlink_r ("ppp");
+$v = ( $v === true ) ? 'true' : 'false';
 echo "Remove ppp: $v\n";
 
 /*
