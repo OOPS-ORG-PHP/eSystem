@@ -16,7 +16,7 @@
 // | Author: JoungKyun Kim <http://www.oops.org>                          |
 // +----------------------------------------------------------------------+
 //
-// $Id: eSystem.php,v 1.19 2009-08-06 20:01:33 oops Exp $
+// $Id: eSystem.php,v 1.20 2009-08-06 20:26:32 oops Exp $
 
 require_once 'PEAR.php';
 require_once 'eFilesystem.php';
@@ -28,7 +28,7 @@ $_SERVER['CLI'] = $_SERVER['DOCUMENT_ROOT'] ? '' : 'yes';
  * and any utility mapping function
  *
  * @access public
- * @version $Revision: 1.19 $
+ * @version $Revision: 1.20 $
  * @package eSystem
  */
 class eSystem extends PEAR
@@ -215,8 +215,7 @@ class eSystem extends PEAR
 	function putColor ($str, $color = '') {
 		$this->__nocli ('putColor');
 
-		$this->autoload (&$this->prints, 'print');
-		return $this->prints->putColor ($str, $color);
+		return ePrint::asPrintf (!$color ? 'gray' : $color, $str);
 	}
 	// }}}
 
