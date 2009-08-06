@@ -16,12 +16,13 @@
 // | Author: JoungKyun Kim <http://www.oops.org>                          |
 // +----------------------------------------------------------------------+
 //
-// $Id: getopt.php,v 1.4 2007-02-18 18:31:35 oops Exp $
+// $Id: getopt.php,v 1.5 2009-08-06 18:50:46 oops Exp $
 
 require_once "eSystem/print.php";
 
 class eSystem_getopt extends eSystem_print
 {
+	// {{{ function getopt ( $no, $arry, $optstrs )
 	function getopt ( $no, $arry, $optstrs ) {
 		global $optarg, $optcmd, $longopt, $optend;
 		global $gno, $optcno;
@@ -127,6 +128,7 @@ class eSystem_getopt extends eSystem_print
 
 		return $opt;
 	}
+	// }}}
 }
 
 /*

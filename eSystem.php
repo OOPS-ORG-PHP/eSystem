@@ -16,7 +16,7 @@
 // | Author: JoungKyun Kim <http://www.oops.org>                          |
 // +----------------------------------------------------------------------+
 //
-// $Id: eSystem.php,v 1.16 2007-03-05 13:02:27 oops Exp $
+// $Id: eSystem.php,v 1.17 2009-08-06 18:50:46 oops Exp $
 
 require_once 'PEAR.php';
 
@@ -27,11 +27,12 @@ $_SERVER['CLI'] = $_SERVER['DOCUMENT_ROOT'] ? '' : 'yes';
  * and any utility mapping function
  *
  * @access public
- * @version $Revision: 1.16 $
+ * @version $Revision: 1.17 $
  * @package eSystem
  */
 class eSystem extends PEAR
 {
+	// {{{ properties
 	var $system;
 	var $fs;
 	var $prints;
@@ -42,7 +43,9 @@ class eSystem extends PEAR
 	var $stderr;
 	var $stdout;
 	var $retint;
+	// }}}
 
+	// {{{ function autoload (&$obj, $f, $cname = '')
 	function autoload (&$obj, $f, $cname = '') {
 		if ( ! $cname ) :
 			$cname = $f;
@@ -54,7 +57,9 @@ class eSystem extends PEAR
 			$obj = new $objname;
 		endif;
 	}
+	// }}}
 
+	// {{{ function system ($_cmd, $_returncode = NULL)
 	# mapping php system function arguments
 	# $_var is return code and must use by reference (&)
 	function system ($_cmd, $_returncode = NULL) {
@@ -73,7 +78,9 @@ class eSystem extends PEAR
 		$_no = count ($this->system->_stdout);
 		return $this->system->_stdout[--$_no];
 	}
+	// }}}
 
+	// {{{ function exec ($_cmd, $_output = NULL, $_returncode = NULL)
 	# mapping php exec function arguments.
 	# $_ouput and $_returncode must use by reference (&)
 	function exec ($_cmd, $_output = NULL, $_returncode = NULL) {
@@ -93,7 +100,9 @@ class eSystem extends PEAR
 
 		return $this->system->_stdout[--$_no];
 	}
+	// }}}
 
+	// {{{ function execl ($_cmd, $_output = NULL, $_returncode = NULL)
 	# same $this->exec, but $_output is not array
 	#
 	function execl ($_cmd, $_output = NULL, $_returncode = NULL) {
@@ -112,7 +121,9 @@ class eSystem extends PEAR
 
 		return $r;
 	}
+	// }}}
 
+	// {{{ function mkdir_p ($path, $mode = 0755)
 	# mapping system command mkdir -p
 	#
 	# return 1 => path is none
@@ -123,7 +134,9 @@ class eSystem extends PEAR
 		$this->autoload (&$this->fs, 'filesystem');
 		return $this->fs->mkdir_p ($path, $mode);
 	}
+	// }}}
 
+	// {{{ function unlink ($path)
 	# safely unlink function
 	#
 	# return 0 => success
@@ -134,7 +147,9 @@ class eSystem extends PEAR
 		$this->autoload (&$this->fs, 'filesystem');
 		return $this->fs->safe_unlink ($path);
 	}
+	// }}}
 
+	// {{{ function unlink_r ($path)
 	# mapping system command rm -rf
 	function unlink_r ($path) {
 		$this->autoload (&$this->fs, 'filesystem');
@@ -160,7 +175,9 @@ class eSystem extends PEAR
 
 		return 0;
 	}
+	// }}}
 
+	// {{{ function tree ($dir = '.')
 	# print directory tree
 	# mapping system command tree
 	# return Array direcotory number and file number
@@ -170,7 +187,9 @@ class eSystem extends PEAR
 			
 		return $this->fs->tree ($dir);
 	}
+	// }}}
 
+	// {{{ function find ($path = './', $type = '', $norecursive = 0)
 	# mapping system command find
 	# path  -> directory path
 	# type  -> 
@@ -188,7 +207,9 @@ class eSystem extends PEAR
 		$this->autoload (&$this->fs, 'filesystem');
 		return $this->fs->find ($path, $type, $norecursive);
 	}
+	// }}}
 
+	// {{{ function putColor ($str, $color = '')
 	# print given string with ansi color 
 	# Supported Color is follows
 	#  => gray, red, green, yellow, blue, megenta, cyan, white
@@ -199,21 +220,27 @@ class eSystem extends PEAR
 		$this->autoload (&$this->prints, 'print');
 		return $this->prints->putColor ($str, $color);
 	}
+	// }}}
 
+	// {{{ function boldStr ($str)
 	# print given string with white ansi color
 	function boldStr ($str) {
 		$this->__nocli('boldStr');
 
 		return $this->putColor ($str, 'white');
 	}
+	// }}}
 
+	// {{{ function makeWhiteSpace ($no)
 	function makeWhiteSpace ($no) {
 		$this->autoload (&$this->prints, 'print');
 
 		$r = $this->prints->makeWhiteSpace ($no);
 		return $r;
 	}
+	// }}}
 
+	// {{{ function backSpace ($no)
 	function backSpace ($no) {
 		$this->__nocli('backSpace');
 
@@ -221,36 +248,48 @@ class eSystem extends PEAR
 		$r = $this->prints->backSpace ($no);
 		return $r;
 	}
+	// }}}
 
+	// {{{ function printe ($format, $msg = '')
 	# print string to stderr
 	function printe ($format, $msg = '') {
 		$this->autoload (&$this->prints, 'print');
 		$r = $this->prints->printe ($format, $msg);
 		return $r;
 	}
+	// }}}
 
+	// {{{ function print_f ($file, $format, $msg = '')
 	function print_f ($file, $format, $msg = '') {
 		$this->autoload (&$this->prints, 'print');
 		$r = $this->prints->printe_f ($file, $format, $msg);
 		return $r;
 	}
+	// }}}
 
+	// {{{ function print_s ($msg, $width = 75, $indent = 0, $ul = '', $to_stderr = 0)
 	function print_s ($msg, $width = 75, $indent = 0, $ul = '', $to_stderr = 0) {
 		$this->autoload (&$this->prints, 'print');
 		$r = $this->prints->print_s ($msg, $width, $indent, $ul, $to_stderr);
 		return $r;
 	}
+	// }}}
 
+	// {{{ function wordwrap ($msg, $width = 75, $break = "\n", $cut = 0)
 	function wordwrap ($msg, $width = 75, $break = "\n", $cut = 0) {
 		$this->autoload (&$this->prints, 'print');
 		return $this->prints->_wordwrap ($msg, $width, $break, $cut);
 	}
+	// }}}
 
+	// {{{ function file_nr ($f, $use_include_path = 0, $resource = '')
 	function file_nr ($f, $use_include_path = 0, $resource = '') {
 		$this->autoload (&$this->prints, 'print');
 		return $this->prints->_file_nr ($f, $use_include_path, $resource);
 	}
+	// }}}
 
+	// {{{ function getopt ($no, $arry, $optstrs )
 	# extended getopt function
 	#
 	# declear two variabes $gno $optcno set -1 before use getopt
@@ -264,14 +303,18 @@ class eSystem extends PEAR
 		$this->autoload (&$this->getopt, 'getopt');
 		return $this->getopt->getopt ($no, $arry, $optstrs);
 	}
+	// }}}
 
+	// {{{ function manPath ($_name, $_path = '/usr/share/man', $_sec = 0)
 	# print man page
 	function manPath ($_name, $_path = '/usr/share/man', $_sec = 0) {
 		$this->autoload (&$this->man, 'man');
 		$this->man->tmpdir = $this->tmpdir;
 		return $this->man->manPath ($_name, $_path, $_sec);
 	}
+	// }}}
 
+	// {{{ function man ($_name, $_no, $_int = NULL, $__base = null, $_s = 0)
 	function man ($_name, $_no, $_int = NULL, $__base = null, $_s = 0) {
 		if ( ! extension_loaded ("zlib")) :
 			echo "Error: man function requires zlib extension!";
@@ -282,7 +325,9 @@ class eSystem extends PEAR
 		$this->man->tmpdir = $this->tmpdir;
 		return $this->man->man ($_name, $_no, $_int, $__base, $_s);
 	}
+	// }}}
 
+	// {{{ function __nocli ($n = '')
 	# don't use :-)
 	function __nocli ($n = '') {
 		$method = $n ? $n : 'this';
@@ -295,6 +340,7 @@ class eSystem extends PEAR
 			exit;
 		endif;
 	}
+	// }}}
 }
 
 /*

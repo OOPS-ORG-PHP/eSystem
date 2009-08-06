@@ -16,12 +16,13 @@
 // | Author: JoungKyun Kim <http://www.oops.org>                          |
 // +----------------------------------------------------------------------+
 //
-// $Id: filesystem.php,v 1.9 2007-03-05 13:02:27 oops Exp $
+// $Id: filesystem.php,v 1.10 2009-08-06 18:50:46 oops Exp $
 
 require_once "eSystem/print.php";
 
 class eSystem_filesystem extends eSystem_print
 {
+	// {{{ function mkdir_p ($path, $mode)
 	# return 1 => path is none
 	#        2 => path is not directory
 	#        3 => create failed
@@ -50,7 +51,9 @@ class eSystem_filesystem extends eSystem_print
 
 		return 0;
 	}
+	// }}}
 
+	// {{{ function safe_unlink ($f)
 	# return 0 => success
 	#        1 => remove false
 	#        2 => file not found
@@ -70,7 +73,9 @@ class eSystem_filesystem extends eSystem_print
 
 		return $_r;
 	}
+	// }}}
 
+	// {{{ function unlink_r ($dir)
 	function unlink_r ($dir) {
 		if ( ! trim($dir) ) { return 0; }
 		if ( ! file_exists ($dir) ) { return 0; }
@@ -104,7 +109,9 @@ class eSystem_filesystem extends eSystem_print
 
 		return 0;
 	}
+	// }}}
 
+	// {{{ function tree ($dir = '.', $prefix = '', $recursive = 0)
 	function tree ($dir = '.', $prefix = '', $recursive = 0) {
 		$n['file'] = 0;
 		$n['dir'] = 0;
@@ -159,7 +166,9 @@ class eSystem_filesystem extends eSystem_print
 
 		return $n;
 	}
+	// }}}
 
+	// {{{ function find ($path = './', $regex = '', $norecursive = 0)
 	# 디렉토리의 파일 리스트를 받는 함수
 	# path  -> 파일리스트를 구할 디렉토리 경로
 	# regex -> 리스트를 받을 목록
@@ -230,7 +239,9 @@ class eSystem_filesystem extends eSystem_print
 
 		return $file;
 	}
+	// }}}
 
+	// {{{ function dirlist ($path, $fullpath = 0)
 	function dirlist ($path, $fullpath = 0) {
 		$path = preg_replace ('!/$!', '', $path);
 
@@ -248,7 +259,9 @@ class eSystem_filesystem extends eSystem_print
 
 		return $list;
 	}
+	// }}}
 
+	// {{{ function filewrite ($f, $v)
 	function filewrite ($f, $v) {
 		$fp = fopen ($f, 'wb');
 		if ( is_resource ($fp) ) :
@@ -260,6 +273,7 @@ class eSystem_filesystem extends eSystem_print
 
 		return 0;
 	}
+	// }}}
 }
 
 /*

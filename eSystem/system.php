@@ -16,16 +16,19 @@
 // | Author: JoungKyun.Kim <http://oops.org>                              |
 // +----------------------------------------------------------------------+
 //
-// $Id: system.php,v 1.8 2007-03-03 16:25:23 oops Exp $
+// $Id: system.php,v 1.9 2009-08-06 18:50:46 oops Exp $
 
 class eSystem_system
 {
+	// {{{ properties
 	var $tmpdir = '/tmp';
 	var $tmpname = 'eSystem_system_';
 	var $_stdout;
 	var $_stderr;
 	var $_retint = 0;
+	// }}}
 
+	// {{{ function _system ($_cmd, $_out = 0)
 	/*
 	 * define origin proto function
 	 * start function name _
@@ -68,6 +71,7 @@ class eSystem_system
 		endif;
 		unlink ($_err);
 	}
+	// }}}
 }
 
 /*

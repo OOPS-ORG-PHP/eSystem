@@ -16,10 +16,11 @@
 // | Author: JoungKyun Kim <http://www.oops.org>						  |
 // +----------------------------------------------------------------------+
 //
-// $Id: print.php,v 1.11 2007-03-03 16:25:23 oops Exp $
+// $Id: print.php,v 1.12 2009-08-06 18:50:46 oops Exp $
 
 class eSystem_print extends eSystem_output
 {
+	// {{{ function setColor ($color)
 	function setColor ($color) {
 		$color = $color ? strtolower ($color) : '';
 
@@ -37,17 +38,21 @@ class eSystem_print extends eSystem_output
 
 		return '[1;30m';
 	}
+	// }}}
 
+	// {{{ function putColor ($str, $color = '')
 	function putColor ($str, $color = '') {
 		$color = $this->setColor ($color);
 		$end = $this->setColor ('end');
 
 		return $color . $str . $end;
 	}
+	// }}}
 }
 
 class eSystem_output
 {
+	// {{{ function makeWhiteSpace ($no)
 	function makeWhiteSpace ($no) {
 		if ( ! is_numeric ($no) )
 			return '';
@@ -57,7 +62,9 @@ class eSystem_output
 
 		return $_r;
 	}
+	// }}}
 
+	// {{{ function backSpace ($no)
 	function backSpace ($no) {
 		if ( ! is_numeric ($no) )
 			return '';
@@ -69,7 +76,9 @@ class eSystem_output
 			#echo "12" ^ "9";
 		endfor;
 	}
+	// }}}
 
+	// {{{ function printe ($format, $msg = '', $type = 0, $des = '', $extra_headers = '')
 	function printe ($format, $msg = '', $type = 0, $des = '', $extra_headers = '') {
 		/*
 		if ( function_exists ('fprintf') ) :
@@ -85,12 +94,16 @@ class eSystem_output
 		//endif;
 		return $r;
 	}
+	// }}}
 
+	// {{{ function printe_f ($f, $format, $msg = '')
 	function printe_f ($f, $format, $msg = '') {
 		$r = $this->printe ($format, $msg, 3, $f);
 		return $r;
 	}
+	// }}}
 
+	// {{{ function print_s ($msg, $width = 80, $indent = 0, $ul = '', $to_stderr = 0)
 	function print_s ($msg, $width = 80, $indent = 0, $ul = '', $to_stderr = 0) {
 		if ( $width === 0 ) :
 			$width = 10000; /* means unlimits */
@@ -156,7 +169,9 @@ class eSystem_output
 
 		return TRUE;
 	}
+	// }}}
 
+	// {{{ function _wordwrap ($msg, $width = 75, $break = "\n", $cut = 0)
 	function _wordwrap ($msg, $width = 75, $break = "\n", $cut = 0) {
 		$msg = wordwrap ($msg, $width, $break, $cut);
 
@@ -204,7 +219,9 @@ class eSystem_output
 
 		return $v;
 	}
+	// }}}
 
+	// {{{ function _file_nr ($f, $in = 0, $res = '')
 	function _file_nr ($f, $in = 0, $res = '') {
 		$fp = is_resource ($res) ? $res : fopen ($f, 'rb');
 
@@ -228,6 +245,7 @@ class eSystem_output
 
 		return $_buf;
 	}
+	// }}}
 }
 
 /*

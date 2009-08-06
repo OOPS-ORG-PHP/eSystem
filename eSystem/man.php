@@ -16,22 +16,27 @@
 // | Author: JoungKyun Kim <http://www.oops.org>                          |
 // +----------------------------------------------------------------------+
 //
-// $Id: man.php,v 1.6 2007-04-25 06:02:51 oops Exp $
+// $Id: man.php,v 1.7 2009-08-06 18:50:46 oops Exp $
 
 require_once 'eSystem/system.php';
 require_once 'eSystem/filesystem.php';
 
 class eSystem_man extends eSystem_system
 {
+	// {{{ properties
 	var $tmpdir = "/tmp";
 	var $ofs;
+	// }}}
 
+	// {{{ function eSystem_man ()
 	function eSystem_man () {
 		if ( ! is_object ($ofs) ) :
 			$this->ofs = new eSystem_filesystem;
 		endif;
 	}
+	// }}}
 
+	// {{{ function so_man ($_file, $_base, $_int = '') {
 	function so_man ($_file, $_base, $_int = '') {
 		$_dotso = array ();
 
@@ -59,11 +64,13 @@ class eSystem_man extends eSystem_system
 
 		return $_file;
 	}
+	// }}}
 
 	/*
 	 * User level function
 	 */
 
+	// {{{ function manPath ($_name, $_path = '/usr/share/man', $_sec = 0) 
 	function manPath ($_name, $_path = '/usr/share/man', $_sec = 0) {
 		$_path = ! $_path ? '/usr/share/man/' : $_path;
 
@@ -87,7 +94,9 @@ class eSystem_man extends eSystem_system
 			endif;
 		endif;
 	}
+	// }}}
 
+	// {{{ function man ($_name, $_no, $_int = NULL, $__base = null, $_s = 0)
 	function man ($_name, $_no, $_int = NULL, $__base = null, $_s = 0) {
 		if ( ! extension_loaded ("zlib")) :
 			echo "Error: man function requires zlib extension!";
@@ -145,6 +154,7 @@ class eSystem_man extends eSystem_system
 
 		return $_r;
 	}
+	// }}}
 }
 
 /*
