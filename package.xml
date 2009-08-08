@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <package packagerversion="1.7.2" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0 http://pear.php.net/dtd/tasks-1.0.xsd http://pear.php.net/dtd/package-2.0 http://pear.php.net/dtd/package-2.0.xsd">
-	<!-- $Id: package.xml,v 1.16 2009-08-08 07:28:43 oops Exp $ -->
+	<!-- $Id: package.xml,v 1.17 2009-08-08 09:04:22 oops Exp $ -->
 	<name>eSystem</name>
 	<channel>pear.oops.org</channel>
 	<summary>Extended system command for PHP</summary>
@@ -12,8 +12,8 @@
 		<email>http://oops.org</email>
 		<active>yes</active>
 	</lead>
-	<date>@curdate@</date>
-	<time>@curtime@</time>
+	<date>2009-08-08</date>
+	<time>18:03:02</time>
 	<version>
 		<release>1.0.0</release>
 		<api>0.1</api>
@@ -30,10 +30,10 @@
 	<contents>
 		<dir name="/">
 			<dir name="eSystem">
-				<file md5sum="eb54a329eb0ce6d2bd165d79c21366f5" name="man.php" role="php" />
-				<file md5sum="c795a001973bbf66ffff144c5b43a116" name="system.php" role="php" />
+				<file md5sum="0df90730f4db6adbd5e22802c3a08a73" name="man.php" role="php" />
+				<file md5sum="a535109933ef96457b16c81ce018f4be" name="system.php" role="php" />
 			</dir> <!-- //eSystem -->
-			<file md5sum="3e8a74e7d203bee771b121717fd8baca" name="eSystem.php" role="php" />
+			<file md5sum="fbf3e43bebe49c3ac2f2cf8fb20b7bd4" name="eSystem.php" role="php" />
 		</dir> <!-- / -->
 	</contents>
 	<dependencies>
