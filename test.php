@@ -12,8 +12,12 @@ echo "\n";
 echo "-- Getopt Test -------------------------------------------\n\n";
 
 # init getopt global variables
-$gno    = -1;
-$optcno = -1;
+$longopt = array (
+	'longa' => 'a',
+	'longb' => 'b',
+	'longc' => 'c',
+	'longd' => 'd'
+);
 
 while ( ($opt = $e->getopt ($argc, $argv, "abc:d")) != -1 ) :
 	switch ($opt) :
@@ -30,7 +34,7 @@ while ( ($opt = $e->getopt ($argc, $argv, "abc:d")) != -1 ) :
 			$d++;
 			break;
 		default:
-			echo "getopt failed. option is abc:d\n";
+			echo "getopt failed. option is abc:d ($opt)\n";
 			exit (1);
 	endswitch;
 endwhile;

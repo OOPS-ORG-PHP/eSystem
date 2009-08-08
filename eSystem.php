@@ -16,7 +16,7 @@
 // | Author: JoungKyun Kim <http://www.oops.org>                          |
 // +----------------------------------------------------------------------+
 //
-// $Id: eSystem.php,v 1.20 2009-08-06 20:26:32 oops Exp $
+// $Id: eSystem.php,v 1.21 2009-08-08 07:30:41 oops Exp $
 
 require_once 'PEAR.php';
 require_once 'eFilesystem.php';
@@ -28,7 +28,7 @@ $_SERVER['CLI'] = $_SERVER['DOCUMENT_ROOT'] ? '' : 'yes';
  * and any utility mapping function
  *
  * @access public
- * @version $Revision: 1.20 $
+ * @version $Revision: 1.21 $
  * @package eSystem
  */
 class eSystem extends PEAR
@@ -346,19 +346,42 @@ class eSystem extends PEAR
 	}
 	// }}}
 
-	// {{{ function getopt ($no, $arry, $optstrs )
-	# extended getopt function
-	#
-	# declear two variabes $gno $optcno set -1 before use getopt
-	#
-	function getopt ($no, $arry, $optstrs ) {
+	// {{{ function getopt ($argc, $argv, $optstrs)
+    /**
+	 * @access public
+	 * @return string return short option.<br>
+	 *                If return -1, end of getopt processing.
+	 *                If wrong option, print error message and return null
+	 * @param  integer Number of command line arguments
+	 * @param  array   Command line arguments
+	 * @param  string  Option format. See also 'man 3 getopt'
+	 */
+	function getopt ($argc, $argv, $optstrs) {
 		global $optarg, $optcmd, $longopt;
-		global $gno, $optcno;
+		global $optcno;
 
-		$this->__nocli('getopt');
+		if ( ! class_exists ('oGetopt') ) {
+			require_once 'oGetopt.php';
 
-		$this->autoload (&$this->getopt, 'getopt');
-		return $this->getopt->getopt ($no, $arry, $optstrs);
+			oGetopt::init ();
+
+			if ( ! is_object ($longopt) ) {
+				$_longopt = (object) $longopt;
+				unset ($longopt);
+				$longopt = $_longopt;
+			}
+
+			oGetopt::$longopt = &$longopt;
+			oGetopt::$optcno  = &$optcno;
+			oGetopt::$optcmd  = &$optcmd;
+			oGetopt::$optarg  = &$optarg;
+		}
+
+		$r = oGetopt::exec ($argc, $argv, $optstrs);
+		if ( $r === false )
+			return -1;
+
+		return $r;
 	}
 	// }}}
 
