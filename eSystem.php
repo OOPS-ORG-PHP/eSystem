@@ -1,53 +1,76 @@
 <?php
-//
-// +----------------------------------------------------------------------+
-// | PHP Version 4                                                        |
-// +----------------------------------------------------------------------+
-// | Copyright (c) 1997-2003 The PHP Group                                |
-// +----------------------------------------------------------------------+
-// | This source file is subject to version 2.02 of the PHP license,      |
-// | that is bundled with this package in the file LICENSE, and is        |
-// | available at through the world-wide-web at                           |
-// | http://www.php.net/license/2_02.txt.                                 |
-// | If you did not receive a copy of the PHP license and are unable to   |
-// | obtain it through the world-wide-web, please send a note to          |
-// | license@php.net so we can mail you a copy immediately.               |
-// +----------------------------------------------------------------------+
-// | Author: JoungKyun Kim <http://www.oops.org>                          |
-// +----------------------------------------------------------------------+
-//
-// $Id: eSystem.php,v 1.21 2009-08-08 07:30:41 oops Exp $
-
-require_once 'PEAR.php';
-require_once 'eFilesystem.php';
-
-$_SERVER['CLI'] = $_SERVER['DOCUMENT_ROOT'] ? '' : 'yes';
+/**
+ * Project: eSystem::
+ *
+ * Defines the php extended system mapping function and any utility mapping function
+ * 
+ * File:    eSystem.php
+ *
+ * PHP version 5
+ *
+ * Copyright (c) 1997-2009 JoungKyun.Kim
+ *
+ * LICENSE: BSD license
+ *
+ * @category    System
+ * @package     eSystem
+ * @author      JoungKyun.Kim <http://oops.org>
+ * @copyright   1997-2009 OOPS.ORG
+ * @license     BSD License
+ * @version     CVS: $Id: eSystem.php,v 1.22 2009-08-08 08:51:32 oops Exp $
+ * @link        http://pear.oops.org/package/eSystem
+ * @since       File available since relase 0.8
+ */
 
 /**
- * PEAR's eSystem:: interface. Defines the php extended system mapping function
- * and any utility mapping function
+ * Dependency on 'pear.oops.org/eFilesystem' pear package over 1.0.0
+ */
+require_once 'eFilesystem.php';
+
+/**
+ * Base class for system mapping api
  *
  * @access public
- * @version $Revision: 1.21 $
+ * @version $Revision: 1.22 $
  * @package eSystem
  */
-class eSystem extends PEAR
+class eSystem
 {
 	// {{{ properties
-	var $system;
-	var $fs;
-	var $prints;
-	var $getopt;
-	var $man;
-	var $tmpdir = '/tmp';
+	private $system;
+	private $man;
 
-	var $stderr;
-	var $stdout;
-	var $retint;
+	/**#@+*/
+	/**
+	 * @access public
+	 */
+	/**
+	 * Location for create tmp file
+	 *
+	 * @var string
+	 */
+	public $tmpdir = '/tmp';
+
+	/**
+	 * Standard Error file description
+	 * @var reousrce
+	 */
+	public $stderr;
+	/**
+	 * Standard Out file description
+	 * @var reousrce
+	 */
+	public $stdout;
+	/**
+	 * Shell return code
+	 * @var integer 
+	 */
+	public $retint;
+	/**#@-*/
 	// }}}
 
 	// {{{ function autoload (&$obj, $f, $cname = '')
-	function autoload (&$obj, $f, $cname = '') {
+	private function autoload (&$obj, $f, $cname = '') {
 		if ( ! $cname ) :
 			$cname = $f;
 		endif;
@@ -60,10 +83,22 @@ class eSystem extends PEAR
 	}
 	// }}}
 
-	// {{{ function system ($_cmd, $_returncode = NULL)
-	# mapping php system function arguments
-	# $_var is return code and must use by reference (&)
-	function system ($_cmd, $_returncode = NULL) {
+	// {{{ function system ($_cmd, &$_returncode = NULL)
+	/**
+	 * Wrapping system function
+	 *
+	 * If server admin disables php system() function, this method
+	 * has same execution with php system().
+	 *
+	 * You can use this api that change only system(...) to $obj->system(...)
+	 *
+	 * @access public
+	 * @return string Returns the last line of the command output on success, and FALSE  on failure. 
+	 * @param  string The command that will be executed.
+	 * @param  integer (optional) If the _returncode  argument is present, then the return
+	 *                 status of the executed command will be written to this variable. 
+	 */
+	function system ($_cmd, &$_returncode = NULL) {
 		$this->autoload (&$this->system, 'system');
 
 		$this->system->tmpdir = $this->tmpdir;
@@ -81,10 +116,30 @@ class eSystem extends PEAR
 	}
 	// }}}
 
-	// {{{ function exec ($_cmd, $_output = NULL, $_returncode = NULL)
+	// {{{ function exec ($_cmd, &$_output = NULL, &$_returncode = NULL)
+	/**
+	 * Wrapping exec() function
+	 *
+	 * If server admin disables php exec() function, this method
+	 * has same execution with php exec().
+	 *
+	 * You can use this api that change only exec(...) to $obj->exec(...)
+	 *
+	 * @access public
+	 * @return string Returns the last line of the command output on success, and FALSE  on failure.
+	 * @param  string The command that will be executed. 
+	 * @param  array   (optional) If the _output  argument is present, then the specified
+	 *                 array will be filled with every line of output from the command.
+	 *                 Trailing whitespace, such as \n, is not included in this array.
+	 *                 Note that if the array already contains some elements, exec()
+	 *                 will append to the end of the array. If you do not want the
+	 *                 function to append elements, call unset() on the array before
+	 *                 passing it to exec(). 
+	 * @param  integer (optional) If the _returncode  argument is present, then the return
+	 *                 status of the executed command will be written to this variable. 
+	 */
 	# mapping php exec function arguments.
-	# $_ouput and $_returncode must use by reference (&)
-	function exec ($_cmd, $_output = NULL, $_returncode = NULL) {
+	function exec ($_cmd, &$_output = NULL, &$_returncode = NULL) {
 		$this->autoload (&$this->system, 'system');
 
 		$this->system->tmpdir = $this->tmpdir;
@@ -104,8 +159,20 @@ class eSystem extends PEAR
 	// }}}
 
 	// {{{ function execl ($_cmd, $_output = NULL, $_returncode = NULL)
-	# same $this->exec, but $_output is not array
-	#
+	/**
+	 * Wrapping exec() function
+	 *
+	 * This method same $this->exec(), but return value of 2th argument is not array,
+	 * it's plain text strings.
+	 *
+	 * @access public
+	 * @return string Returns the last line of the command output on success, and FALSE  on failure.
+	 * @param  string The command that will be executed. 
+	 * @param  string  (optional) If the _output  argument is present, this argument contains
+	 *                 output from the command.
+	 * @param  integer (optional) If the _returncode  argument is present, then the return
+	 *                 status of the executed command will be written to this variable. 
+	 */
 	function execl ($_cmd, $_output = NULL, $_returncode = NULL) {
 		$this->autoload (&$this->system, 'system');
 
@@ -129,6 +196,9 @@ class eSystem extends PEAR
 	 * Attempts to create the directory specified by pathname.
 	 * If does not parent directory, this API create success.
 	 * This means that same operate with mkdir (path, mode, true) of php
+	 *
+	 * This API is Deprecated. Use eFilesystem::mkdir_p instead of this method
+	 *
 	 * @access  public
 	 * @return  boolean|int return 1, already exists given path.<br>
 	 *                      return 2, given path is existed file.<br>
@@ -147,6 +217,9 @@ class eSystem extends PEAR
 	// {{{ function unlink ($path)
 	/**
 	 * Deletes a file. If given file is directory, no error and return false.
+	 *
+	 * This API is Deprecated. Use eFilesystem::safe_unlink instead of this method
+	 *
 	 * @access  public
 	 * @return  bolean|int  return true, success<br>
 	 *              return false, remove false<br>
@@ -162,6 +235,9 @@ class eSystem extends PEAR
 	// {{{ function unlink_r ($path)
 	/**
 	 * Deletes a file or directory that include some files
+	 *
+	 * This API is Deprecated. Use eFilesystem::unlink_r instead of this method
+	 *
 	 * @access  public
 	 * @return  boolean
 	 * @param   string  Given path.
@@ -175,6 +251,9 @@ class eSystem extends PEAR
 	// {{{ function tree ($dir = '.')
 	/**
 	 * get directory tree for given path
+	 *
+	 * This API is Deprecated. Use eFilesystem::tree instead of this method
+	 *
 	 * @access  public
 	 * @return  object  obj->file is number of files.<br>
 	 *                  obj->dir is number of directories.
@@ -188,6 +267,9 @@ class eSystem extends PEAR
 	// {{{ function find ($path = './', $type = '', $norecursive = 0)
 	/**
 	 * get file list that under given path
+	 *
+	 * This API is Deprecated. Use eFilesystem::find instead of this method
+	 *
 	 * @access  public
 	 * @return  array|false return array of file list. If given path is null or don't exist, return false.
 	 * @param   string  (optional) Given path. Defaults to current directory (./)
@@ -208,19 +290,36 @@ class eSystem extends PEAR
 	// }}}
 
 	// {{{ function putColor ($str, $color = '')
-	# print given string with ansi color 
-	# Supported Color is follows
-	#  => gray, red, green, yellow, blue, megenta, cyan, white
-	# color white is same boldStr function.
-	function putColor ($str, $color = '') {
+	/**
+	 * Return given string with ansi code about specified color
+	 *
+	 * Color strings support follows:
+	 *   gray, red, green, yellow, blue, megenta, cyan, white
+	 *
+	 * This API is Deprecated. Use ePrint::asPrintf instead of this method
+	 *
+	 * @access public
+	 * @return string
+	 * @param  string Input strings
+	 * @param  string color string for anci code. Defaults to 'gray'
+	 */
+	function putColor ($str, $color = 'gray') {
 		$this->__nocli ('putColor');
 
-		return ePrint::asPrintf (!$color ? 'gray' : $color, $str);
+		return ePrint::asPrintf ($color, $str);
 	}
 	// }}}
 
 	// {{{ function boldStr ($str)
-	# print given string with white ansi color
+	/**
+	 * Return given string with white ansi code
+	 *
+	 * This API is Deprecated. Use ePrint::asPrintf (string, 'white') instead of this method
+	 *
+	 * @access public
+	 * @return string
+	 * @param  string Input strings
+	 */
 	function boldStr ($str) {
 		$this->__nocli('boldStr');
 
@@ -231,6 +330,9 @@ class eSystem extends PEAR
 	// {{{ function makeWhiteSpace ($no)
 	/**
 	 * Print white space about given number
+	 *
+	 * This API is Deprecated. Use ePrint::whiteSpce instead of this method
+	 *
 	 * @access  public
 	 * @return  strings
 	 * @param   integer number of space charactor
@@ -243,6 +345,9 @@ class eSystem extends PEAR
 	// {{{ function backSpace ($no)
 	/**
 	 * print backspace
+	 *
+	 * This API is Deprecated. Use ePrint::backSpace instead of this method
+	 *
 	 * @access  public
 	 * @return  void
 	 * @param   integer number of space charactor
@@ -277,7 +382,9 @@ class eSystem extends PEAR
 	 * Save a formatted string to file
 	 *
 	 * A newline is not automatically added to the end of the message string. 
-	 * This API is Deprecated. Use ePrint::ePrintf or ePrint::lPrintf method instead of this method
+	 * This API is Deprecated. Use ePrint::ePrintf or ePrint::lPrintf method
+	 * instead of this method
+	 *
 	 * @access  public
 	 * @return  int     length of print string
 	 * @param   string  $path   target file
@@ -295,6 +402,7 @@ class eSystem extends PEAR
 	/**
 	 * print with indent.
 	 * This API is Deprecated. Use ePrint::printi method instead of this method
+	 *
 	 * @access  public
 	 * @return  int|false   Length of print string. If on error, return false
 	 * @param   string|array    output string
@@ -312,6 +420,9 @@ class eSystem extends PEAR
 	/**
 	 * Wraps a string to a given number of characters. Difference with wordwarp of
 	 * PHP, wrapped line joins next line and rewraps.
+	 *
+	 * This API is Deprecated. Use ePrint::wordwrap instead of this method
+	 *
 	 * @access  public
 	 * @return  strings
 	 * @param   string  input string
@@ -333,6 +444,9 @@ class eSystem extends PEAR
 	 * Reads entire file into an array
 	 * file_nr api runs same file function of php. But file_nr has
 	 * no \r\n or \n character on array members.
+	 *
+	 * This API is Deprecated. Use eFilesystem::file_nr instead of this method
+	 *
 	 * @access  public
 	 * @return  array|false     Array or false if not found file path nor file resource.
 	 * @param   string      file path
@@ -348,6 +462,10 @@ class eSystem extends PEAR
 
 	// {{{ function getopt ($argc, $argv, $optstrs)
     /**
+	 * Wrapping o_getopt on Oops C library
+	 *
+	 * This API is Deprecated. Use oops/pear_eGetopt class instead of this method
+	 *
 	 * @access public
 	 * @return string return short option.<br>
 	 *                If return -1, end of getopt processing.
@@ -386,7 +504,15 @@ class eSystem extends PEAR
 	// }}}
 
 	// {{{ function manPath ($_name, $_path = '/usr/share/man', $_sec = 0)
-	# print man page
+	/**
+	 * Return man page file path with man page section and name
+	 *
+	 * @access public
+	 * @return string Returns man page file path
+	 * @param  string Name of man page for searching
+	 * @param  string (optional) Base man page base path
+	 * @param  integer (optional) Section of man page
+	 */
 	function manPath ($_name, $_path = '/usr/share/man', $_sec = 0) {
 		$this->autoload (&$this->man, 'man');
 		$this->man->tmpdir = $this->tmpdir;
@@ -395,6 +521,17 @@ class eSystem extends PEAR
 	// }}}
 
 	// {{{ function man ($_name, $_no, $_int = NULL, $__base = null, $_s = 0)
+	/**
+	 * Return man page contents for human readable
+	 *
+	 * @access public
+	 * @return string Returns man page file path
+	 * @param  integer Section of man page
+	 * @param  string (optional) L10n code for international man pages
+	 * @param  integer (optional) Base man page base path
+	 * @param  boolean (optional) Defaults to 0. Set true, even if result
+	 *                 is array, force convert plain text strings.
+	 */
 	function man ($_name, $_no, $_int = NULL, $__base = null, $_s = 0) {
 		if ( ! extension_loaded ("zlib")) :
 			echo "Error: man function requires zlib extension!";
@@ -408,10 +545,15 @@ class eSystem extends PEAR
 	// }}}
 
 	// {{{ function __nocli ($n = '')
-	# don't use :-)
-	function __nocli ($n = '') {
+	/**
+	 * If call this method, exit when php sapi is not cli.
+	 *
+	 * @access private
+	 * @return void
+	 * @param  string (optional) method name
+	 */
+	private function __nocli ($n = '') {
 		$method = $n ? $n : 'this';
-		#if ( ! $_SERVER['CLI'] ) :
 		if ( php_sapi_name () != 'cli' ) :
 			echo "<script type=\"text/javascript\">\n" .
 				"  alert('{$method} method only used on CLI mode');\n" .
