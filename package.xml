@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <package packagerversion="1.7.2" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0 http://pear.php.net/dtd/tasks-1.0.xsd http://pear.php.net/dtd/package-2.0 http://pear.php.net/dtd/package-2.0.xsd">
-	<!-- $Id: package.xml,v 1.15 2009-08-08 07:26:30 oops Exp $ -->
+	<!-- $Id: package.xml,v 1.16 2009-08-08 07:28:43 oops Exp $ -->
 	<name>eSystem</name>
 	<channel>pear.oops.org</channel>
 	<summary>Extended system command for PHP</summary>
@@ -85,10 +85,9 @@
 			<date>2005-07-10</date>
 			<license>PHP/BSD</license>
 			<notes>- 0.2 update
-				- add manPath function
-				- fixed miss path of not compress man page
-				- fixed miss operation when array is null in find
-
+- add manPath function
+- fixed miss path of not compress man page
+- fixed miss operation when array is null in find
 			</notes>
 		</release>
 		<release>
@@ -101,9 +100,8 @@
 				<api>stable</api>
 			</stability>
 			<date>2005-09-09</date>
-			<license uri="http://www.example.com">PHP/BSD</license>
+			<license uri="http://www.opensource.org/licenses/bsd-license.php">PHP/BSD</license>
 			<notes>- fixed null array init problem
-
 			</notes>
 		</release>
 		<release>
@@ -116,11 +114,10 @@
 				<api>stable</api>
 			</stability>
 			<date>2006-09-15</date>
-			<license uri="http://www.example.com">PHP/BSD</license>
+			<license uri="http://www.opensource.org/licenses/bsd-license.php">PHP/BSD</license>
 			<notes>- added getopt usage comment
-				- fixed xml syntax error
-				- fixed paer format
-
+- fixed xml syntax error
+- fixed paer format
 			</notes>
 		</release>
 		<release>
@@ -133,10 +130,9 @@
 				<api>stable</api>
 			</stability>
 			<date>2007-02-19</date>
-			<license uri="http://www.example.com">PHP/BSD</license>
+			<license uri="http://www.opensource.org/licenses/bsd-license.php">PHP/BSD</license>
 			<notes>- rewrite with new declear
-				- add extended wordwrap function
-
+- add extended wordwrap function
 			</notes>
 		</release>
 		<release>
@@ -149,17 +145,16 @@
 				<api>stable</api>
 			</stability>
 			<date>2007-03-04</date>
-			<license uri="http://www.example.com">PHP/BSD</license>
+			<license uri="http://www.opensource.org/licenses/bsd-license.php">PHP/BSD</license>
 			<notes>- fixed one line result parsing error on _system function
-				- fixed previous garbage value problem on _system function
-				- add file_nr function
-				- add print_f function
-				- add print_s function
-				- fixed wordwrap function bug when msg is only one line
-				- fixed stderr messages on _system function
-				- add execl function
-				- add makeWhiteSpace function
-
+- fixed previous garbage value problem on _system function
+- add file_nr function
+- add print_f function
+- add print_s function
+- fixed wordwrap function bug when msg is only one line
+- fixed stderr messages on _system function
+- add execl function
+- add makeWhiteSpace function
 			</notes>
 		</release>
 		<release>
@@ -172,9 +167,8 @@
 				<api>stable</api>
 			</stability>
 			<date>2007-03-05</date>
-			<license uri="http://www.example.com">PHP/BSD</license>
+			<license uri="http://www.opensource.org/licenses/bsd-license.php">PHP/BSD</license>
 			<notes>- use php_sapi_name function instead of $_SERVER[&apos;CLI&apos;]
-
 			</notes>
 		</release>
 		<release>
@@ -187,9 +181,8 @@
 				<api>stable</api>
 			</stability>
 			<date>2007-04-25</date>
-			<license uri="http://www.example.com">PHP/BSD</license>
+			<license uri="http://www.opensource.org/licenses/bsd-license.php">PHP/BSD</license>
 			<notes>- fixed man path bug
-
 			</notes>
 		</release>
 		<release>
@@ -202,7 +195,7 @@
 				<api>stable</api>
 			</stability>
 			<date>2009-08-08</date>
-			<license uri="http://www.example.com">PHP/BSD</license>
+			<license uri="http://www.opensource.org/licenses/bsd-license.php">PHP/BSD</license>
 			<notes>- replace filesystem api method with oops/eFilesystem pear package
 - replace print api method with oops/ePrint pear package
 - replace getopt method with oops/oGetopt pear package
