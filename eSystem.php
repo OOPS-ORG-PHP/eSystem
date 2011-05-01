@@ -17,7 +17,7 @@
  * @author      JoungKyun.Kim <http://oops.org>
  * @copyright   1997-2009 OOPS.ORG
  * @license     BSD License
- * @version     CVS: $Id: eSystem.php,v 1.23 2009-08-08 08:53:55 oops Exp $
+ * @version     CVS: $Id$
  * @link        http://pear.oops.org/package/eSystem
  * @since       File available since relase 0.8
  */
@@ -31,7 +31,7 @@ require_once 'eFilesystem.php';
  * Base class for system mapping api
  *
  * @access public
- * @version $Revision: 1.23 $
+ * @version $Revision$
  * @package eSystem
  */
 class eSystem

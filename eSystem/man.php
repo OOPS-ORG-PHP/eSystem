@@ -1,5 +1,5 @@
 <?php
-// $Id: man.php,v 1.9 2009-08-08 08:51:32 oops Exp $
+// $Id$
 
 require_once 'eSystem/system.php';
 

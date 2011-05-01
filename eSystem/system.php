@@ -1,5 +1,5 @@
 <?php
-// $Id: system.php,v 1.10 2009-08-08 08:51:32 oops Exp $
+// $Id$
 
 class eSystem_system
 {
