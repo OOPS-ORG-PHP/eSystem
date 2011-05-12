@@ -264,7 +264,7 @@ class eSystem
 	}
 	// }}}
 
-	// {{{ function find ($path = './', $type = '', $norecursive = 0)
+	// {{{ function find ($path = './', $type = '', $norecursive = false)
 	/**
 	 * get file list that under given path
 	 *
@@ -284,7 +284,7 @@ class eSystem
 	 * @param   boolean (optional) Defaults to false.
 	 *                  set true, don't recursive search.
 	 */
-	function find ($path = './', $type = '', $norecursive = 0) {
+	function find ($path = './', $type = '', $norecursive = false) {
 		return eFilesystem::find ($path, $type, $norecursive);
 	}
 	// }}}
