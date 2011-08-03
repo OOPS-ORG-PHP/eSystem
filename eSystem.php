@@ -38,7 +38,7 @@ class eSystem
 {
 	// {{{ properties
 	private $system;
-	private $man;
+	//private $man;
 
 	/**#@+*/
 	/**
