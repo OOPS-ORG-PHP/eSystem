@@ -1,4 +1,4 @@
-<?
+<?php
 # Id: $
 require_once ('eSystem.php');
 

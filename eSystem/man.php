@@ -1,8 +1,33 @@
 <?php
-// $Id$
+/**
+ * Project: eSystem:: The Extended file system<br>
+ * File:    eSystem/system.php
+ *
+ * Sub pcakge of eSystem package. This package includes extended system
+ * methods.
+ *
+ * @category   System
+ * @package    eSystem
+ * @subpackage eSystem_man
+ * @author     JoungKyun.Kim <http://oops.org>
+ * @copyright  (c) 2009, JoungKyun.Kim
+ * @license    BSD
+ * @version    $Id$
+ * @link       http://pear.oops.org/package/KSC5601
+ * @filesource
+ */
 
+
+/**
+ * include eSystem_system class
+ */
 require_once 'eSystem/system.php';
 
+/**
+ * Man contorol class api
+ *
+ * @package eSystem
+ */
 class eSystem_man extends eSystem_system
 {
 	// {{{ properties
@@ -10,6 +35,15 @@ class eSystem_man extends eSystem_system
 	// }}}
 
 	// {{{ function so_man ($_file, $_base, $_int = '') {
+	/**
+	 * Valid real man file
+	 *
+	 * @access public
+	 * @return string path
+	 * @param  string path of man file
+	 * @param  string base path of man page
+	 * @param  string  (optional) L10n code for international man pages
+	 */
 	function so_man ($_file, $_base, $_int = '') {
 		$_dotso = array ();
 
@@ -43,7 +77,19 @@ class eSystem_man extends eSystem_system
 	 * User level function
 	 */
 
-	// {{{ function manPath ($_name, $_path = '/usr/share/man', $_sec = 0) 
+	// {{{ function manPath ($_name, $_path = '/usr/share/man', $_sec = 0)
+	/**
+	 * Return man page file path with man page section and name
+	 *
+	 * The exmaple:
+	 * {@example pear_eSystem/test.php 170 2}
+	 *
+	 * @access public
+	 * @return string Returns man page file path
+	 * @param  string Name of man page for searching
+	 * @param  string (optional) Base man page base path
+	 * @param  integer (optional) Section of man page
+	 */
 	function manPath ($_name, $_path = '/usr/share/man', $_sec = 0) {
 		$_path = ! $_path ? '/usr/share/man/' : $_path;
 
@@ -69,8 +115,20 @@ class eSystem_man extends eSystem_system
 	}
 	// }}}
 
-	// {{{ function man ($_name, $_no, $_int = NULL, $__base = null, $_s = 0)
-	function man ($_name, $_no, $_int = NULL, $__base = null, $_s = 0) {
+	// {{{ function man ($_name, $_no, $_int = NULL, $__base = null, $_s = false)
+	/**
+	 * Return man page contents for human readable
+	 *
+	 * @access public
+	 * @return string Returns man page file path
+	 * @param  string  name of man page
+	 * @param  int     Section of man page
+	 * @param  string  (optional) L10n code for international man pages
+	 * @param  string  (optional) Base man page base path
+	 * @param  boolean (optional) Defaults to 0. Set true, even if result
+	 *                 is array, force convert plain text strings.
+	 */
+	function man ($_name, $_no, $_int = NULL, $__base = null, $_s = false) {
 		if ( ! extension_loaded ("zlib")) :
 			echo "Error: man function requires zlib extension!";
 			exit (1);

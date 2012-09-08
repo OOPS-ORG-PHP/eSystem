@@ -1,20 +1,47 @@
 <?php
-// $Id$
+/**
+ * Project: eSystem:: The Extended file system<br>
+ * File:    eSystem/system.php
+ *
+ * Sub pcakge of eSystem package. This package includes extended system
+ * methods.
+ *
+ * @category   System
+ * @package    eSystem
+ * @subpackage eSystem_system
+ * @author     JoungKyun.Kim <http://oops.org>
+ * @copyright  (c) 2009, JoungKyun.Kim
+ * @license    BSD
+ * @version    $Id$
+ * @link       http://pear.oops.org/package/KSC5601
+ * @filesource
+ */
 
+/**
+ * alternative sysem class that based eSystem class
+ *
+ * @package eSystem
+ */
 class eSystem_system
 {
 	// {{{ properties
 	public $tmpdir = '/tmp';
-	public $tmpname = 'eSystem_system_';
 	public $_stdout;
 	public $_stderr;
 	public $_retint = 0;
+
+	private $tmpname = 'eSystem_system_';
 	// }}}
 
 	// {{{ function _system ($_cmd, $_out = 0)
-	/*
-	 * define origin proto function
-	 * start function name _
+	/**
+	 *
+	 * Proto method of eSystem exec functions.
+	 *
+	 * @access public
+	 * @return void
+	 * @param  string command that execute an external program and display the output
+	 * @param  int    whether saving output message on self::$_stdout
 	 */
 	function _system ($_cmd, $_out = 0) {
 		$_err = tempnam ($this->tmpdir, $this->tmpname);
