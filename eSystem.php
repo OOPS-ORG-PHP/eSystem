@@ -108,7 +108,7 @@ class eSystem
 	 *                be written to this variable. 
 	 */
 	function system ($_cmd, &$_returncode = NULL) {
-		$this->autoload (&$this->system, 'system');
+		$this->autoload ($this->system, 'system');
 
 		$this->system->tmpdir = $this->tmpdir;
 		$this->system->_stdout = array ();
@@ -149,7 +149,7 @@ class eSystem
 	 */
 	# mapping php exec function arguments.
 	function exec ($_cmd, &$_output = NULL, &$_returncode = NULL) {
-		$this->autoload (&$this->system, 'system');
+		$this->autoload ($this->system, 'system');
 
 		$this->system->tmpdir = $this->tmpdir;
 		$this->system->_stdout = array ();
@@ -183,9 +183,9 @@ class eSystem
 	 *                 status of the executed command will be written to this variable. 
 	 */
 	function execl ($_cmd, $_output = NULL, $_returncode = NULL) {
-		$this->autoload (&$this->system, 'system');
+		$this->autoload ($this->system, 'system');
 
-		$r = $this->exec ($_cmd, &$_outputs, &$_returncode);
+		$r = $this->exec ($_cmd, $_outputs, $_returncode);
 
 		if ( is_array ($_outputs) && ($c = count ($_outputs)) ) :
 			$_output = '';
@@ -550,7 +550,7 @@ class eSystem
 	 * @param  integer (optional) Section of man page
 	 */
 	function manPath ($_name, $_path = '/usr/share/man', $_sec = 0) {
-		$this->autoload (&$this->man, 'man');
+		$this->autoload ($this->man, 'man');
 		$this->man->tmpdir = $this->tmpdir;
 		return $this->man->manPath ($_name, $_path, $_sec);
 	}
@@ -578,7 +578,7 @@ class eSystem
 			exit (1);
 		endif;
 
-		$this->autoload (&$this->man, 'man');
+		$this->autoload ($this->man, 'man');
 		$this->man->tmpdir = $this->tmpdir;
 		return $this->man->man ($_name, $_no, $_int, $__base, $_s);
 	}

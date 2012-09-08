@@ -54,7 +54,7 @@ echo "-- _system test ------------------------------------------\n\n";
  * _system test
  */
 
-$v = $e->system ("ls -al", &$r);
+$v = $e->system ("ls -al", $r);
 echo "Last Line: $v\n";
 unset ($v);
 
@@ -64,7 +64,7 @@ unset ($v);
 
 echo "\n";
 echo "-- _exec test --------------------------------------------\n\n";
-$v = $e->exec ("ls -al", &$o, &$err);
+$v = $e->exec ("ls -al", $o, $err);
 
 print_r ($o);
 echo "Last Line : $v\n";
