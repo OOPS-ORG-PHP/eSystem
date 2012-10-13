@@ -1,4 +1,4 @@
-<?php
+<?
 # Id: $
 require_once ('eSystem.php');
 
@@ -54,7 +54,7 @@ echo "-- _system test ------------------------------------------\n\n";
  * _system test
  */
 
-$v = $e->system ("ls -al", $r);
+$v = $e->system ("ls -al", &$r);
 echo "Last Line: $v\n";
 unset ($v);
 
@@ -64,7 +64,7 @@ unset ($v);
 
 echo "\n";
 echo "-- _exec test --------------------------------------------\n\n";
-$v = $e->exec ("ls -al", $o, $err);
+$v = $e->exec ("ls -al", &$o, &$err);
 
 print_r ($o);
 echo "Last Line : $v\n";
@@ -134,7 +134,7 @@ print_r ($v);
 echo "\n";
 echo "-- find test ----------------------------------------------\n\n";
 
-$v = $e->find ("."); #, '', false);
+$v = $e->find ("."); #, '', 0);
 print_r ($v);
 
 

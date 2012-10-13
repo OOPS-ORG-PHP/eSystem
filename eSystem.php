@@ -1,27 +1,29 @@
 <?php
 /**
- * Project: eSystem:: The Extended file system<br>
- * File:    eSystem.php
+ * Project: eSystem::
  *
  * Defines the php extended system mapping function and any utility mapping function
+ * 
+ * File:    eSystem.php
  *
- * This Class requires {@link eFilesystem 'pear.oops.org/eFilesystem'} and
- * {@link oGetopt 'pear.oops.org/oGetopt'}
+ * PHP version 5
+ *
+ * Copyright (c) 1997-2009 JoungKyun.Kim
+ *
+ * LICENSE: BSD license
  *
  * @category    System
  * @package     eSystem
  * @author      JoungKyun.Kim <http://oops.org>
- * @copyright   (c) 2009 JoungKyun.Kim
- * @license     BSD
- * @version     $Id$
+ * @copyright   1997-2009 OOPS.ORG
+ * @license     BSD License
+ * @version     CVS: $Id: eSystem.php,v 1.23 2009-08-08 08:53:55 oops Exp $
  * @link        http://pear.oops.org/package/eSystem
  * @since       File available since relase 0.8
- * @example     pear_eSystem/test.php Sample codes for eSystem class
- * @filesource
  */
 
 /**
- * Dependency on {@link eFilesystem 'pear.oops.org/eFilesystem'} pear package over 1.0.0
+ * Dependency on 'pear.oops.org/eFilesystem' pear package over 1.0.0
  */
 require_once 'eFilesystem.php';
 
@@ -29,14 +31,14 @@ require_once 'eFilesystem.php';
  * Base class for system mapping api
  *
  * @access public
- * @version $Revision$
+ * @version $Revision: 1.23 $
  * @package eSystem
  */
 class eSystem
 {
 	// {{{ properties
 	private $system;
-	//private $man;
+	private $man;
 
 	/**#@+*/
 	/**
@@ -68,15 +70,6 @@ class eSystem
 	// }}}
 
 	// {{{ function autoload (&$obj, $f, $cname = '')
-	/**
-	 * Autoload the specify class name
-	 *
-	 * @access private
-	 * @return void
-	 * @param  object loading object that call this api
-	 * @param  string file that is loaded
-	 * @param  string (optional) name of class
-	 */
 	private function autoload (&$obj, $f, $cname = '') {
 		if ( ! $cname ) :
 			$cname = $f;
@@ -100,15 +93,13 @@ class eSystem
 	 * You can use this api that change only system(...) to $obj->system(...)
 	 *
 	 * @access public
-	 * @return string Returns the last line of the command output on success,
-	 *                and FALSE  on failure. 
+	 * @return string Returns the last line of the command output on success, and FALSE  on failure. 
 	 * @param  string The command that will be executed.
-	 * @param  int    (optional) If the _returncode  argument is present,
-	 *                then the return status of the executed command will
-	 *                be written to this variable. 
+	 * @param  integer (optional) If the _returncode  argument is present, then the return
+	 *                 status of the executed command will be written to this variable. 
 	 */
 	function system ($_cmd, &$_returncode = NULL) {
-		$this->autoload ($this->system, 'system');
+		$this->autoload (&$this->system, 'system');
 
 		$this->system->tmpdir = $this->tmpdir;
 		$this->system->_stdout = array ();
@@ -149,7 +140,7 @@ class eSystem
 	 */
 	# mapping php exec function arguments.
 	function exec ($_cmd, &$_output = NULL, &$_returncode = NULL) {
-		$this->autoload ($this->system, 'system');
+		$this->autoload (&$this->system, 'system');
 
 		$this->system->tmpdir = $this->tmpdir;
 		$this->system->_stdout = array ();
@@ -183,9 +174,9 @@ class eSystem
 	 *                 status of the executed command will be written to this variable. 
 	 */
 	function execl ($_cmd, $_output = NULL, $_returncode = NULL) {
-		$this->autoload ($this->system, 'system');
+		$this->autoload (&$this->system, 'system');
 
-		$r = $this->exec ($_cmd, $_outputs, $_returncode);
+		$r = $this->exec ($_cmd, &$_outputs, &$_returncode);
 
 		if ( is_array ($_outputs) && ($c = count ($_outputs)) ) :
 			$_output = '';
@@ -206,12 +197,13 @@ class eSystem
 	 * If does not parent directory, this API create success.
 	 * This means that same operate with mkdir (path, mode, true) of php
 	 *
-	 * @deprecated deprecated since 1.0.1. Use {@link eFilesystem::mkdir_p()} instead
-	 *             of this method
-	 * @see     eFilesystem::mkdir_p()
+	 * This API is Deprecated. Use eFilesystem::mkdir_p instead of this method
+	 *
 	 * @access  public
-	 * @return  boolean return false, create error by other error.<br>
-	 *                  return true, create success.
+	 * @return  boolean|int return 1, already exists given path.<br>
+	 *                      return 2, given path is existed file.<br>
+	 *                      return false, create error by other error.<br>
+	 *                      return true, create success.
 	 * @param   string  given path
 	 * @param   int     (optional) The mode is 0777 by default, which means the widest
 	 *                  possible access. For more information on modes, read
@@ -226,15 +218,14 @@ class eSystem
 	/**
 	 * Deletes a file. If given file is directory, no error and return false.
 	 *
-	 * @deprecated deprecated since 1.0.1. Use {@link eFilesystem::safe_unlnk()} instead
-	 *             of this method
-	 * @see     eFilesystem::safe_unlink()
-	 * @access public
-	 * @return int  return true, success<br>
+	 * This API is Deprecated. Use eFilesystem::safe_unlink instead of this method
+	 *
+	 * @access  public
+	 * @return  bolean|int  return true, success<br>
 	 *              return false, remove false<br>
 	 *              return 2, file not found<br>
 	 *              return 3, file is directory
-	 * @param  string  given file path
+	 * @param   string  given file path
 	 */
 	function unlink ($path) {
 		return eFilesystem::safe_unlink ($path);
@@ -245,9 +236,8 @@ class eSystem
 	/**
 	 * Deletes a file or directory that include some files
 	 *
-	 * @deprecated deprecated since 1.0.1. Use {@link eFilesystem::unlink_r()} instead
-	 *             of this method
-	 * @see     eFilesystem::unlink_r()
+	 * This API is Deprecated. Use eFilesystem::unlink_r instead of this method
+	 *
 	 * @access  public
 	 * @return  boolean
 	 * @param   string  Given path.
@@ -260,15 +250,12 @@ class eSystem
 
 	// {{{ function tree ($dir = '.')
 	/**
-	 * print directory tree for given path
+	 * get directory tree for given path
 	 *
-	 * @deprecated deprecated since 1.0.1. Use {@link eFilesystem::tree()} instead
-	 *             of this method
-	 * @see     eFilesystem::tree()
+	 * This API is Deprecated. Use eFilesystem::tree instead of this method
+	 *
 	 * @access  public
-	 * @return  object object
-	 *                  members are follow:<br>
-	 *                  obj->file is number of files.<br>
+	 * @return  object  obj->file is number of files.<br>
 	 *                  obj->dir is number of directories.
 	 * @param   string  (optional) Given path. Defaults to current directory (./).
 	 */
@@ -277,15 +264,14 @@ class eSystem
 	}
 	// }}}
 
-	// {{{ function find ($path = './', $type = '', $norecursive = false)
+	// {{{ function find ($path = './', $type = '', $norecursive = 0)
 	/**
 	 * get file list that under given path
 	 *
-	 * @deprecated deprecated since 1.0.1. Use {@link eFilesystem::find()} instead
-	 *             of this method
-	 * @see     eFilesystem::find()
+	 * This API is Deprecated. Use eFilesystem::find instead of this method
+	 *
 	 * @access  public
-	 * @return  array   return array of file list. If given path is null or don't exist, return false.
+	 * @return  array|false return array of file list. If given path is null or don't exist, return false.
 	 * @param   string  (optional) Given path. Defaults to current directory (./)
 	 * @param   string  (optional) list type. Defaults to all.<br>
 	 *                  f (get only files),<br>
@@ -298,7 +284,7 @@ class eSystem
 	 * @param   boolean (optional) Defaults to false.
 	 *                  set true, don't recursive search.
 	 */
-	function find ($path = './', $type = '', $norecursive = false) {
+	function find ($path = './', $type = '', $norecursive = 0) {
 		return eFilesystem::find ($path, $type, $norecursive);
 	}
 	// }}}
@@ -310,9 +296,8 @@ class eSystem
 	 * Color strings support follows:
 	 *   gray, red, green, yellow, blue, megenta, cyan, white
 	 *
-	 * @deprecated deprecated since 1.0.1. Use {@link ePrint::asPrintf()} instead
-	 *             of this method
-	 * @see    ePrint::asPrintf()
+	 * This API is Deprecated. Use ePrint::asPrintf instead of this method
+	 *
 	 * @access public
 	 * @return string
 	 * @param  string Input strings
@@ -329,10 +314,8 @@ class eSystem
 	/**
 	 * Return given string with white ansi code
 	 *
-	 * @deprecated deprecated since 1.0.1. Use
-	 *             {@link ePrint::asPrintf() ePrint::asPrintf (string, white)} instead
-	 *             of this method
-	 * @see    ePrint::asPrintf()
+	 * This API is Deprecated. Use ePrint::asPrintf (string, 'white') instead of this method
+	 *
 	 * @access public
 	 * @return string
 	 * @param  string Input strings
@@ -348,9 +331,8 @@ class eSystem
 	/**
 	 * Print white space about given number
 	 *
-	 * @deprecated deprecated since 1.0.1. Use {@link ePrint::whiteSpace()} instead
-	 *             of this method
-	 * @see     ePrint::whiteSpace()
+	 * This API is Deprecated. Use ePrint::whiteSpce instead of this method
+	 *
 	 * @access  public
 	 * @return  strings
 	 * @param   integer number of space charactor
@@ -366,9 +348,6 @@ class eSystem
 	 *
 	 * This API is Deprecated. Use ePrint::backSpace instead of this method
 	 *
-	 * @deprecated deprecated since 1.0.1. Use {@link ePrint::backSpace()} instead
-	 *             of this method
-	 * @see     ePrint::backSpace()
 	 * @access  public
 	 * @return  void
 	 * @param   integer number of space charactor
@@ -381,16 +360,17 @@ class eSystem
 	// {{{ function printe ($format, $msg = '')
 	/**
 	 * Output a formatted string to stderr
+	 * This API is Deprecated. Use ePrint::ePrintf method instead of this method
 	 *
-	 * @deprecated deprecated since 1.0.1. Use {@link ePrint::ePrintf()} instead
-	 *             of this method
-	 * @see     ePrint::ePrintf()
 	 * @access  public
 	 * @return  int     length of output messages.
 	 * @param   string  same format of printf
 	 * @param   mixed   (optional) format value.<br>
 	 *                  If only one format argument, $msg is strings or array.<br>
 	 *                  For multiple format arguments, $msg is array.
+	 * @param   integer (optional) this is 3th argument of error_log
+	 * @param   string  (optional) this is 4th argument of error_log
+	 * @param   string  (optional) this is 5th argument of error_log
 	 */
 	function printe ($format, $msg = '') {
 		return ePrint::ePrintf ($format, $msg);
@@ -402,11 +382,9 @@ class eSystem
 	 * Save a formatted string to file
 	 *
 	 * A newline is not automatically added to the end of the message string. 
+	 * This API is Deprecated. Use ePrint::ePrintf or ePrint::lPrintf method
+	 * instead of this method
 	 *
-	 * @deprecated deprecated since 1.0.1. Use {@link ePrint::ePrintf()} or
-	 *             {@link ePrint::lPrintf()} instead of this method
-	 * @see    ePrint::ePrintf()
-	 * @see    ePrint::lPrintf()
 	 * @access  public
 	 * @return  int     length of print string
 	 * @param   string  $path   target file
@@ -423,13 +401,11 @@ class eSystem
 	// {{{ function print_s ($msg, $width = 75, $indent = 0, $ul = '', $to_stderr = 0)
 	/**
 	 * print with indent.
+	 * This API is Deprecated. Use ePrint::printi method instead of this method
 	 *
-	 * @deprecated deprecated since 1.0.1. Use {@link ePrint::printi()} instead
-	 *             of this method
-	 * @see     ePrint::printi()
 	 * @access  public
-	 * @return  int     Length of print string. If on error, return false
-	 * @param   mixed   output string
+	 * @return  int|false   Length of print string. If on error, return false
+	 * @param   string|array    output string
 	 * @param   integer (optional) location of line brek. default 80
 	 * @param   integer (optional) indent of each line
 	 * @param   string  (optional) list itme
@@ -445,9 +421,8 @@ class eSystem
 	 * Wraps a string to a given number of characters. Difference with wordwarp of
 	 * PHP, wrapped line joins next line and rewraps.
 	 *
-	 * @deprecated deprecated since 1.0.1. Use {@link ePrint::wordwrap()} instead
-	 *             of this method
-	 * @see     ePrint::wordwrap()
+	 * This API is Deprecated. Use ePrint::wordwrap instead of this method
+	 *
 	 * @access  public
 	 * @return  strings
 	 * @param   string  input string
@@ -470,16 +445,15 @@ class eSystem
 	 * file_nr api runs same file function of php. But file_nr has
 	 * no \r\n or \n character on array members.
 	 *
-	 * @deprecated deprecated since 1.0.1. Use {@link ePrint::file_nr()} instead
-	 *             of this method
-	 * @see     ePrint::file_nr()
+	 * This API is Deprecated. Use eFilesystem::file_nr instead of this method
+	 *
 	 * @access  public
-	 * @return  array    Array or false if not found file path nor file resource.
-	 * @param   string   file path
-	 * @param   boolean  (optional) Search file path on include_path of php.
-	 *                   Defaults is false.
-	 * @param   resource (optional) already opend file description resource
-	 *                   Defaults is null.
+	 * @return  array|false     Array or false if not found file path nor file resource.
+	 * @param   string      file path
+	 * @param   boolean     (optional) Search file path on include_path of php.
+	 *                      Defaults is false.
+	 * @param   resource    (optional) already opend file description resource
+	 *                      Defaults is null.
 	 */
 	function file_nr ($f, $use_include_path = false, $resource = null) {
 		return eFilesystem::file_nr ($f, $use_include_path, $resource);
@@ -489,11 +463,9 @@ class eSystem
 	// {{{ function getopt ($argc, $argv, $optstrs)
     /**
 	 * Wrapping o_getopt on Oops C library
-	 * This class is supported alternative getopt function.
 	 *
-	 * @deprecated deprecated since 1.0.1. Use {@link oGetopt::exec()} instead
-	 *             of this method
-	 * @see     oGetopt::exec()
+	 * This API is Deprecated. Use oops/pear_eGetopt class instead of this method
+	 *
 	 * @access public
 	 * @return string return short option.<br>
 	 *                If return -1, end of getopt processing.
@@ -507,10 +479,6 @@ class eSystem
 		global $optcno;
 
 		if ( ! class_exists ('oGetopt') ) {
-			/**
-			 * Dependency on {@link oGetopt 'pear.oops.org/oGetopt'}
-			 * pear package over 1.0.0
-			 */
 			require_once 'oGetopt.php';
 
 			oGetopt::init ();
@@ -540,9 +508,6 @@ class eSystem
 	/**
 	 * Return man page file path with man page section and name
 	 *
-	 * The exmaple:
-	 * {@example pear_eSystem/test.php 170 2}
-	 *
 	 * @access public
 	 * @return string Returns man page file path
 	 * @param  string Name of man page for searching
@@ -550,7 +515,7 @@ class eSystem
 	 * @param  integer (optional) Section of man page
 	 */
 	function manPath ($_name, $_path = '/usr/share/man', $_sec = 0) {
-		$this->autoload ($this->man, 'man');
+		$this->autoload (&$this->man, 'man');
 		$this->man->tmpdir = $this->tmpdir;
 		return $this->man->manPath ($_name, $_path, $_sec);
 	}
@@ -560,25 +525,21 @@ class eSystem
 	/**
 	 * Return man page contents for human readable
 	 *
-	 * The exmaple:
-	 * {@example pear_eSystem/test.php 173 2}
-	 *
 	 * @access public
 	 * @return string Returns man page file path
-	 * @param  string  name of man page
-	 * @param  int     Section of man page
-	 * @param  string  (optional) L10n code for international man pages
-	 * @param  string  (optional) Base man page base path
+	 * @param  integer Section of man page
+	 * @param  string (optional) L10n code for international man pages
+	 * @param  integer (optional) Base man page base path
 	 * @param  boolean (optional) Defaults to 0. Set true, even if result
 	 *                 is array, force convert plain text strings.
 	 */
-	function man ($_name, $_no, $_int = NULL, $__base = null, $_s = false) {
+	function man ($_name, $_no, $_int = NULL, $__base = null, $_s = 0) {
 		if ( ! extension_loaded ("zlib")) :
 			echo "Error: man function requires zlib extension!";
 			exit (1);
 		endif;
 
-		$this->autoload ($this->man, 'man');
+		$this->autoload (&$this->man, 'man');
 		$this->man->tmpdir = $this->tmpdir;
 		return $this->man->man ($_name, $_no, $_int, $__base, $_s);
 	}

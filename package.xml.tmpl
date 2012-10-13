@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <package packagerversion="1.7.2" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0 http://pear.php.net/dtd/tasks-1.0.xsd http://pear.php.net/dtd/package-2.0 http://pear.php.net/dtd/package-2.0.xsd">
-	<!-- $Id$ -->
+	<!-- $Id: package.xml.tmpl,v 1.24 2009-08-08 07:28:43 oops Exp $ -->
 	<name>eSystem</name>
 	<channel>pear.oops.org</channel>
 	<summary>Extended system command for PHP</summary>
@@ -15,7 +15,7 @@
 	<date>@curdate@</date>
 	<time>@curtime@</time>
 	<version>
-		<release>1.0.1</release>
+		<release>1.0.0</release>
 		<api>0.1</api>
 	</version>
 	<stability>
@@ -23,8 +23,9 @@
 		<api>stable</api>
 	</stability>
 	<license>PHP/BSD</license>
-	<notes>- fixed proto type of find method is different eFilesystem::find
-- fixed deprecated problem about Call-time pass-by-reference
+	<notes>- replace filesystem api method with oops/eFilesystem pear package
+- replace print api method with oops/ePrint pear package
+- replace getopt method with oops/oGetopt pear package
 	</notes>
 	<contents>
 		<dir name="/">
@@ -198,21 +199,6 @@
 			<notes>- replace filesystem api method with oops/eFilesystem pear package
 - replace print api method with oops/ePrint pear package
 - replace getopt method with oops/oGetopt pear package
-			</notes>
-		</release>
-		<release>
-			<version>
-				<release>1.0.1</release>
-				<api>0.1</api>
-			</version>
-			<stability>
-				<release>stable</release>
-				<api>stable</api>
-			</stability>
-			<date>2012-09-08</date>
-			<license uri="http://www.opensource.org/licenses/bsd-license.php">PHP/BSD</license>
-			<notes>- fixed proto type of find method is different eFilesystem::find
-- fixed deprecated problem about Call-time pass-by-reference
 			</notes>
 		</release>
 	</changelog>
