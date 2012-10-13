@@ -1,49 +1,29 @@
 <?php
-/**
- * Project: eSystem:: The Extended file system<br>
- * File:    eSystem/system.php
- *
- * Sub pcakge of eSystem package. This package includes extended system
- * methods.
- *
- * @category   System
- * @package    eSystem
- * @subpackage eSystem_man
- * @author     JoungKyun.Kim <http://oops.org>
- * @copyright  (c) 2009, JoungKyun.Kim
- * @license    BSD
- * @version    $Id$
- * @link       http://pear.oops.org/package/KSC5601
- * @filesource
- */
+//
+// +----------------------------------------------------------------------+
+// | PHP Version 4                                                        |
+// +----------------------------------------------------------------------+
+// | Copyright (c) 1997-2003 The PHP Group                                |
+// +----------------------------------------------------------------------+
+// | This source file is subject to version 2.02 of the PHP license,      |
+// | that is bundled with this package in the file LICENSE, and is        |
+// | available at through the world-wide-web at                           |
+// | http://www.php.net/license/2_02.txt.                                 |
+// | If you did not receive a copy of the PHP license and are unable to   |
+// | obtain it through the world-wide-web, please send a note to          |
+// | license@php.net so we can mail you a copy immediately.               |
+// +----------------------------------------------------------------------+
+// | Author: JoungKyun Kim <http://www.oops.org>                          |
+// +----------------------------------------------------------------------+
+//
+// $Id: man.php,v 1.2 2005-07-11 05:57:51 oops Exp $
 
-
-/**
- * include eSystem_system class
- */
 require_once 'eSystem/system.php';
+require_once 'eSystem/filesystem.php';
 
-/**
- * Man contorol class api
- *
- * @package eSystem
- */
-class eSystem_man extends eSystem_system
-{
-	// {{{ properties
-	public $tmpdir = "/tmp";
-	// }}}
+class _eMan {
+	var $tmpdir = "/var/lib/php/tmp";
 
-	// {{{ function so_man ($_file, $_base, $_int = '') {
-	/**
-	 * Valid real man file
-	 *
-	 * @access public
-	 * @return string path
-	 * @param  string path of man file
-	 * @param  string base path of man page
-	 * @param  string  (optional) L10n code for international man pages
-	 */
 	function so_man ($_file, $_base, $_int = '') {
 		$_dotso = array ();
 
@@ -71,25 +51,11 @@ class eSystem_man extends eSystem_system
 
 		return $_file;
 	}
-	// }}}
 
 	/*
 	 * User level function
 	 */
 
-	// {{{ function manPath ($_name, $_path = '/usr/share/man', $_sec = 0)
-	/**
-	 * Return man page file path with man page section and name
-	 *
-	 * The exmaple:
-	 * {@example pear_eSystem/test.php 170 2}
-	 *
-	 * @access public
-	 * @return string Returns man page file path
-	 * @param  string Name of man page for searching
-	 * @param  string (optional) Base man page base path
-	 * @param  integer (optional) Section of man page
-	 */
 	function manPath ($_name, $_path = '/usr/share/man', $_sec = 0) {
 		$_path = ! $_path ? '/usr/share/man/' : $_path;
 
@@ -105,7 +71,7 @@ class eSystem_man extends eSystem_system
 		else :
 			$_fa = array();
 			$_name = preg_quote ($_name);
-			$_fa = eFilesystem::find ($_path, "!/{$_name}\.[0-9](\.gz)*$!");
+			$_fa = _sysCommand::find ($_path, "!^{$_name}\.[0-9](\.gz)*$!");
 			$_fac = count ($_fa);
 
 			if ( $_fac ) :
@@ -113,23 +79,9 @@ class eSystem_man extends eSystem_system
 			endif;
 		endif;
 	}
-	// }}}
 
-	// {{{ function man ($_name, $_no, $_int = NULL, $__base = null, $_s = false)
-	/**
-	 * Return man page contents for human readable
-	 *
-	 * @access public
-	 * @return string Returns man page file path
-	 * @param  string  name of man page
-	 * @param  int     Section of man page
-	 * @param  string  (optional) L10n code for international man pages
-	 * @param  string  (optional) Base man page base path
-	 * @param  boolean (optional) Defaults to 0. Set true, even if result
-	 *                 is array, force convert plain text strings.
-	 */
-	function man ($_name, $_no, $_int = NULL, $__base = null, $_s = false) {
-		if ( ! extension_loaded ("zlib")) :
+	function man ($_name, $_no, $_int = NULL, $__base = null, $_s = 0) {
+		if ( !extension_loaded ("zlib")) :
 			echo "Error: man function requires zlib extension!";
 			exit (1);
 		endif;
@@ -144,7 +96,7 @@ class eSystem_man extends eSystem_system
 		$_gzfile = "{$_base}/{$_man}.gz";
 
 		if ( file_exists ($_gzfile) ) :
-			$_gzfile = $this->so_man ($_gzfile, $__base, $_int);
+			$_gzfile = _eMan::so_man ($_gzfile, $__base, $_int);
 			$_gz = array ();
 
 			if ( ! file_exists ($_gzfile) ) :
@@ -157,35 +109,27 @@ class eSystem_man extends eSystem_system
 				$_gztmp .= $_v;
 
 			$tmpfile = tempnam ($this->tmpdir, "man-");
-			if ( @file_put_contents ($tmpfile, $_gztmp) === false ) :
+			if ( @putfile_lib ($tmpfile, $_gztmp) == -1 ) :
 				unlink ($tmpfile);
 				echo "Error: Can't write $tmpfile\n";
 				exit (1);
 			endif;
 
-			$this->_system ("/usr/bin/groff -S -Wall -mtty-char -Tascii8 -man $tmpfile");
-			$_r = $this->stdout;
+			$_r = _command::__system ("groff -S -Wall -mtty-char -Tascii8 -man $tmpfile", $r, 1);
 			unlink ($tmpfile);
 		elseif ( file_exists ($_file) ) :
-			$_file = $this->so_man ($_file, $__base, $_int);
-			$this->_system ("/usr/bin/groff -S -Wall -mtty-char -Tascii8 -man $_file");
-			$_r = $this->stdout;
+			$_file = _eMan::so_man ($_file, $__base, $_int);
+			$_r = _command::__system ("groff -S -Wall -mtty-char -Tascii8 -man $_file", $r, 1);
 		else :
 			return "";
 		endif;
 
-		if ( ! $_s ) :
-			if ( is_array ($_r) ) :
-				foreach ($_r as $_v ) :
-					$v .= $_v ."\n";
-				endforeach;
-			endif;
-			return $v;
+		if ( $_s ) :
+			return explode ("\n", $_r);
 		endif;
 
 		return $_r;
 	}
-	// }}}
 }
 
 /*
