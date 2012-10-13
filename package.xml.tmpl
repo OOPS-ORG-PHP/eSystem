@@ -1,151 +1,84 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<package packagerversion="1.7.2" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0 http://pear.php.net/dtd/tasks-1.0.xsd http://pear.php.net/dtd/package-2.0 http://pear.php.net/dtd/package-2.0.xsd">
-	<!-- $Id$ -->
-	<name>eSystem</name>
-	<channel>pear.oops.org</channel>
-	<summary>Extended system command for PHP</summary>
-	<description>PEAR&apos;s eSystem:: package support various system mapping command.
-	</description>
-	<lead>
-		<name>JoungKyun.Kim</name>
-		<user>oops</user>
-		<email>http://oops.org</email>
-		<active>yes</active>
-	</lead>
-	<date>@curdate@</date>
-	<time>@curtime@</time>
-	<version>
-		<release>1.0.1</release>
-		<api>0.1</api>
-	</version>
-	<stability>
-		<release>stable</release>
-		<api>stable</api>
-	</stability>
-	<license>PHP/BSD</license>
-	<notes>- fixed proto type of find method is different eFilesystem::find
-- fixed deprecated problem about Call-time pass-by-reference
-	</notes>
-	<contents>
-		<dir name="/">
-			<dir name="eSystem">
-				<file md5sum="@eSystem/man.php@" name="man.php" role="php" />
-				<file md5sum="@eSystem/system.php@" name="system.php" role="php" />
-			</dir> <!-- //eSystem -->
-			<file md5sum="@eSystem.php@" name="eSystem.php" role="php" />
-		</dir> <!-- / -->
-	</contents>
-	<dependencies>
-		<required>
-			<php>
-				<min>5.0.0</min>
-			</php>
-			<pearinstaller>
-				<min>1.4.0b1</min>
-			</pearinstaller>
-			<package>
-				<name>eFilesystem</name>
-				<channel>pear.oops.org</channel>
-				<min>1.0.0</min>
-			</package>
-			<package>
-				<name>oGetopt</name>
-				<channel>pear.oops.org</channel>
-				<min>1.0.0</min>
-			</package>
-		</required>
-	</dependencies>
-	<phprelease />
-	<changelog>
-		<release>
-			<version>
-				<release>0.1</release>
-				<api>0.1</api>
-			</version>
-			<stability>
-				<release>stable</release>
-				<api>stable</api>
-			</stability>
-			<date>2005-04-20</date>
-			<license>PHP/BSD</license>
-			<notes>- first release
-
-			</notes>
-		</release>
-		<release>
-			<version>
-				<release>0.2</release>
-				<api>0.1</api>
-			</version>
-			<stability>
-				<release>stable</release>
-				<api>stable</api>
-			</stability>
-			<date>2005-07-10</date>
-			<license>PHP/BSD</license>
-			<notes>- 0.2 update
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE package SYSTEM "http://pear.php.net/dtd/package-1.0">
+<package version="1.0">
+  <name>eSystem</name>
+  <summary>Extended system command for PHP</summary>
+  <description>PEAR's eSystem:: package support various system mapping command.</description>
+  <maintainers>
+    <maintainer>
+      <user>oops</user>
+      <name>JoungKyun.Kim</name>
+      <email>http://www.oops.org</email>
+      <role>lead</role>
+    </maintainer>
+  </maintainers>
+  <release>
+    <version>0.7</version>
+    <date>2007-03-05</date>
+    <license>PHP/BSD</license>
+    <state>stable</state>
+    <notes>- use php_sapi_name function instead of $_SERVER['CLI']
+</notes>
+    <filelist>
+      <file role="php" md5sum="@eSystem.php@" name="eSystem.php"/>
+      <file role="php" md5sum="@eSystem/filesystem.php@" name="eSystem/filesystem.php"/>
+      <file role="php" md5sum="@eSystem/getopt.php@" name="eSystem/getopt.php"/>
+      <file role="php" md5sum="@eSystem/man.php@" name="eSystem/man.php"/>
+      <file role="php" md5sum="@eSystem/print.php@" name="eSystem/print.php"/>
+      <file role="php" md5sum="@eSystem/system.php@" name="eSystem/system.php"/>
+    </filelist>
+  </release>
+  <changelog>
+    <release>
+      <version>0.1</version>
+      <date>2005-04-20</date>
+      <state>stable</state>
+      <notes>- first release
+</notes>
+    </release>
+    <release>
+      <version>0.2</version>
+      <date>2005-07-10</date>
+      <state>stable</state>
+      <notes>- 0.2 update
 - add manPath function
 - fixed miss path of not compress man page
 - fixed miss operation when array is null in find
-			</notes>
-		</release>
-		<release>
-			<version>
-				<release>0.3</release>
-				<api>0.1</api>
-			</version>
-			<stability>
-				<release>stable</release>
-				<api>stable</api>
-			</stability>
-			<date>2005-09-09</date>
-			<license uri="http://www.opensource.org/licenses/bsd-license.php">PHP/BSD</license>
-			<notes>- fixed null array init problem
-			</notes>
-		</release>
-		<release>
-			<version>
-				<release>0.4</release>
-				<api>0.1</api>
-			</version>
-			<stability>
-				<release>stable</release>
-				<api>stable</api>
-			</stability>
-			<date>2006-09-15</date>
-			<license uri="http://www.opensource.org/licenses/bsd-license.php">PHP/BSD</license>
-			<notes>- added getopt usage comment
+</notes>
+    </release>
+    <release>
+    <version>0.3</version>
+    <date>2005-09-09</date>
+    <license>PHP/BSD</license>
+    <state>stable</state>
+    <notes>- fixed null array init problem
+</notes>
+    </release>
+    <release>
+    <version>0.4</version>
+    <date>2006-09-15</date>
+    <license>PHP/BSD</license>
+    <state>stable</state>
+    <notes>- added getopt usage comment
 - fixed xml syntax error
 - fixed paer format
-			</notes>
-		</release>
-		<release>
-			<version>
-				<release>0.5</release>
-				<api>0.1</api>
-			</version>
-			<stability>
-				<release>stable</release>
-				<api>stable</api>
-			</stability>
-			<date>2007-02-19</date>
-			<license uri="http://www.opensource.org/licenses/bsd-license.php">PHP/BSD</license>
-			<notes>- rewrite with new declear
+</notes>
+    </release>
+    <release>
+    <version>0.5</version>
+    <date>2007-02-19</date>
+    <license>PHP/BSD</license>
+    <state>stable</state>
+    <notes>- rewrite with new declear
 - add extended wordwrap function
-			</notes>
-		</release>
-		<release>
-			<version>
-				<release>0.6</release>
-				<api>0.1</api>
-			</version>
-			<stability>
-				<release>stable</release>
-				<api>stable</api>
-			</stability>
-			<date>2007-03-04</date>
-			<license uri="http://www.opensource.org/licenses/bsd-license.php">PHP/BSD</license>
-			<notes>- fixed one line result parsing error on _system function
+</notes>
+    </release>
+    <release>
+    <version>0.6</version>
+    <date>2007-03-04</date>
+    <license>PHP/BSD</license>
+    <state>stable</state>
+    <notes>- fixed one line result parsing error on _system function
 - fixed previous garbage value problem on _system function
 - add file_nr function
 - add print_f function
@@ -154,66 +87,17 @@
 - fixed stderr messages on _system function
 - add execl function
 - add makeWhiteSpace function
-			</notes>
-		</release>
-		<release>
-			<version>
-				<release>0.7</release>
-				<api>0.1</api>
-			</version>
-			<stability>
-				<release>stable</release>
-				<api>stable</api>
-			</stability>
-			<date>2007-03-05</date>
-			<license uri="http://www.opensource.org/licenses/bsd-license.php">PHP/BSD</license>
-			<notes>- use php_sapi_name function instead of $_SERVER[&apos;CLI&apos;]
-			</notes>
-		</release>
-		<release>
-			<version>
-				<release>0.8</release>
-				<api>0.1</api>
-			</version>
-			<stability>
-				<release>stable</release>
-				<api>stable</api>
-			</stability>
-			<date>2007-04-25</date>
-			<license uri="http://www.opensource.org/licenses/bsd-license.php">PHP/BSD</license>
-			<notes>- fixed man path bug
-			</notes>
-		</release>
-		<release>
-			<version>
-				<release>1.0.0</release>
-				<api>0.1</api>
-			</version>
-			<stability>
-				<release>stable</release>
-				<api>stable</api>
-			</stability>
-			<date>2009-08-08</date>
-			<license uri="http://www.opensource.org/licenses/bsd-license.php">PHP/BSD</license>
-			<notes>- replace filesystem api method with oops/eFilesystem pear package
-- replace print api method with oops/ePrint pear package
-- replace getopt method with oops/oGetopt pear package
-			</notes>
-		</release>
-		<release>
-			<version>
-				<release>1.0.1</release>
-				<api>0.1</api>
-			</version>
-			<stability>
-				<release>stable</release>
-				<api>stable</api>
-			</stability>
-			<date>2012-09-08</date>
-			<license uri="http://www.opensource.org/licenses/bsd-license.php">PHP/BSD</license>
-			<notes>- fixed proto type of find method is different eFilesystem::find
-- fixed deprecated problem about Call-time pass-by-reference
-			</notes>
-		</release>
-	</changelog>
+</notes>
+    </release>
+    <release>
+    <version>0.7</version>
+    <date>2007-03-05</date>
+    <license>PHP/BSD</license>
+    <state>stable</state>
+    <notes>- use php_sapi_name function instead of $_SERVER['CLI']
+</notes>
+    </release>
+    <release>
+    </release>
+  </changelog>
 </package>
