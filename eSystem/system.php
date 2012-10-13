@@ -1,47 +1,34 @@
 <?php
-/**
- * Project: eSystem:: The Extended file system<br>
- * File:    eSystem/system.php
- *
- * Sub pcakge of eSystem package. This package includes extended system
- * methods.
- *
- * @category   System
- * @package    eSystem
- * @subpackage eSystem_system
- * @author     JoungKyun.Kim <http://oops.org>
- * @copyright  (c) 2009, JoungKyun.Kim
- * @license    BSD
- * @version    $Id$
- * @link       http://pear.oops.org/package/KSC5601
- * @filesource
- */
+//
+// +----------------------------------------------------------------------+
+// | PHP Version 4                                                        |
+// +----------------------------------------------------------------------+
+// | Copyright (c) 1997-2003 The PHP Group                                |
+// +----------------------------------------------------------------------+
+// | This source file is subject to version 2.02 of the PHP license,      |
+// | that is bundled with this package in the file LICENSE, and is        |
+// | available at through the world-wide-web at                           |
+// | http://www.php.net/license/2_02.txt.                                 |
+// | If you did not receive a copy of the PHP license and are unable to   |
+// | obtain it through the world-wide-web, please send a note to          |
+// | license@php.net so we can mail you a copy immediately.               |
+// +----------------------------------------------------------------------+
+// | Author: JoungKyun.Kim <http://oops.org>                              |
+// +----------------------------------------------------------------------+
+//
+// $Id: system.php,v 1.4 2007-02-18 18:31:35 oops Exp $
 
-/**
- * alternative sysem class that based eSystem class
- *
- * @package eSystem
- */
 class eSystem_system
 {
-	// {{{ properties
-	public $tmpdir = '/tmp';
-	public $_stdout;
-	public $_stderr;
-	public $_retint = 0;
+	var $tmpdir = '/tmp';
+	var $tmpname = 'eSystem_system_';
+	var $stdout;
+	var $stderr;
+	var $retint = -1;
 
-	private $tmpname = 'eSystem_system_';
-	// }}}
-
-	// {{{ function _system ($_cmd, $_out = 0)
-	/**
-	 *
-	 * Proto method of eSystem exec functions.
-	 *
-	 * @access public
-	 * @return void
-	 * @param  string command that execute an external program and display the output
-	 * @param  int    whether saving output message on self::$_stdout
+	/*
+	 * define origin proto function
+	 * start function name _
 	 */
 	function _system ($_cmd, $_out = 0) {
 		$_err = tempnam ($this->tmpdir, $this->tmpname);
@@ -53,20 +40,10 @@ class eSystem_system
 			$_r = rtrim (fgets ($pd, 1024));
 
 			if ( preg_match ("/RET_VAL:([0-9]+)$/", $_r, $_match) ) :
-				$this->_retint = $_match[1];
-
-				if ( ! preg_match ("/^RET_VAL/", $_r) ) :
-					$_r = preg_replace ('/RET_VAL:.*/', '', $_r);
-					$this->_stdout[] = $_r;
-
-					if ( $_out ) :
-						echo $_r . "\n";
-						flush ();
-					endif;
-				endif;
+				$this->retint = $_match[1];
 				break;
 			else :
-				$this->_stdout[] = $_r;
+				$this->stdout[] = $_r;
 
 				if ( $_out ) :
 					echo $_r . "\n";
@@ -77,11 +54,10 @@ class eSystem_system
 		pclose ($pd);
 
 		if ( filesize ($_err) > 0 ) :
-			$this->_stderr = rtrim (file_get_contents ($_err));
+			$this->stderr = rtrim (file_get_contents ($errs));
 		endif;
 		unlink ($_err);
 	}
-	// }}}
 }
 
 /*
