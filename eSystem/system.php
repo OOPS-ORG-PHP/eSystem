@@ -1,87 +1,53 @@
 <?php
-/**
- * Project: eSystem:: The Extended file system<br>
- * File:    eSystem/system.php
- *
- * Sub pcakge of eSystem package. This package includes extended system
- * methods.
- *
- * @category   System
- * @package    eSystem
- * @subpackage eSystem_system
- * @author     JoungKyun.Kim <http://oops.org>
- * @copyright  (c) 2009, JoungKyun.Kim
- * @license    BSD
- * @version    $Id$
- * @link       http://pear.oops.org/package/KSC5601
- * @filesource
- */
+//
+// +----------------------------------------------------------------------+
+// | PHP Version 4                                                        |
+// +----------------------------------------------------------------------+
+// | Copyright (c) 1997-2003 The PHP Group                                |
+// +----------------------------------------------------------------------+
+// | This source file is subject to version 2.02 of the PHP license,      |
+// | that is bundled with this package in the file LICENSE, and is        |
+// | available at through the world-wide-web at                           |
+// | http://www.php.net/license/2_02.txt.                                 |
+// | If you did not receive a copy of the PHP license and are unable to   |
+// | obtain it through the world-wide-web, please send a note to          |
+// | license@php.net so we can mail you a copy immediately.               |
+// +----------------------------------------------------------------------+
+// | Author: JoungKyun Kim <http://www.oops.org>                          |
+// +----------------------------------------------------------------------+
+//
+// $Id: system.php,v 1.2 2006-09-14 19:14:06 oops Exp $
 
-/**
- * alternative sysem class that based eSystem class
- *
- * @package eSystem
- */
-class eSystem_system
+class eSystem_command
 {
-	// {{{ properties
-	public $tmpdir = '/tmp';
-	public $_stdout;
-	public $_stderr;
-	public $_retint = 0;
-
-	private $tmpname = 'eSystem_system_';
-	// }}}
-
-	// {{{ function _system ($_cmd, $_out = 0)
-	/**
-	 *
-	 * Proto method of eSystem exec functions.
-	 *
-	 * @access public
-	 * @return void
-	 * @param  string command that execute an external program and display the output
-	 * @param  int    whether saving output message on self::$_stdout
+	/*
+	 * define origin proto function
+	 * start function name __
 	 */
-	function _system ($_cmd, $_out = 0) {
-		$_err = tempnam ($this->tmpdir, $this->tmpname);
-		$_cmd = $_cmd . ' 2> ' . $_err . '; echo "RET_VAL:$?"';
+	function __system ($_cmd, &$__var, $_out = 0) {
+		$__var = -1;
+		$__cmd = $_cmd . ' 2> /dev/null; echo "RET_VAL:$?"';
 
-		$pd = popen ($_cmd, "r");
+		$p = popen ($__cmd, "r");
 
-		while ( ! feof ($pd) ) :
-			$_r = rtrim (fgets ($pd, 1024));
+		while ( ! feof ($p) ) :
+			$_r = fread ($p, 1024);
 
-			if ( preg_match ("/RET_VAL:([0-9]+)$/", $_r, $_match) ) :
-				$this->_retint = $_match[1];
+			if ( preg_match ("/RET_VAL:[^0-9]*([0-9]+)$/", $_r, $_match) ) :
+				$__var = $_match[1];
+				$_r = preg_replace ("/RET_VAL:[^0-9]*[0-9]+$/", '', $_r);
+			endif;
 
-				if ( ! preg_match ("/^RET_VAL/", $_r) ) :
-					$_r = preg_replace ('/RET_VAL:.*/', '', $_r);
-					$this->_stdout[] = $_r;
-
-					if ( $_out ) :
-						echo $_r . "\n";
-						flush ();
-					endif;
-				endif;
-				break;
-			else :
-				$this->_stdout[] = $_r;
-
-				if ( $_out ) :
-					echo $_r . "\n";
-					flush ();
-				endif;
+			$_rr .= $_r;
+			if ( ! $_out ) :
+				echo $_r;
+				flush ();
 			endif;
 		endwhile;
-		pclose ($pd);
+		pclose ($p);
 
-		if ( filesize ($_err) > 0 ) :
-			$this->_stderr = rtrim (file_get_contents ($_err));
-		endif;
-		unlink ($_err);
+		return $_rr;
 	}
-	// }}}
 }
 
 /*

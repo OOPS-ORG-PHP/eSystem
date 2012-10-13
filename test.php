@@ -1,4 +1,4 @@
-<?php
+<?
 # Id: $
 require_once ('eSystem.php');
 
@@ -12,12 +12,8 @@ echo "\n";
 echo "-- Getopt Test -------------------------------------------\n\n";
 
 # init getopt global variables
-$longopt = array (
-	'longa' => 'a',
-	'longb' => 'b',
-	'longc' => 'c',
-	'longd' => 'd'
-);
+$gno    = -1;
+$optcno = -1;
 
 while ( ($opt = $e->getopt ($argc, $argv, "abc:d")) != -1 ) :
 	switch ($opt) :
@@ -34,7 +30,7 @@ while ( ($opt = $e->getopt ($argc, $argv, "abc:d")) != -1 ) :
 			$d++;
 			break;
 		default:
-			echo "getopt failed. option is abc:d ($opt)\n";
+			echo "getopt failed. option is abc:d\n";
 			exit (1);
 	endswitch;
 endwhile;
@@ -54,7 +50,7 @@ echo "-- _system test ------------------------------------------\n\n";
  * _system test
  */
 
-$v = $e->system ("ls -al", $r);
+$v = $e->_system ("ls -al", &$r);
 echo "Last Line: $v\n";
 unset ($v);
 
@@ -64,7 +60,7 @@ unset ($v);
 
 echo "\n";
 echo "-- _exec test --------------------------------------------\n\n";
-$v = $e->exec ("ls -al", $o, $err);
+$v = $e->_exec ("ls -al", &$o, &$err);
 
 print_r ($o);
 echo "Last Line : $v\n";
@@ -79,31 +75,26 @@ echo "-- mkdir_p test ------------------------------------------\n\n";
 
 $v = $e->mkdir_p ("./ppp/yyy");
 echo "mkdir_p test: ";
-if ( $v === true ) {
-	if ( is_dir ("./ppp/yyy") ) echo "OK";
-	else echo "Fail";
-	$v = 'true';
-} else {
-	$v = ( $v === false ) ? 'false' : $v;
-}
+if ( is_dir ("./ppp/yyy") ) :
+	echo "OK";
+else:
+	echo "Fail";
+endif;
 echo " ==> Return Code: $v\n";
 
 /*
- * unlink test
+ * _unlink test
  */
 
 echo "\n";
-echo "-- unlink test ------------------------------------------\n\n";
+echo "-- _unlink test ------------------------------------------\n\n";
 
 touch ("unlinktest");
-$v = $e->unlink ("unlinktests");
-$v = ( $v === true ) ? 'true' : ($v === false) ? 'false' : $v;
+$v = $e->_unlink ("unlinktests");
 echo "Unlink unlinktests: $v\n";
-$v = $e->unlink ("unlinktest");
-$v = ( $v === true ) ? 'true' : ($v === false) ? 'false' : $v;
+$v = $e->_unlink ("unlinktest");
 echo "Unlink unlinktest: $v\n";
-$v = $e->unlink ("ppp/yyy");
-$v = ( $v === true ) ? 'true' : ($v === false) ? 'false' : $v;
+$v = $e->_unlink ("ppp/yyy");
 echo "Unlink ppp/yyy: $v\n";
 
 /*
@@ -114,7 +105,6 @@ echo "\n";
 echo "-- unlink_R test ------------------------------------------\n\n";
 
 $v = $e->unlink_r ("ppp");
-$v = ( $v === true ) ? 'true' : 'false';
 echo "Remove ppp: $v\n";
 
 /*
@@ -134,7 +124,7 @@ print_r ($v);
 echo "\n";
 echo "-- find test ----------------------------------------------\n\n";
 
-$v = $e->find ("."); #, '', false);
+$v = $e->find ("."); #, '', 0);
 print_r ($v);
 
 
