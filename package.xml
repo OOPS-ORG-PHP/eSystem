@@ -12,8 +12,8 @@
 		<email>http://oops.org</email>
 		<active>yes</active>
 	</lead>
-	<date>2012-09-08</date>
-	<time>23:19:32</time>
+	<date>2014-01-25</date>
+	<time>18:15:01</time>
 	<version>
 		<release>1.0.1</release>
 		<api>0.1</api>
@@ -29,10 +29,10 @@
 	<contents>
 		<dir name="/">
 			<dir name="eSystem">
-				<file md5sum="67b2e022087b057405d24323555197c7" name="man.php" role="php" />
-				<file md5sum="72d9ded1069b8c1c5ec38b1dfb9b0ab2" name="system.php" role="php" />
+				<file md5sum="07c067b432b831854a93ab43a60dda71" name="man.php" role="php" />
+				<file md5sum="51efe963a97001dd56ea356282c43a53" name="system.php" role="php" />
 			</dir> <!-- //eSystem -->
-			<file md5sum="c0ecc78240f00e08cfb98a089b8d6c17" name="eSystem.php" role="php" />
+			<file md5sum="53e516c6cb36b5c0e6ce936f2c8c982a" name="eSystem.php" role="php" />
 		</dir> <!-- / -->
 	</contents>
 	<dependencies>

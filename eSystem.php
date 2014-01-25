@@ -11,7 +11,7 @@
  * @category    System
  * @package     eSystem
  * @author      JoungKyun.Kim <http://oops.org>
- * @copyright   (c) 2009 JoungKyun.Kim
+ * @copyright   (c) 2014 JoungKyun.Kim
  * @license     BSD
  * @version     $Id$
  * @link        http://pear.oops.org/package/eSystem
