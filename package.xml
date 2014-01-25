@@ -13,9 +13,9 @@
 		<active>yes</active>
 	</lead>
 	<date>2014-01-25</date>
-	<time>18:15:01</time>
+	<time>18:17:03</time>
 	<version>
-		<release>1.0.1</release>
+		<release>1.0.2</release>
 		<api>0.1</api>
 	</version>
 	<stability>
@@ -23,16 +23,15 @@
 		<api>stable</api>
 	</stability>
 	<license>PHP/BSD</license>
-	<notes>- fixed proto type of find method is different eFilesystem::find
-- fixed deprecated problem about Call-time pass-by-reference
+	<notes>
 	</notes>
 	<contents>
 		<dir name="/">
 			<dir name="eSystem">
-				<file md5sum="07c067b432b831854a93ab43a60dda71" name="man.php" role="php" />
-				<file md5sum="51efe963a97001dd56ea356282c43a53" name="system.php" role="php" />
+				<file md5sum="689c12dbc44bb7961677ccc3b0ab57da" name="man.php" role="php" />
+				<file md5sum="515304339ef096b408997b064634378d" name="system.php" role="php" />
 			</dir> <!-- //eSystem -->
-			<file md5sum="53e516c6cb36b5c0e6ce936f2c8c982a" name="eSystem.php" role="php" />
+			<file md5sum="3c3e9f982deb9ed58d775862740ce7f4" name="eSystem.php" role="php" />
 		</dir> <!-- / -->
 	</contents>
 	<dependencies>
@@ -213,6 +212,20 @@
 			<license uri="http://www.opensource.org/licenses/bsd-license.php">PHP/BSD</license>
 			<notes>- fixed proto type of find method is different eFilesystem::find
 - fixed deprecated problem about Call-time pass-by-reference
+			</notes>
+		</release>
+		<release>
+			<version>
+				<release>1.0.2</release>
+				<api>0.1</api>
+			</version>
+			<stability>
+				<release>stable</release>
+				<api>stable</api>
+			</stability>
+			<date>2014-01-25</date>
+			<license uri="http://www.opensource.org/licenses/bsd-license.php">PHP/BSD</license>
+			<notes>
 			</notes>
 		</release>
 	</changelog>
