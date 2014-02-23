@@ -55,6 +55,9 @@ class eSystem_man extends eSystem_system
 			$_ext  = '';
 		endif;
 
+		if ( preg_match ('!/man[0-9]+$!', $_base) )
+			$_base = dirname ($_base);
+
 		if ( ! file_exists ($_file) ) :
 			return $_file;
 		endif;
