@@ -10,7 +10,7 @@
  * @package    eSystem
  * @subpackage eSystem_system
  * @author     JoungKyun.Kim <http://oops.org>
- * @copyright  (c) 2014, JoungKyun.Kim
+ * @copyright  (c) 2015, JoungKyun.Kim
  * @license    BSD
  * @version    $Id$
  * @link       http://pear.oops.org/package/KSC5601
