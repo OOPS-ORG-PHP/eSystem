@@ -172,12 +172,12 @@ class eSystem_man extends eSystem_system
 			endif;
 
 			$this->_system ("$mancmd $tmpfile");
-			$_r = $this->stdout;
+			$_r = $this->_stdout;
 			unlink ($tmpfile);
 		elseif ( file_exists ($_file) ) :
 			$_file = $this->so_man ($_file, $__base, $_int);
 			$this->_system ("$mancmd $_file");
-			$_r = $this->stdout;
+			$_r = $this->_stdout;
 		else :
 			return "";
 		endif;

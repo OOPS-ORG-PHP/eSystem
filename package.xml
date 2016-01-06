@@ -13,7 +13,7 @@
 		<active>yes</active>
 	</lead>
 	<date>2016-01-07</date>
-	<time>05:48:12</time>
+	<time>05:50:14</time>
 	<version>
 		<release>1.0.2</release>
 		<api>0.1</api>
@@ -25,11 +25,12 @@
 	<license>PHP/BSD</license>
 	<notes>- fixed so man path
 - fixed man command to nroff
+- fixed no result on eSystem::man method
 </notes>
 	<contents>
 		<dir name="/">
 			<dir name="eSystem">
-				<file md5sum="124d4a4ff17d21b59d8386b1227883f4" name="man.php" role="php" />
+				<file md5sum="4734939eeda25f5d195eeb889e626788" name="man.php" role="php" />
 				<file md5sum="7fcd96987b2a3419092cf24b8821607d" name="system.php" role="php" />
 			</dir> <!-- //eSystem -->
 			<file md5sum="d83ed698bd881116f72f22a72baa7a2b" name="eSystem.php" role="php" />
@@ -227,6 +228,7 @@
 			<license uri="http://www.opensource.org/licenses/bsd-license.php">PHP/BSD</license>
 			<notes>- fixed so man path
 - fixed man command to nroff
+- fixed no result on eSystem::man method
 </notes>
 		</release>
 	</changelog>
