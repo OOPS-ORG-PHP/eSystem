@@ -12,7 +12,7 @@
  * @author     JoungKyun.Kim <http://oops.org>
  * @copyright  (c) 2016, JoungKyun.Kim
  * @license    BSD
- * @version    $Id$
+ * @version    $Id: man.php 83 2016-01-06 21:03:22Z oops $
  * @link       http://pear.oops.org/package/KSC5601
  * @filesource
  */

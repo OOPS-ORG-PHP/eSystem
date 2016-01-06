@@ -13,7 +13,7 @@
  * @author      JoungKyun.Kim <http://oops.org>
  * @copyright   (c) 2016 JoungKyun.Kim
  * @license     BSD
- * @version     $Id$
+ * @version     $Id: eSystem.php 83 2016-01-06 21:03:22Z oops $
  * @link        http://pear.oops.org/package/eSystem
  * @since       File available since relase 0.8
  * @example     pear_eSystem/test.php Sample codes for eSystem class
@@ -29,7 +29,7 @@ require_once 'eFilesystem.php';
  * Base class for system mapping api
  *
  * @access public
- * @version $Revision$
+ * @version $Revision: 83 $
  * @package eSystem
  */
 class eSystem
