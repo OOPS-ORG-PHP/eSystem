@@ -170,7 +170,8 @@ echo "-- man test ---------------------------------------------------\n\n";
 echo "bash man path:\n";
 print_r ($e->manPath ('bash'));
 
-echo "\nview bash man page\n";
+echo "\n\nview bash man page (wait 3sec)\n";
+sleep (3);
 echo $e->man ('free', 1);
 
 ?>
