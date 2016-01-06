@@ -12,8 +12,8 @@
 		<email>http://oops.org</email>
 		<active>yes</active>
 	</lead>
-	<date>2014-02-24</date>
-	<time>05:17:36</time>
+	<date>2016-01-07</date>
+	<time>05:48:12</time>
 	<version>
 		<release>1.0.2</release>
 		<api>0.1</api>
@@ -24,14 +24,15 @@
 	</stability>
 	<license>PHP/BSD</license>
 	<notes>- fixed so man path
+- fixed man command to nroff
 </notes>
 	<contents>
 		<dir name="/">
 			<dir name="eSystem">
-				<file md5sum="230a9cbef3dcfe040ab1c9bfa0825331" name="man.php" role="php" />
-				<file md5sum="515304339ef096b408997b064634378d" name="system.php" role="php" />
+				<file md5sum="124d4a4ff17d21b59d8386b1227883f4" name="man.php" role="php" />
+				<file md5sum="7fcd96987b2a3419092cf24b8821607d" name="system.php" role="php" />
 			</dir> <!-- //eSystem -->
-			<file md5sum="3c3e9f982deb9ed58d775862740ce7f4" name="eSystem.php" role="php" />
+			<file md5sum="d83ed698bd881116f72f22a72baa7a2b" name="eSystem.php" role="php" />
 		</dir> <!-- / -->
 	</contents>
 	<dependencies>
@@ -222,9 +223,10 @@
 				<release>stable</release>
 				<api>stable</api>
 			</stability>
-			<date>2014-02-24</date>
+			<date>2016-01-07</date>
 			<license uri="http://www.opensource.org/licenses/bsd-license.php">PHP/BSD</license>
 			<notes>- fixed so man path
+- fixed man command to nroff
 </notes>
 		</release>
 	</changelog>

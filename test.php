@@ -1,6 +1,6 @@
 <?php
 # Id: $
-require_once ('eSystem.php');
+require_once './eSystem.php';
 
 $e = new eSystem;
 
@@ -170,7 +170,7 @@ echo "-- man test ---------------------------------------------------\n\n";
 echo "bash man path:\n";
 print_r ($e->manPath ('bash'));
 
-echo "view bash man page\n";
+echo "\nview bash man page\n";
 echo $e->man ('free', 1);
 
 ?>

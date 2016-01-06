@@ -146,6 +146,11 @@ class eSystem_man extends eSystem_system
 		$_file   = "{$_base}/{$_man}";
 		$_gzfile = "{$_base}/{$_man}.gz";
 
+		if ( file_exists ('/usr/bin/nroff') )
+			$mancmd = '/usr/bin/nroff -man';
+		else
+			$mancmd = '/usr/bin/groff -S -Wall -mtty-char -Tascii -man';
+
 		if ( file_exists ($_gzfile) ) :
 			$_gzfile = $this->so_man ($_gzfile, $__base, $_int);
 			$_gz = array ();
@@ -166,12 +171,12 @@ class eSystem_man extends eSystem_system
 				exit (1);
 			endif;
 
-			$this->_system ("/usr/bin/groff -S -Wall -mtty-char -Tascii8 -man $tmpfile");
+			$this->_system ("$mancmd $tmpfile");
 			$_r = $this->stdout;
 			unlink ($tmpfile);
 		elseif ( file_exists ($_file) ) :
 			$_file = $this->so_man ($_file, $__base, $_int);
-			$this->_system ("/usr/bin/groff -S -Wall -mtty-char -Tascii8 -man $_file");
+			$this->_system ("$mancmd $_file");
 			$_r = $this->stdout;
 		else :
 			return "";
