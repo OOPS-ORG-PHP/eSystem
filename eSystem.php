@@ -78,15 +78,14 @@ class eSystem
 	 * @param  string (optional) name of class
 	 */
 	private function autoload (&$obj, $f, $cname = '') {
-		if ( ! $cname ) :
+		if ( ! $cname )
 			$cname = $f;
-		endif;
 
-		require_once ('eSystem/' . $f . '.php');
-		if ( ! is_object ($obj) ) :
+		require_once 'eSystem/' . $f . '.php';
+		if ( ! is_object ($obj) ) {
 			$objname = "eSystem_" . $cname;
 			$obj = new $objname;
-		endif;
+		}
 	}
 	// }}}
 
@@ -187,12 +186,12 @@ class eSystem
 
 		$r = $this->exec ($_cmd, $_outputs, $_returncode);
 
-		if ( is_array ($_outputs) && ($c = count ($_outputs)) ) :
+		if ( is_array ($_outputs) && ($c = count ($_outputs)) ) {
 			$_output = '';
-			for ( $i=0; $i<$c; $i++ ) :
+			for ( $i=0; $i<$c; $i++ ) {
 				$_output .= $_outputs[$i] . "\n";
-			endfor;
-		endif;
+			}
+		}
 
 		$_output = preg_replace ("/\n$/", '', $_output);
 
@@ -573,10 +572,10 @@ class eSystem
 	 *                 is array, force convert plain text strings.
 	 */
 	function man ($_name, $_no, $_int = NULL, $__base = null, $_s = false) {
-		if ( ! extension_loaded ("zlib")) :
+		if ( ! extension_loaded ("zlib")) {
 			echo "Error: man function requires zlib extension!";
 			exit (1);
-		endif;
+		}
 
 		$this->autoload ($this->man, 'man');
 		$this->man->tmpdir = $this->tmpdir;
@@ -594,13 +593,13 @@ class eSystem
 	 */
 	private function __nocli ($n = '') {
 		$method = $n ? $n : 'this';
-		if ( php_sapi_name () != 'cli' ) :
+		if ( php_sapi_name () != 'cli' ) {
 			echo "<script type=\"text/javascript\">\n" .
 				"  alert('{$method} method only used on CLI mode');\n" .
 				"  history.back();\n" .
 				"</script>\n";
 			exit;
-		endif;
+		}
 	}
 	// }}}
 }

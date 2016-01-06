@@ -47,30 +47,27 @@ class eSystem_man extends eSystem_system
 	function so_man ($_file, $_base, $_int = '') {
 		$_dotso = array ();
 
-		if ( preg_match ('/\.gz$/', $_file) ) :
+		if ( preg_match ('/\.gz$/', $_file) ) {
 			$_func = 'gzfile';
 			$_ext  = '.gz';
-		else :
+		} else {
 			$_func = 'file';
 			$_ext  = '';
-		endif;
+		}
 
 		if ( preg_match ('!/man[0-9]+$!', $_base) )
 			$_base = dirname ($_base);
 
-		if ( ! file_exists ($_file) ) :
+		if ( ! file_exists ($_file) )
 			return $_file;
-		endif;
 
 		$_dotso = $_func($_file);
 
-		foreach ($_dotso as $_v) :
+		foreach ($_dotso as $_v)
 			$dotso .= $_v;
-		endforeach;
 
-		if ( preg_match ("/\.so (.+)/m", $dotso, $_match) ) :
+		if ( preg_match ("/\.so (.+)/m", $dotso, $_match) )
 			$_file = "{$_base}/{$_int}{$_match[1]}{$_ext}";
-		endif;
 
 		return $_file;
 	}
@@ -96,25 +93,25 @@ class eSystem_man extends eSystem_system
 	function manPath ($_name, $_path = '/usr/share/man', $_sec = 0) {
 		$_path = ! $_path ? '/usr/share/man/' : $_path;
 
-		if ( $_sec ) :
+		if ( $_sec ) {
 			$_f   = "{$_path}/man{$_sec}/{$_name}.{$_sec}";
 			$_fgz = "{$_path}/man{$_sec}/{$_name}.{$_sec}.gz";
 
-			if ( file_exists ($_f) ) :
+			if ( file_exists ($_f) )
 				return $_f;
-			elseif ( file_exists ($_fgz) ) :
+			elseif ( file_exists ($_fgz) )
 				return $_fgz;
-			endif;
-		else :
+		} else {
 			$_fa = array();
 			$_name = preg_quote ($_name);
 			$_fa = eFilesystem::find ($_path, "!/{$_name}\.[0-9](\.gz)*$!");
 			$_fac = count ($_fa);
 
-			if ( $_fac ) :
+			if ( $_fac )
 				return ($_fac > 1 ) ? $_fa : $_fa[0];
-			endif;
-		endif;
+		}
+
+		return '';
 	}
 	// }}}
 
@@ -132,12 +129,12 @@ class eSystem_man extends eSystem_system
 	 *                 is array, force convert plain text strings.
 	 */
 	function man ($_name, $_no, $_int = NULL, $__base = null, $_s = false) {
-		if ( ! extension_loaded ("zlib")) :
-			echo "Error: man function requires zlib extension!";
+		if ( ! extension_loaded ("zlib")) {
+			echo "Error: man function requires zlib extension!\n";
 			exit (1);
-		endif;
+		}
 
-		$__base  = $__base ? $__base : "/usr/share/man";
+		$__base  = $__base ? $__base : '/usr/share/man';
 		$_mdir   = "man{$_no}";
 		$_man    = "{$_name}.{$_no}";
 		$_int    = $_int ? "{$_int}/" : '';
@@ -151,13 +148,12 @@ class eSystem_man extends eSystem_system
 		else
 			$mancmd = '/usr/bin/groff -S -Wall -mtty-char -Tascii -man';
 
-		if ( file_exists ($_gzfile) ) :
+		if ( file_exists ($_gzfile) ) {
 			$_gzfile = $this->so_man ($_gzfile, $__base, $_int);
 			$_gz = array ();
 
-			if ( ! file_exists ($_gzfile) ) :
-				return "";
-			endif;
+			if ( ! file_exists ($_gzfile) )
+				return '';
 
 			$_gz = gzfile ($_gzfile);
 
@@ -165,31 +161,29 @@ class eSystem_man extends eSystem_system
 				$_gztmp .= $_v;
 
 			$tmpfile = tempnam ($this->tmpdir, "man-");
-			if ( @file_put_contents ($tmpfile, $_gztmp) === false ) :
+			if ( @file_put_contents ($tmpfile, $_gztmp) === false ) {
 				unlink ($tmpfile);
 				echo "Error: Can't write $tmpfile\n";
 				exit (1);
-			endif;
+			}
 
 			$this->_system ("$mancmd $tmpfile");
 			$_r = $this->_stdout;
 			unlink ($tmpfile);
-		elseif ( file_exists ($_file) ) :
+		} elseif ( file_exists ($_file) ) {
 			$_file = $this->so_man ($_file, $__base, $_int);
 			$this->_system ("$mancmd $_file");
 			$_r = $this->_stdout;
-		else :
-			return "";
-		endif;
+		} else
+			return '';
 
-		if ( ! $_s ) :
-			if ( is_array ($_r) ) :
-				foreach ($_r as $_v ) :
+		if ( ! $_s ) {
+			if ( is_array ($_r) ) {
+				foreach ($_r as $_v )
 					$v .= $_v ."\n";
-				endforeach;
-			endif;
+			}
 			return $v;
-		endif;
+		}
 
 		return $_r;
 	}

@@ -49,36 +49,36 @@ class eSystem_system
 
 		$pd = popen ($_cmd, "r");
 
-		while ( ! feof ($pd) ) :
+		while ( ! feof ($pd) ) {
 			$_r = rtrim (fgets ($pd, 1024));
 
-			if ( preg_match ("/RET_VAL:([0-9]+)$/", $_r, $_match) ) :
+			if ( preg_match ("/RET_VAL:([0-9]+)$/", $_r, $_match) ) {
 				$this->_retint = $_match[1];
 
-				if ( ! preg_match ("/^RET_VAL/", $_r) ) :
+				if ( ! preg_match ("/^RET_VAL/", $_r) ) {
 					$_r = preg_replace ('/RET_VAL:.*/', '', $_r);
 					$this->_stdout[] = $_r;
 
-					if ( $_out ) :
+					if ( $_out ) {
 						echo $_r . "\n";
 						flush ();
-					endif;
-				endif;
+					}
+				}
 				break;
-			else :
+			} else {
 				$this->_stdout[] = $_r;
 
-				if ( $_out ) :
+				if ( $_out ) {
 					echo $_r . "\n";
 					flush ();
-				endif;
-			endif;
-		endwhile;
+				}
+			}
+		}
 		pclose ($pd);
 
-		if ( filesize ($_err) > 0 ) :
+		if ( filesize ($_err) > 0 ) {
 			$this->_stderr = rtrim (file_get_contents ($_err));
-		endif;
+		}
 		unlink ($_err);
 	}
 	// }}}
