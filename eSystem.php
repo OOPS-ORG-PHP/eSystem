@@ -11,12 +11,11 @@
  * @category    System
  * @package     eSystem
  * @author      JoungKyun.Kim <http://oops.org>
- * @copyright   (c) 2016 JoungKyun.Kim
+ * @copyright   (c) 2018, OOPS.org
  * @license     BSD
- * @version     $Id$
  * @link        http://pear.oops.org/package/eSystem
  * @since       File available since relase 0.8
- * @example     pear_eSystem/test.php Sample codes for eSystem class
+ * @example     eSystem/test.php Sample codes for eSystem class
  * @filesource
  */
 
@@ -540,7 +539,7 @@ class eSystem
 	 * Return man page file path with man page section and name
 	 *
 	 * The exmaple:
-	 * {@example pear_eSystem/test.php 170 2}
+	 * {@example eSystem/test.php 170 2}
 	 *
 	 * @access public
 	 * @return string Returns man page file path
@@ -560,7 +559,7 @@ class eSystem
 	 * Return man page contents for human readable
 	 *
 	 * The exmaple:
-	 * {@example pear_eSystem/test.php 173 2}
+	 * {@example eSystem/test.php 173 2}
 	 *
 	 * @access public
 	 * @return string Returns man page file path

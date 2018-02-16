@@ -10,9 +10,8 @@
  * @package    eSystem
  * @subpackage eSystem_man
  * @author     JoungKyun.Kim <http://oops.org>
- * @copyright  (c) 2016, JoungKyun.Kim
+ * @copyright  (c) 2018, OOPS.org
  * @license    BSD
- * @version    $Id$
  * @link       http://pear.oops.org/package/KSC5601
  * @filesource
  */
@@ -82,7 +81,7 @@ class eSystem_man extends eSystem_system
 	 * Return man page file path with man page section and name
 	 *
 	 * The exmaple:
-	 * {@example pear_eSystem/test.php 170 2}
+	 * {@example eSystem/test.php 170 2}
 	 *
 	 * @access public
 	 * @return string Returns man page file path
